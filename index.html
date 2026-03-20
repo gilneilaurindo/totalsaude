@@ -4,35 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Metatags Básicas -->
     <title>Total Saúde - Inteligência Corporativa</title>
     <meta name="description" content="Participe do nosso mapeamento confidencial de saúde e nos ajude a construir um ambiente de trabalho com mais qualidade de vida.">
     
-    <!-- Metatags para Redes Sociais (Open Graph / WhatsApp / LinkedIn / Facebook) -->
     <meta property="og:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
     <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões para melhorar nosso ambiente de trabalho.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
-    <!-- Metatags para Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
-    <meta name="twitter:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões para melhorar nosso ambiente de trabalho.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80">
-
-    <!-- Favicon (Ícone da Aba) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧡</text></svg>">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Canvas Confetti para animação de sucesso -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -94,7 +80,6 @@
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <!-- SPLASH SCREEN -->
     <div id="splash-screen" class="fixed inset-0 bg-gradient-to-br from-orange-500 to-orange-700 flex flex-col items-center justify-center z-50">
         <div class="splash-logo flex flex-col items-center text-white">
             <i class="ph-fill ph-heartbeat text-8xl mb-4"></i>
@@ -108,7 +93,6 @@
         </div>
     </div>
 
-    <!-- CONTAINER PRINCIPAL -->
     <main id="main-app" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500">
         
         <header class="bg-gradient-to-r from-orange-600 to-orange-500 text-white p-6 text-center relative overflow-hidden">
@@ -123,7 +107,6 @@
 
         <div class="p-6 md:p-8">
 
-            <!-- TELA 1: INTRO -->
             <div id="intro-screen" class="fade-in text-center">
                 <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="ph-duotone ph-clipboard-text text-4xl text-orange-600"></i>
@@ -146,7 +129,6 @@
                 </button>
             </div>
 
-            <!-- QUESTIONÁRIO -->
             <div id="survey-screen" class="hidden">
                 
                 <div class="mb-8">
@@ -161,7 +143,6 @@
 
                 <form id="health-form" onsubmit="return false;">
                     
-                    <!-- ETAPA 1 -->
                     <div class="step fade-in" id="step-1">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                             <i class="ph-duotone ph-identification-card text-orange-500 text-3xl"></i> 1. Informações Gerais
@@ -227,7 +208,6 @@
                         </div>
                     </div>
 
-                    <!-- ETAPA 2: Condições Gerais -->
                     <div class="step hidden fade-in" id="step-2">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                             <i class="ph-duotone ph-stethoscope text-orange-500 text-3xl"></i> 2. Condições de Saúde
@@ -268,7 +248,6 @@
                         </div>
                     </div>
 
-                    <!-- ETAPA 3: Estilo de Vida -->
                     <div class="step hidden fade-in" id="step-3">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                             <i class="ph-duotone ph-sneaker text-orange-500 text-3xl"></i> 3. Estilo de Vida
@@ -339,7 +318,6 @@
                         </div>
                     </div>
 
-                    <!-- ETAPA 4: Saúde Mental -->
                     <div class="step hidden fade-in" id="step-4">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                             <i class="ph-duotone ph-brain text-orange-500 text-3xl"></i> 4. Saúde Mental
@@ -379,7 +357,6 @@
                         </div>
                     </div>
 
-                    <!-- ETAPA 5: Ambiente de Trabalho -->
                     <div class="step hidden fade-in" id="step-5">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                             <i class="ph-duotone ph-office-chair text-orange-500 text-3xl"></i> 5. Ambiente de Trabalho
@@ -411,7 +388,6 @@
                         </div>
                     </div>
 
-                    <!-- Controles -->
                     <div class="mt-8 flex justify-between gap-4 border-t border-gray-100 pt-6">
                         <button type="button" id="btn-prev" onclick="prevStep()" class="hidden w-1/3 bg-white border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2">
                             <i class="ph-bold ph-arrow-left"></i> Voltar
@@ -423,7 +399,6 @@
                 </form>
             </div>
 
-            <!-- TELA SUCESSO -->
             <div id="success-screen" class="hidden fade-in text-center py-10">
                 <div class="relative w-24 h-24 mx-auto mb-6">
                     <div class="absolute inset-0 bg-orange-200 rounded-full animate-ping opacity-75"></div>
@@ -442,7 +417,42 @@
         </div>
     </main>
 
-    <!-- ÁREA RH - DASHBOARD ESTRATÉGICO -->
+    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-300" id="login-card">
+            <div class="bg-slate-800 p-6 text-center relative">
+                <div class="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="ph-fill ph-lock-key text-3xl text-orange-500"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white">Acesso Restrito</h2>
+                <p class="text-slate-400 text-sm mt-1">Área exclusiva para Liderança e RH</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Usuário</label>
+                    <div class="relative">
+                        <i class="ph-fill ph-user text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                        <input type="text" id="admin-user" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="Digite o usuário">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Senha</label>
+                    <div class="relative">
+                        <i class="ph-fill ph-password text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                        <input type="password" id="admin-pass" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="••••••••">
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button onclick="authenticateAdmin()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl transition duration-300 shadow-md">
+                        Entrar no Painel
+                    </button>
+                    <button onclick="closeLoginModal()" class="w-full bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold py-3 px-4 rounded-xl transition duration-300 mt-3">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main id="admin-container" class="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500 mt-10">
         <header class="bg-slate-800 text-white p-6 flex justify-between items-center">
             <h1 class="text-2xl font-bold flex items-center gap-3">
@@ -456,7 +466,6 @@
 
         <div class="p-6 md:p-8 bg-slate-50 min-h-[500px]">
             
-            <!-- KPIs Estratégicos -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-center gap-4 border-l-4 border-l-blue-500">
                     <div class="bg-blue-50 text-blue-600 p-4 rounded-full text-2xl"><i class="ph-fill ph-users"></i></div>
@@ -512,12 +521,11 @@
     </main>
 
     <footer class="mt-8 text-center w-full max-w-lg relative z-10 transition-opacity mb-4" id="footer-links">
-        <button onclick="openAdmin()" class="text-orange-300 hover:text-orange-500 transition-colors flex items-center justify-center mx-auto" title="Acesso Restrito" aria-label="Acesso Restrito Liderança">
+        <button onclick="openLoginModal()" class="text-orange-300 hover:text-orange-500 transition-colors flex items-center justify-center mx-auto" title="Acesso Restrito" aria-label="Acesso Restrito Liderança">
             <i class="ph-fill ph-lock-key text-xl"></i>
         </button>
     </footer>
 
-    <!-- JS -->
     <script>
         // --- ARQUITETURA DE ESTADO (SINGLE SOURCE OF TRUTH) ---
         const appState = {
@@ -531,8 +539,8 @@
         const SUPABASE_URL = 'COLE_AQUI_SUA_URL';
         const SUPABASE_ANON_KEY = 'COLE_AQUI_SUA_CHAVE_ANON';
         
-        // ✨ O SEU LINK FOI INSERIDO AQUI 👇
-        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwy15DxOyGzG1NPuyH8vMJjStXKnLdbnlg7SX9ZCR6MoiA_rU4n0gWvC8aGPI2tDiQg/exec';
+        // ✨ O SEU LINK NOVO JÁ ESTÁ AQUI 👇
+        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwiQH9UeJ4Dp0_kuhuNKxSaPMRxpiGYDUjJ5-hz6x3XMycqnVFzDU4mD1i5BJTBkfmI/exec';
         
         if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('COLE_AQUI')) {
             appState.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -585,16 +593,14 @@
             document.querySelectorAll('.custom-radio, .custom-checkbox').forEach(input => {
                 input.addEventListener('change', (e) => {
                     if (e.target.checked || e.target.type === 'checkbox') {
-                        // Vibração sutil
                         if (navigator.vibrate) {
-                            navigator.vibrate(50); // 50ms = vibração leve e rápida
+                            navigator.vibrate(50);
                         }
                         
-                        // Animação "pop" no card adjacente
                         const card = e.target.nextElementSibling;
                         if (card && card.classList.contains('option-card')) {
                             card.classList.remove('pop-selection');
-                            void card.offsetWidth; // Trigger reflow para reiniciar a animação
+                            void card.offsetWidth;
                             card.classList.add('pop-selection');
                         }
                     }
@@ -605,11 +611,9 @@
         // --- MOTOR DE SCORE ESTRATÉGICO ---
         function calcularScore(dados) {
             let score = 0;
-            // Estresse pesa bastante no burnout
             if (dados.estresse === "Frequentemente" || dados.estresse === "Sempre") score += 4;
             else if (dados.estresse === "Às vezes") score += 2;
             
-            // Hábitos
             if (dados.sono === "Menos de 5 horas") score += 3;
             else if (dados.sono === "5 a 6 horas") score += 1;
 
@@ -617,11 +621,9 @@
             if (dados.alimentacao === "Pouco saudável") score += 2;
             if (dados.fumo === "Sim") score += 2;
             
-            // Dores contínuas
             if (dados.dores && dados.dores.length > 0 && !dados.dores[0].includes("Não")) {
-                score += 2; // Penaliza por ter dores ergonômicas
+                score += 2;
             }
-
             return score;
         }
 
@@ -633,12 +635,10 @@
 
         // --- FEEDBACK DE ERRO (HAPTIC + VISUAL) ---
         function showError(message) {
-            // Vibra o celular se suportado (200ms vibra, 100ms pausa, 200ms vibra)
             if (navigator.vibrate) {
                 navigator.vibrate([200, 100, 200]);
             }
 
-            // Cria ou atualiza o aviso (Toast) na tela
             let toast = document.getElementById('error-toast');
             if (!toast) {
                 toast = document.createElement('div');
@@ -649,18 +649,16 @@
             }
 
             document.getElementById('toast-msg').innerText = message;
-            
-            // Exibe o aviso deslizando de cima
             toast.classList.remove('translate-y-[-150%]', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
 
-            // Dá uma leve tremida na etapa atual para chamar atenção
             const formContainer = document.getElementById(`step-${appState.currentStep}`);
-            formContainer.classList.remove('shake-animation');
-            void formContainer.offsetWidth; // Força o reinício da animação CSS
-            formContainer.classList.add('shake-animation');
+            if(formContainer) {
+                formContainer.classList.remove('shake-animation');
+                void formContainer.offsetWidth; 
+                formContainer.classList.add('shake-animation');
+            }
 
-            // Esconde o aviso automaticamente após 3.5 segundos
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-[-150%]', 'opacity-0');
@@ -685,7 +683,6 @@
                 if (setorRadio && setorRadio.value === "Outro" && !document.getElementById('setor-outro').value.trim()) {
                     return failValidation("Por favor, especifique o seu setor no campo em branco.");
                 }
-
                 if (!document.querySelector('input[name="tempo_empresa"]:checked')) return failValidation("Quanto tempo de empresa você tem?");
                 
             } else if (step === 2) {
@@ -696,7 +693,6 @@
                 if (doencasArr.includes("Outro") && !document.getElementById('doenca-outro').value.trim()) {
                     return failValidation("Por favor, especifique qual a outra doença crônica.");
                 }
-
                 if (!document.querySelector('input[name="medicamentos"]:checked')) return failValidation("Você faz uso contínuo de algum medicamento?");
                 
             } else if (step === 3) {
@@ -724,7 +720,7 @@
             document.getElementById('intro-screen').classList.add('hidden');
             document.getElementById('survey-screen').classList.remove('hidden');
             updateUI();
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Volta pro topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function nextStep() {
@@ -735,7 +731,7 @@
                 appState.currentStep++;
                 document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
                 updateUI();
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Volta pro topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 submitSurvey();
             }
@@ -747,7 +743,7 @@
                 appState.currentStep--;
                 document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
                 updateUI();
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Volta pro topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
@@ -785,8 +781,6 @@
         function getFormData() {
             const getRadioVal = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
             const getSelectVal = (id) => document.getElementById(id).value;
-            
-            // Retorna um Array real (como pede a tabela do Supabase)
             const getCheckboxesArray = (name) => {
                 return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
             };
@@ -840,13 +834,10 @@
 
             const dados = getFormData();
             
-            // INTELIGÊNCIA: Calcula o score antes de enviar pro banco
             dados.score_risco = calcularScore(dados);
             dados.classificacao = classificarRisco(dados.score_risco); 
 
-            // ✨ AQUI OCORRE A INTEGRAÇÃO COM A PLANILHA DO GOOGLE ✨
             if (GOOGLE_SHEETS_WEBHOOK_URL && !GOOGLE_SHEETS_WEBHOOK_URL.includes('COLE_AQUI')) {
-                // Parâmetros 'mode' e 'headers' ajustados para evitar bloqueio de CORS no navegador
                 fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
                     method: "POST",
                     mode: "no-cors", 
@@ -860,10 +851,7 @@
             }
 
             if (appState.supabase) {
-                const { error } = await appState.supabase
-                    .from('respostas')
-                    .insert([dados]);
-                
+                const { error } = await appState.supabase.from('respostas').insert([dados]);
                 if (error) {
                     console.error("Erro no Supabase:", error);
                     showError("Erro de conexão ao salvar no banco de dados.");
@@ -878,45 +866,75 @@
             document.getElementById('survey-screen').classList.add('hidden');
             document.getElementById('success-screen').classList.remove('hidden');
 
-            // --- ANIMAÇÃO DE CONFETES DE SUCESSO ---
             if (typeof confetti === 'function') {
                 const duration = 3000;
                 const end = Date.now() + duration;
-
                 (function frame() {
-                    confetti({
-                        particleCount: 5,
-                        angle: 60,
-                        spread: 55,
-                        origin: { x: 0 },
-                        colors: ['#ea580c', '#fb923c', '#ffffff']
-                    });
-                    confetti({
-                        particleCount: 5,
-                        angle: 120,
-                        spread: 55,
-                        origin: { x: 1 },
-                        colors: ['#ea580c', '#fb923c', '#ffffff']
-                    });
-
-                    if (Date.now() < end) {
-                        requestAnimationFrame(frame);
-                    }
+                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ea580c', '#fb923c', '#ffffff'] });
+                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ea580c', '#fb923c', '#ffffff'] });
+                    if (Date.now() < end) { requestAnimationFrame(frame); }
                 }());
             }
         }
 
-        // --- DASHBOARD ESTRATÉGICO ---
-        function openAdmin() {
-            document.getElementById('main-app').classList.add('hidden');
-            document.getElementById('footer-links').classList.add('hidden');
-            
-            const adminContainer = document.getElementById('admin-container');
-            adminContainer.classList.remove('hidden');
-            setTimeout(() => adminContainer.classList.remove('opacity-0'), 50);
-            document.body.classList.replace('bg-[#fff7ed]', 'bg-slate-200');
+        // ==========================================
+        // SISTEMA DE LOGIN E ADMINISTRAÇÃO
+        // ==========================================
 
-            renderAdminData();
+        function openLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('hidden');
+            // Pequeno delay para a animação do Tailwind funcionar
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                document.getElementById('login-card').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('login-card').classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('admin-user').value = '';
+                document.getElementById('admin-pass').value = '';
+            }, 300);
+        }
+
+        function authenticateAdmin() {
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+
+            // ⚠️ Mude a sua Senha e Usuário aqui se quiser! ⚠️
+            const USUARIO_CORRETO = "admin";
+            const SENHA_CORRETA = "admin123";
+
+            if (user === USUARIO_CORRETO && pass === SENHA_CORRETA) {
+                // Se a senha estiver certa:
+                closeLoginModal();
+                
+                // Esconde a tela inicial e mostra o Dashboard
+                document.getElementById('main-app').classList.add('hidden');
+                document.getElementById('footer-links').classList.add('hidden');
+                
+                const adminContainer = document.getElementById('admin-container');
+                adminContainer.classList.remove('hidden');
+                setTimeout(() => adminContainer.classList.remove('opacity-0'), 50);
+                document.body.classList.replace('bg-[#fff7ed]', 'bg-slate-200');
+
+                renderAdminData();
+            } else {
+                // Se a senha estiver errada:
+                showError("Usuário ou senha incorretos!");
+                
+                // Dá uma tremida na janela do login
+                const card = document.getElementById('login-card');
+                card.classList.remove('shake-animation');
+                void card.offsetWidth; 
+                card.classList.add('shake-animation');
+            }
         }
 
         function closeAdmin() {
@@ -954,12 +972,9 @@
             emptyState.style.display = 'none';
             let htmlRows = '';
             let totalRiscoAlto = 0;
-            
-            // Algoritmo para descobrir o Setor Crítico
             const scorePorSetor = {};
             
             db.forEach(item => {
-                // Cálculo de KPIs
                 if(item.classificacao === 'Alto') totalRiscoAlto++;
 
                 const setorAtual = item.setor || 'Não inf.';
@@ -967,17 +982,14 @@
                 scorePorSetor[setorAtual].soma += (item.score_risco || 0);
                 scorePorSetor[setorAtual].count++;
 
-                // Design dos Badges de Risco
                 let riscoBadge = `<span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-bold uppercase">${item.classificacao || 'N/A'}</span>`;
                 if(item.classificacao === 'Baixo') riscoBadge = `<span class="px-2 py-1 bg-green-100 text-green-700 border border-green-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-check-circle"></i> Risco Baixo</span>`;
                 if(item.classificacao === 'Médio') riscoBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning"></i> Risco Médio</span>`;
                 if(item.classificacao === 'Alto') riscoBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 border border-red-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning-octagon animate-pulse"></i> Risco Alto</span>`;
 
-                // Agrupando novas informações detalhadas
                 const perfil = `${item.idade || '-'} • ${item.sexo ? item.sexo.charAt(0) : '-'}`;
                 const tempo = item.tempo_empresa || '-';
                 
-                // Validação inteligente de dores
                 let temDor = `<span class="text-green-600 font-medium"><i class="ph-bold ph-check"></i> Nenhuma</span>`;
                 if (item.dores && item.dores.length > 0 && !item.dores[0].includes("Não sinto")) {
                     temDor = `<span class="text-red-500 font-bold"><i class="ph-bold ph-warning"></i> Sim</span>`;
@@ -1005,10 +1017,8 @@
                 `;
             });
 
-            // Atualiza KPI Risco Alto
             document.getElementById('admin-risco-alto').innerText = Math.round((totalRiscoAlto / total) * 100) + '%';
 
-            // Descobre Setor Crítico
             let setorMaisCritico = "-";
             let maiorMediaScore = -1;
             for (const setor in scorePorSetor) {
