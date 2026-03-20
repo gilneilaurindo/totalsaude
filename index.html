@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Metatags Básicas -->
     <title>Total Saúde - Inteligência Corporativa</title>
-    <meta name="description" content="Participe do nosso mapeamento confidencial de saúde e nos ajude a construir um ambiente de trabalho com mais qualidade de vida.">
+    <meta name="description" content="Participe no nosso mapeamento confidencial de saúde e ajude-nos a construir um ambiente de trabalho com mais qualidade de vida.">
     
+    <!-- Metatags para Redes Sociais (Imagem com Degradé Laranja) -->
     <meta property="og:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
-    <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde.">
+    <meta property="og:description" content="A sua voz importa! Participe na nossa pesquisa confidencial de saúde.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1604076913837-52ab5629fba9?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧡</text></svg>">
     
+    <!-- Tailwind CSS & Fontes -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -42,28 +46,43 @@
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col items-center justify-center p-4">
 
+    <!-- ECRÃ DE ABERTURA -->
     <div id="splash-screen" class="fixed inset-0 bg-gradient-to-br from-orange-500 to-orange-700 flex flex-col items-center justify-center z-50">
         <div class="splash-logo flex flex-col items-center text-white">
             <i class="ph-fill ph-heartbeat text-8xl mb-4"></i>
             <h1 class="text-4xl font-bold tracking-wider text-center">Total Saúde</h1>
             <p class="text-orange-100 mt-2 font-medium tracking-widest uppercase text-sm text-center">Inteligência HR</p>
         </div>
+        <div class="absolute bottom-20 flex space-x-2">
+            <div class="w-3 h-3 bg-white rounded-full animate-bounce"></div>
+            <div class="w-3 h-3 bg-white rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+            <div class="w-3 h-3 bg-white rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+        </div>
     </div>
 
+    <!-- APLICAÇÃO PRINCIPAL -->
     <main id="main-app" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500">
         <header class="bg-gradient-to-r from-orange-600 to-orange-500 text-white p-6 text-center relative overflow-hidden">
             <h1 class="text-2xl font-bold flex items-center justify-center gap-2 relative z-10"><i class="ph-fill ph-shield-check text-3xl"></i> Total Saúde</h1>
         </header>
 
         <div class="p-6 md:p-8">
+            <!-- INTRODUÇÃO -->
             <div id="intro-screen" class="fade-in text-center">
                 <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="ph-duotone ph-clipboard-text text-4xl text-orange-600"></i></div>
                 <h2 class="text-2xl font-bold mb-4 text-gray-900">Perfil de Saúde Organizacional</h2>
+                <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded text-left mb-6 shadow-sm">
+                    <p class="text-sm text-orange-800 font-medium flex items-start gap-2">
+                        <i class="ph-fill ph-lock-key text-xl flex-shrink-0 mt-0.5"></i>
+                        <span>As suas respostas são <strong>confidenciais</strong> e ajudam a liderança a tomar decisões orientadas a dados para melhorar o bem-estar e a infraestrutura.</span>
+                    </p>
+                </div>
                 <button onclick="startSurvey()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-xl transition duration-300 shadow-lg flex items-center justify-center gap-2 text-lg">
                     Iniciar Mapeamento <i class="ph-bold ph-arrow-right"></i>
                 </button>
             </div>
 
+            <!-- QUESTIONÁRIO -->
             <div id="survey-screen" class="hidden">
                 <div class="mb-8">
                     <div class="flex justify-between text-xs text-gray-500 mb-2 font-medium">
@@ -77,26 +96,57 @@
 
                 <form id="health-form" onsubmit="return false;">
                     
+                    <!-- ETAPA 1 -->
                     <div class="step fade-in" id="step-1">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2"><i class="ph-duotone ph-identification-card text-orange-500 text-3xl"></i> 1. Informações Gerais</h3>
                         <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-2">Digite seu nome completo</label><input type="text" id="user-name" placeholder="Seu nome" class="w-full p-3 border rounded-xl outline-none focus:border-orange-500 bg-gray-50 focus:bg-white"></div>
-                            <div><label class="block text-sm font-semibold mb-2">Nome da empresa</label><input type="text" id="company-name" placeholder="Sua empresa" class="w-full p-3 border rounded-xl outline-none focus:border-orange-500 bg-gray-50 focus:bg-white"></div>
+                            <div><label class="block text-sm font-semibold mb-2">Digite o seu nome completo</label><input type="text" id="user-name" placeholder="O seu nome" class="w-full p-3 border rounded-xl outline-none focus:border-orange-500 bg-gray-50 focus:bg-white"></div>
+                            <div><label class="block text-sm font-semibold mb-2">Nome da empresa</label><input type="text" id="company-name" placeholder="A sua empresa" class="w-full p-3 border rounded-xl outline-none focus:border-orange-500 bg-gray-50 focus:bg-white"></div>
                             <div><label class="block text-sm font-semibold mb-2">Faixa etária</label>
                                 <div class="grid grid-cols-2 gap-3">
                                     <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="ate25"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">Até 25 anos</span></div></label>
                                     <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="26a35"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">26 a 35 anos</span></div></label>
                                     <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="36a45"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">36 a 45 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="acima45"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">Acima de 45</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="acima45"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">Acima de 45 anos</span></div></label>
                                 </div>
                             </div>
-                            <div><label class="block text-sm font-semibold mb-2">Sexo</label>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Feminino"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">Feminino</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Masculino"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">Masculino</span></div></label>
+                            
+                            <!-- IDENTIDADE DE GÉNERO (Atualizado e Inclusivo) -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Como se identifica? (Identidade de Género)</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer">
+                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Feminino (Cis/Trans)">
+                                        <div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white">
+                                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div>
+                                            <span class="text-sm font-medium text-gray-700">Feminino (Cis/Trans)</span>
+                                        </div>
+                                    </label>
+                                    <label class="block cursor-pointer">
+                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Masculino (Cis/Trans)">
+                                        <div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white">
+                                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div>
+                                            <span class="text-sm font-medium text-gray-700">Masculino (Cis/Trans)</span>
+                                        </div>
+                                    </label>
+                                    <label class="block cursor-pointer">
+                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Não-binário / Outro">
+                                        <div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white">
+                                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div>
+                                            <span class="text-sm font-medium text-gray-700">Não-binário / Outro</span>
+                                        </div>
+                                    </label>
+                                    <label class="block cursor-pointer">
+                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Prefiro não informar">
+                                        <div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white">
+                                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div>
+                                            <span class="text-sm font-medium text-gray-700">Prefiro não informar</span>
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
-                            <div><label class="block text-sm font-semibold mb-2">Setor (Digite)</label><input type="text" id="setor-outro" class="w-full p-3 border rounded-xl bg-gray-50 focus:bg-white outline-none focus:border-orange-500" placeholder="Ex: Administrativo, Vendas..."></div>
+
+                            <div><label class="block text-sm font-semibold mb-2">Setor (Digite o seu setor de atuação)</label><input type="text" id="setor-outro" class="w-full p-3 border rounded-xl bg-gray-50 focus:bg-white outline-none focus:border-orange-500" placeholder="Ex: Administrativo, Comercial, Operacional..."></div>
                             <div><label class="block text-sm font-semibold mb-2">Tempo de empresa</label>
                                 <select id="tempo_empresa" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
                                     <option value="" disabled selected>Selecione...</option><option value="Menos de 1 ano">Menos de 1 ano</option><option value="1 a 3 anos">1 a 3 anos</option><option value="Mais de 3 anos">Mais de 3 anos</option>
@@ -105,10 +155,11 @@
                         </div>
                     </div>
 
+                    <!-- ETAPA 2 -->
                     <div class="step hidden fade-in" id="step-2">
-                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-stethoscope text-orange-500 text-3xl"></i> 2. Saúde</h3>
+                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-stethoscope text-orange-500 text-3xl"></i> 2. Saúde Geral</h3>
                         <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-3">Como avalia sua saúde?</label>
+                            <div><label class="block text-sm font-semibold mb-3">Como avalia a sua saúde atualmente?</label>
                                 <div class="grid grid-cols-2 gap-3">
                                     <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Excelente"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Excelente</span></div></label>
                                     <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Boa"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Boa</span></div></label>
@@ -116,12 +167,13 @@
                                     <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Ruim"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Ruim</span></div></label>
                                 </div>
                             </div>
-                            <div><label class="block text-sm font-semibold mb-3">Possui doença crônica?</label>
+                            <div><label class="block text-sm font-semibold mb-3">Possui diagnóstico de doença crónica?</label>
                                 <div class="grid grid-cols-2 gap-3">
                                     <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Não possuo"><div class="option-card p-3 border rounded-xl bg-gray-50"><span class="text-sm font-bold">Não possuo</span></div></label>
                                     <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Hipertensão"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Hipertensão</span></div></label>
                                     <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Diabetes"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Diabetes</span></div></label>
                                     <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Ansiedade/Depressão"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Ansiedade/Depressão</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Outro" onclick="document.getElementById('doenca-outro').focus()"><div class="option-card p-3 border rounded-xl flex items-center"><span class="text-sm mr-2 w-16">Outro:</span><input type="text" id="doenca-outro" class="w-full border-b border-gray-300 outline-none text-sm bg-transparent" placeholder="Especifique"></div></label>
                                 </div>
                             </div>
                             <div><label class="block text-sm font-semibold mb-3">Faz uso contínuo de medicamentos?</label>
@@ -133,106 +185,176 @@
                         </div>
                     </div>
 
+                    <!-- ETAPA 3 -->
                     <div class="step hidden fade-in" id="step-3">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-sneaker text-orange-500 text-3xl"></i> 3. Estilo de Vida</h3>
                         <div class="space-y-5">
-                            <div><label class="block text-sm font-semibold mb-2">Frequência de exercícios?</label>
+                            <div><label class="block text-sm font-semibold mb-2">Frequência de exercícios físicos?</label>
                                 <select id="exercicio" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
                                     <option value="" disabled selected>Selecione...</option><option value="Não pratico">Não pratico</option><option value="1 a 2 vezes">1 a 2 vezes por semana</option><option value="3 ou mais">3 ou mais vezes</option>
                                 </select></div>
-                            <div><label class="block text-sm font-semibold mb-2">Alimentação?</label>
+                            <div><label class="block text-sm font-semibold mb-2">Como avalia a sua alimentação?</label>
                                 <select id="alimentacao" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
                                     <option value="" disabled selected>Selecione...</option><option value="Saudável">Saudável</option><option value="Regular">Regular</option><option value="Ruim">Pouco saudável</option>
                                 </select></div>
                             <div class="grid grid-cols-2 gap-5">
-                                <div><label class="block text-sm font-semibold mb-2">Água / dia</label><select id="agua" class="w-full p-3 border rounded-xl bg-gray-50"><option value="-" selected>Selecione...</option><option value="Pouco">Pouco</option><option value="Ideal">Ideal</option></select></div>
-                                <div><label class="block text-sm font-semibold mb-2">Horas sono</label><select id="sono" class="w-full p-3 border rounded-xl bg-gray-50"><option value="-" selected>Selecione...</option><option value="-5h">Menos 5h</option><option value="+6h">Mais 6h</option></select></div>
+                                <div><label class="block text-sm font-semibold mb-2">Consumo de água/dia</label><select id="agua" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="Pouco">Pouco (Menos de 1L)</option><option value="Ideal">Ideal (Mais de 2L)</option></select></div>
+                                <div><label class="block text-sm font-semibold mb-2">Horas de sono</label><select id="sono" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="-5h">Menos de 5h</option><option value="6-8h">Entre 6h e 8h</option><option value="+8h">Mais de 8h</option></select></div>
                             </div>
                             <div class="grid grid-cols-2 gap-5">
-                                <div><label class="block text-sm font-semibold mb-2">Fuma?</label><select id="fumo" class="w-full p-3 border rounded-xl bg-gray-50"><option value="-" selected>Selecione...</option><option value="Não">Não</option><option value="Sim">Sim</option></select></div>
-                                <div><label class="block text-sm font-semibold mb-2">Álcool?</label><select id="alcool" class="w-full p-3 border rounded-xl bg-gray-50"><option value="-" selected>Selecione...</option><option value="Não">Não</option><option value="Sim">Sim</option></select></div>
+                                <div><label class="block text-sm font-semibold mb-2">Fuma?</label><select id="fumo" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="Não">Não</option><option value="Sim">Sim</option><option value="Ex-fumante">Ex-fumante</option></select></div>
+                                <div><label class="block text-sm font-semibold mb-2">Consome álcool?</label><select id="alcool" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="Não">Não</option><option value="Ocasionalmente">Ocasionalmente</option><option value="Frequentemente">Frequentemente</option></select></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- ETAPA 4 -->
                     <div class="step hidden fade-in" id="step-4">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-brain text-orange-500 text-3xl"></i> 4. Saúde Mental</h3>
                         <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-3">Frequência de estresse?</label>
+                            <div><label class="block text-sm font-semibold mb-3">Com que frequência se sente estressado no trabalho?</label>
                                 <select id="estresse" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Raramente">Raramente</option><option value="As vezes">Às vezes</option><option value="Frequentemente">Frequentemente</option>
+                                    <option value="" disabled selected>Selecione...</option><option value="Nunca">Nunca</option><option value="Raramente">Raramente</option><option value="Às vezes">Às vezes</option><option value="Frequentemente">Frequentemente</option><option value="Sempre">Sempre</option>
                                 </select></div>
-                            <div><label class="block text-sm font-semibold mb-3">Equilíbrio trabalho/vida pessoal?</label>
+                            <div><label class="block text-sm font-semibold mb-3">Como avalia o seu equilíbrio entre trabalho e vida pessoal?</label>
                                 <select id="equilibrio" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Bom">Bom</option><option value="Regular">Regular</option><option value="Ruim">Ruim</option>
+                                    <option value="" disabled selected>Selecione...</option><option value="Bom">Bom / Muito bom</option><option value="Regular">Regular</option><option value="Ruim">Ruim</option>
                                 </select></div>
-                            <div><label class="block text-sm font-semibold mb-3">Trabalho impacta saúde mental?</label>
+                            <div><label class="block text-sm font-semibold mb-3">Sente que o trabalho impacta a sua saúde mental?</label>
                                 <select id="impacto" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Não">Não</option><option value="Sim, muito">Sim, muito</option>
+                                    <option value="" disabled selected>Selecione...</option><option value="Não">Não</option><option value="Pouco">Pouco</option><option value="Moderadamente">Moderadamente</option><option value="Sim, muito">Sim, muito</option>
                                 </select></div>
                         </div>
                     </div>
 
+                    <!-- ETAPA 5 -->
                     <div class="step hidden fade-in" id="step-5">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-office-chair text-orange-500 text-3xl"></i> 5. Ambiente de Trabalho</h3>
                         <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-3">Dores relacionadas ao trabalho?</label>
+                            <div><label class="block text-sm font-semibold mb-3">Sente dores ou desconfortos relacionados ao trabalho? Onde?</label>
                                 <div class="grid grid-cols-2 gap-3">
                                     <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Não sinto dores"><div class="option-card p-3 border rounded-xl bg-gray-50"><span class="text-sm font-bold">Não sinto dores</span></div></label>
                                     <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Coluna"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Coluna</span></div></label>
                                     <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Ombros/Pescoço"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Ombros/Pescoço</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Punhos/Mãos"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Punhos/Mãos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pernas"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Pernas</span></div></label>
                                 </div>
                             </div>
-                            <div><label class="block text-sm font-semibold mb-3">Posto é ergonomicamente adequado?</label>
+                            <div><label class="block text-sm font-semibold mb-3">O seu posto de trabalho é ergonomicamente adequado?</label>
                                 <select id="ergonomia" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option><option value="Parcialmente">Parcialmente</option>
+                                    <option value="" disabled selected>Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option><option value="Parcialmente">Parcialmente</option><option value="Não sei avaliar">Não sei avaliar</option>
                                 </select></div>
                         </div>
                     </div>
 
                     <div class="mt-8 flex justify-between gap-4 border-t pt-6">
-                        <button type="button" id="btn-prev" onclick="prevStep()" class="hidden w-1/3 bg-white border-2 py-3 px-4 rounded-xl flex items-center justify-center">Voltar</button>
-                        <button type="button" id="btn-next" onclick="nextStep()" class="w-full bg-orange-600 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center">Continuar</button>
+                        <button type="button" id="btn-prev" onclick="prevStep()" class="hidden w-1/3 bg-white border-2 py-3 px-4 rounded-xl flex items-center justify-center font-bold text-gray-700">Voltar</button>
+                        <button type="button" id="btn-next" onclick="nextStep()" class="w-full bg-orange-600 hover:bg-orange-700 transition text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center">Continuar</button>
                     </div>
                 </form>
             </div>
 
+            <!-- ECRÃ DE SUCESSO -->
             <div id="success-screen" class="hidden fade-in text-center py-10">
                 <div class="relative w-24 h-24 mx-auto mb-6">
                     <div class="absolute inset-0 bg-orange-200 rounded-full animate-ping opacity-75"></div>
                     <div class="relative w-24 h-24 bg-gradient-to-tr from-orange-500 to-orange-400 text-white rounded-full flex items-center justify-center shadow-lg"><i class="ph-bold ph-check text-5xl"></i></div>
                 </div>
                 <h2 class="text-3xl font-bold mb-3 text-gray-900">Mapeamento Concluído!</h2>
-                <p class="text-gray-600 mb-8 text-lg">Obrigado por contribuir com a saúde de todos! 💙</p>
-                <button onclick="location.reload()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-xl flex items-center mx-auto">Voltar ao Início</button>
+                <p class="text-gray-600 mb-8 text-lg">As suas respostas foram registadas com segurança.<br>Obrigado por contribuir para a saúde de todos! 💙</p>
+                <button onclick="location.reload()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-xl flex items-center mx-auto transition">Voltar ao Início</button>
             </div>
         </div>
     </main>
 
     <footer class="mt-8 text-center w-full max-w-lg relative z-10 transition-opacity mb-4" id="footer-links">
-        <button onclick="openLoginModal()" class="text-orange-300 hover:text-orange-500 transition-colors flex mx-auto"><i class="ph-fill ph-lock-key text-xl"></i></button>
+        <button onclick="openLoginModal()" class="text-orange-300 hover:text-orange-500 transition-colors flex mx-auto outline-none"><i class="ph-fill ph-lock-key text-xl"></i></button>
     </footer>
 
+    <!-- MODAL DE LOGIN ADMIN -->
     <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6" id="login-card">
-            <h2 class="text-xl font-bold text-center mb-4">Acesso Restrito</h2>
-            <input type="text" id="admin-user" class="w-full p-3 border rounded-xl mb-3" placeholder="Usuário">
-            <input type="password" id="admin-pass" class="w-full p-3 border rounded-xl mb-4" placeholder="Senha">
-            <button onclick="authenticateAdmin()" class="w-full bg-orange-600 text-white font-bold py-3 rounded-xl mb-2">Entrar</button>
-            <button onclick="closeLoginModal()" class="w-full bg-gray-100 text-gray-600 font-bold py-3 rounded-xl">Cancelar</button>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 transform scale-95 transition-transform duration-300" id="login-card">
+            <h2 class="text-xl font-bold text-center text-slate-800 mb-4">Acesso Restrito</h2>
+            <input type="text" id="admin-user" class="w-full p-3 border rounded-xl mb-3 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="Utilizador RH">
+            <input type="password" id="admin-pass" class="w-full p-3 border rounded-xl mb-4 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="Senha">
+            <button onclick="authenticateAdmin()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl mb-2 transition">Entrar no Painel</button>
+            <button onclick="closeLoginModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 rounded-xl transition">Cancelar</button>
         </div>
     </div>
     
-    <main id="admin-container" class="w-full max-w-5xl bg-white rounded-2xl shadow-xl p-6 hidden mt-10">
-        <h1 class="text-2xl font-bold text-slate-800 border-b pb-4 mb-4">Painel de RH</h1>
-        <p class="text-slate-600">Conecte com o Google Sheets para visualizar gráficos avançados aqui.</p>
-        <button onclick="closeAdmin()" class="mt-4 bg-slate-200 px-4 py-2 rounded-lg font-medium">Fechar Painel</button>
+    <!-- DASHBOARD RH (Oculto) -->
+    <main id="admin-container" class="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500 mt-10">
+        <header class="bg-slate-800 text-white p-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center gap-3">
+                <div class="bg-orange-500 p-2 rounded-lg"><i class="ph-fill ph-chart-pie-slice text-2xl"></i></div>
+                Inteligência e Mapeamento de Risco
+            </h1>
+            <button onclick="closeAdmin()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg font-medium transition text-sm flex items-center gap-2">
+                <i class="ph-bold ph-sign-out"></i> Fechar Painel
+            </button>
+        </header>
+
+        <div class="p-6 md:p-8 bg-slate-50 min-h-[500px]">
+            <!-- KPIs Estratégicos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-center gap-4 border-l-4 border-l-blue-500 fade-in" style="animation-delay: 0.1s">
+                    <div class="bg-blue-50 text-blue-600 p-4 rounded-full text-2xl"><i class="ph-fill ph-users"></i></div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Mapeados na Sessão</p>
+                        <p class="text-3xl font-bold text-slate-800" id="admin-total-resp">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-center gap-4 border-l-4 border-l-red-500 fade-in" style="animation-delay: 0.2s">
+                    <div class="bg-red-50 text-red-600 p-4 rounded-full text-2xl"><i class="ph-fill ph-warning-octagon"></i></div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Risco Alto Detetado</p>
+                        <p class="text-3xl font-bold text-slate-800" id="admin-risco-alto">0%</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-center gap-4 border-l-4 border-l-orange-500 fade-in" style="animation-delay: 0.3s">
+                    <div class="bg-orange-50 text-orange-600 p-4 rounded-full text-2xl"><i class="ph-fill ph-target"></i></div>
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium">Setor Mais Crítico</p>
+                        <p class="text-2xl font-bold text-slate-800 truncate max-w-[150px]" id="admin-setor-critico">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden fade-in" style="animation-delay: 0.4s">
+                <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-white">
+                    <h2 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                        <i class="ph-fill ph-table text-orange-500"></i> Classificação de Risco (Sessão Atual)
+                    </h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-600 whitespace-nowrap">
+                        <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
+                            <tr>
+                                <th class="p-4">Colaborador</th>
+                                <th class="p-4">Perfil</th>
+                                <th class="p-4">Setor & Tempo</th>
+                                <th class="p-4">Stress Relatado</th>
+                                <th class="p-4">Dores Físicas</th>
+                                <th class="p-4">Score (0-15)</th>
+                                <th class="p-4">Risco Geral</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                    <div id="empty-state" class="p-10 text-center text-slate-400">
+                        <i class="ph-duotone ph-magnifying-glass text-5xl mb-3 opacity-50"></i>
+                        <p>Nenhum dado processado nesta sessão ainda.</p>
+                        <p class="text-xs mt-2">Dica: Preencha o formulário e volte aqui para ver os gráficos gerados!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
-        const appState = { currentStep: 1, totalSteps: 5 };
+        const appState = { currentStep: 1, totalSteps: 5, database: [] };
 
-        // >>> O SEU LINK NOVO ESTÁ AQUI <<<
+        // >>> LINK INTEGRADO DO GOOGLE APPS SCRIPT <<<
         const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby0untVRw1AOesO5V8lWKCxcHGla-9bydp4uuic3W5BkxqUCO3J7XoqVFHFClF45eRK/exec';
 
         window.addEventListener('load', () => {
@@ -241,29 +363,45 @@
                 document.getElementById('main-app').classList.remove('hidden', 'opacity-0');
             }, 1200);
 
+            // Logica para desmarcar checkboxes se "Não" for selecionado e vice-versa
             document.querySelectorAll('input[name="doencas"], input[name="dores"]').forEach(el => {
                 el.addEventListener('change', (e) => {
                     if (e.target.value.includes("Não") && e.target.checked) {
                         document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(i => { if (i !== e.target) i.checked = false; });
+                    } else if (e.target.checked) {
+                        const naoCheckbox = document.querySelector(`input[name="${e.target.name}"][value^="Não"]`);
+                        if (naoCheckbox) naoCheckbox.checked = false;
                     }
                 });
             });
 
-            document.querySelectorAll('.custom-radio, .custom-checkbox').forEach(input => {
+            // Vibração global nos radio buttons e checkboxes
+            document.querySelectorAll('.custom-radio, .custom-checkbox, select').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    if (e.target.checked && navigator.vibrate) navigator.vibrate(50);
+                    if (navigator.vibrate) {
+                        navigator.vibrate(30); // Vibração curta de feedback
+                    }
                 });
             });
         });
 
         function failValidation(msg) {
-            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Alerta vibratório duplo
             alert(msg); return false;
         }
 
         function validateStep(step) {
-            // Simplificado para garantir o envio no teste (Valida apenas nome e empresa na primeira etapa)
-            if (step === 1 && !document.getElementById('user-name').value.trim()) return failValidation("Qual é o seu nome?");
+            // Validação aprimorada da Etapa 1
+            if (step === 1) {
+                if (!document.getElementById('user-name').value.trim()) return failValidation("Por favor, preencha o seu nome.");
+                if (!document.getElementById('company-name').value.trim()) return failValidation("Por favor, preencha a sua empresa.");
+                if (!document.querySelector('input[name="idade"]:checked')) return failValidation("Selecione a sua faixa etária.");
+                if (!document.querySelector('input[name="sexo"]:checked')) return failValidation("Por favor, selecione como se identifica.");
+                
+                const setorValue = document.getElementById('setor-outro').value.trim();
+                if (!setorValue) return failValidation("Por favor, informe o seu setor de trabalho.");
+                if (!document.getElementById('tempo_empresa').value) return failValidation("Indique o seu tempo de empresa.");
+            }
             return true;
         }
 
@@ -303,9 +441,9 @@
             else { btnPrev.classList.remove('hidden'); btnNext.classList.remove('w-full'); btnNext.classList.add('w-2/3'); }
             
             if (appState.currentStep === appState.totalSteps) {
-                btnNext.innerHTML = 'Processar Mapeamento'; btnNext.classList.replace('bg-orange-600', 'bg-green-600');
+                btnNext.innerHTML = 'Concluir Mapeamento'; btnNext.classList.replace('bg-orange-600', 'bg-green-600'); btnNext.classList.replace('hover:bg-orange-700', 'hover:bg-green-700');
             } else {
-                btnNext.innerHTML = 'Continuar'; btnNext.classList.replace('bg-green-600', 'bg-orange-600');
+                btnNext.innerHTML = 'Continuar'; btnNext.classList.replace('bg-green-600', 'bg-orange-600'); btnNext.classList.replace('hover:bg-green-700', 'hover:bg-orange-700');
             }
         }
 
@@ -317,13 +455,19 @@
                 return arr.length > 0 ? arr : ["-"];
             };
 
+            let doencasArr = getCheckboxesArray("doencas");
+            if (doencasArr.includes("Outro")) {
+                const outroDoc = document.getElementById('doenca-outro').value.trim() || 'Não especificada';
+                doencasArr[doencasArr.indexOf("Outro")] = `Outro (${outroDoc})`;
+            }
+
             return {
                 name: document.getElementById('user-name').value.trim() || "-",
                 company: document.getElementById('company-name').value.trim() || "-",
                 idade: getRadioVal("idade"), sexo: getRadioVal("sexo"),
                 setor: document.getElementById('setor-outro').value.trim() || "-",
                 tempo_empresa: getSelectVal("tempo_empresa"), saude: getRadioVal("saude"),
-                doencas: getCheckboxesArray("doencas"), medicamentos: getRadioVal("medicamentos"),
+                doencas: doencasArr, medicamentos: getRadioVal("medicamentos"),
                 exercicio: getSelectVal("exercicio"), alimentacao: getSelectVal("alimentacao"),
                 agua: getSelectVal("agua"), sono: getSelectVal("sono"), fumo: getSelectVal("fumo"),
                 alcool: getSelectVal("alcool"), estresse: getSelectVal("estresse"),
@@ -332,46 +476,213 @@
             };
         }
 
-        async function submitSurvey() {
+        function submitSurvey() {
             if (!validateStep(appState.currentStep)) return;
             const btnNext = document.getElementById('btn-next');
-            const originalText = btnNext.innerHTML; btnNext.innerHTML = 'Enviando...'; btnNext.disabled = true;
+            const originalText = btnNext.innerHTML; 
+            btnNext.innerHTML = 'A enviar os dados... <i class="ph-bold ph-spinner animate-spin"></i>'; 
+            btnNext.disabled = true;
 
             const dados = getFormData();
+            
+            // INTELIGÊNCIA: Calcula o score e guarda na memória local para o Dashboard
+            dados.score_risco = calcularScore(dados);
+            dados.classificacao = classificarRisco(dados.score_risco); 
+            appState.database.push(dados);
 
-            // Envio direto e à prova de falhas!
+            // Lógica de envio assíncrono para o Google Apps Script
             fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
                 method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
                 body: JSON.stringify(dados)
             })
             .then(() => {
                 document.getElementById('survey-screen').classList.add('hidden');
                 document.getElementById('success-screen').classList.remove('hidden');
                 
-                // ✨ AQUI ESTÁ A VIBRAÇÃO COMEMORATIVA DE SUCESSO ✨
+                // ✨ VIBRAÇÃO COMEMORATIVA NO FINAL! ✨
                 if (navigator.vibrate) {
-                    // Padrão: vibra 300ms, pausa 100ms, vibra 300ms, pausa 100ms, vibra forte 800ms
+                    // Vibra 300ms, pausa 100ms, vibra 300ms, pausa 100ms, vibra longo 800ms
                     navigator.vibrate([300, 100, 300, 100, 800]); 
                 }
 
                 if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             })
             .catch((err) => {
-                alert("Problema na conexão. Tente novamente.");
+                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                alert("Ocorreu um problema de ligação. Por favor, tente submeter novamente.");
                 btnNext.innerHTML = originalText; btnNext.disabled = false;
             });
         }
 
-        // Funções do Modal de Login Admin
-        function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden', 'opacity-0'); }
-        function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden', 'opacity-0'); }
-        function authenticateAdmin() {
-            if (document.getElementById('admin-user').value === "admin" && document.getElementById('admin-pass').value === "admin123") {
-                closeLoginModal(); document.getElementById('main-app').classList.add('hidden');
-                document.getElementById('admin-container').classList.remove('hidden');
-            } else { alert("Senha incorreta!"); }
+        // ==========================================
+        // SISTEMA DE LOGIN DE ADMINISTRAÇÃO SEGURO
+        // ==========================================
+
+        function openLoginModal() { 
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                document.getElementById('login-card').classList.remove('scale-95');
+            }, 10);
         }
-        function closeAdmin() { document.getElementById('admin-container').classList.add('hidden'); document.getElementById('main-app').classList.remove('hidden'); }
+        
+        function closeLoginModal() { 
+            const modal = document.getElementById('login-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('login-card').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('admin-user').value = '';
+                document.getElementById('admin-pass').value = '';
+            }, 300);
+        }
+        
+        function authenticateAdmin() {
+            const user = document.getElementById('admin-user').value.trim();
+            const pass = document.getElementById('admin-pass').value.trim();
+
+            // CRedenciais Atualizadas (Maiúsculas, minúsculas e carateres especiais)
+            const USUARIO_CORRETO = "admin_rh";
+            const SENHA_CORRETA = "TotalSaude@2026#";
+
+            if (user === USUARIO_CORRETO && pass === SENHA_CORRETA) {
+                closeLoginModal(); 
+                document.getElementById('main-app').classList.add('hidden');
+                document.getElementById('footer-links').classList.add('hidden');
+                
+                const adminContainer = document.getElementById('admin-container');
+                adminContainer.classList.remove('hidden');
+                setTimeout(() => adminContainer.classList.remove('opacity-0'), 50);
+                document.body.classList.replace('bg-[#fff7ed]', 'bg-slate-200');
+                
+                renderAdminData(); // CARREGA AS ANIMAÇÕES E GRÁFICOS
+            } else { 
+                if (navigator.vibrate) navigator.vibrate([200, 50, 200]); // Alerta vibratório de erro
+                alert("Utilizador ou senha incorretos! Verifique as maiúsculas/minúsculas.");
+                
+                const card = document.getElementById('login-card');
+                card.classList.remove('shake-animation');
+                void card.offsetWidth; 
+                card.classList.add('shake-animation');
+            }
+        }
+        
+        function closeAdmin() { 
+            document.getElementById('admin-container').classList.add('hidden', 'opacity-0'); 
+            document.getElementById('main-app').classList.remove('hidden'); 
+            document.getElementById('footer-links').classList.remove('hidden');
+            document.body.classList.replace('bg-slate-200', 'bg-[#fff7ed]');
+        }
+        
+        function calcularScore(dados) {
+            let score = 0;
+            if (dados.estresse === "Frequentemente" || dados.estresse === "Sempre") score += 4;
+            else if (dados.estresse === "Às vezes") score += 2;
+            
+            if (dados.sono === "-5h") score += 3;
+            else if (dados.sono === "6-8h") score += 1;
+
+            if (dados.exercicio === "Não pratico") score += 2;
+            if (dados.alimentacao === "Ruim") score += 2;
+            if (dados.fumo === "Sim") score += 2;
+            
+            if (dados.dores && dados.dores.length > 0 && !dados.dores[0].includes("Não sinto")) {
+                score += 2;
+            }
+            return score;
+        }
+
+        function classificarRisco(score) {
+            if (score <= 3) return "Baixo";
+            if (score <= 7) return "Médio";
+            return "Alto";
+        }
+        
+        function renderAdminData() {
+            const tbody = document.getElementById('admin-table-body');
+            const emptyState = document.getElementById('empty-state');
+            
+            let db = [...appState.database].reverse();
+
+            const total = db.length;
+            document.getElementById('admin-total-resp').innerText = total;
+
+            if (total === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                document.getElementById('admin-risco-alto').innerText = '0%';
+                document.getElementById('admin-setor-critico').innerText = '-';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            let htmlRows = '';
+            let totalRiscoAlto = 0;
+            const scorePorSetor = {};
+            
+            db.forEach(item => {
+                if(item.classificacao === 'Alto') totalRiscoAlto++;
+
+                const setorAtual = item.setor || 'Não inf.';
+                if(!scorePorSetor[setorAtual]) scorePorSetor[setorAtual] = { soma: 0, count: 0 };
+                scorePorSetor[setorAtual].soma += (item.score_risco || 0);
+                scorePorSetor[setorAtual].count++;
+
+                let riscoBadge = `<span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-bold uppercase">${item.classificacao || 'N/A'}</span>`;
+                if(item.classificacao === 'Baixo') riscoBadge = `<span class="px-2 py-1 bg-green-100 text-green-700 border border-green-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-check-circle"></i> Baixo</span>`;
+                if(item.classificacao === 'Médio') riscoBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning"></i> Médio</span>`;
+                if(item.classificacao === 'Alto') riscoBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 border border-red-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning-octagon animate-pulse"></i> Alto</span>`;
+
+                const perfil = `${item.idade || '-'} • ${item.sexo ? item.sexo.charAt(0) : '-'}`;
+                const tempo = item.tempo_empresa || '-';
+                
+                let temDor = `<span class="text-green-600 font-medium"><i class="ph-bold ph-check"></i> Não</span>`;
+                if (item.dores && item.dores.length > 0 && !item.dores[0].includes("Não sinto")) {
+                    temDor = `<span class="text-red-500 font-bold"><i class="ph-bold ph-warning"></i> Sim</span>`;
+                }
+
+                htmlRows += `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                        <td class="p-4 font-medium text-slate-800 flex items-center gap-2">
+                            <i class="ph-fill ph-user-circle text-orange-500 text-lg"></i> 
+                            <div>
+                                ${item.name}
+                                <div class="text-[10px] text-slate-400 font-normal uppercase mt-0.5"><i class="ph-fill ph-buildings"></i> ${item.company}</div>
+                            </div>
+                        </td>
+                        <td class="p-4 text-xs text-slate-600">${perfil}</td>
+                        <td class="p-4 text-xs font-semibold text-slate-600">
+                            ${setorAtual}
+                            <div class="text-[10px] font-normal text-slate-400 mt-0.5">${tempo}</div>
+                        </td>
+                        <td class="p-4 text-xs font-medium text-slate-600">${item.estresse || '-'}</td>
+                        <td class="p-4 text-xs">${temDor}</td>
+                        <td class="p-4 text-center font-bold text-slate-700 text-lg">${item.score_risco || 0}</td>
+                        <td class="p-4">${riscoBadge}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('admin-risco-alto').innerText = Math.round((totalRiscoAlto / total) * 100) + '%';
+
+            let setorMaisCritico = "-";
+            let maiorMediaScore = -1;
+            for (const setor in scorePorSetor) {
+                const media = scorePorSetor[setor].soma / scorePorSetor[setor].count;
+                if (media > maiorMediaScore && scorePorSetor[setor].count > 0) {
+                    maiorMediaScore = media;
+                    setorMaisCritico = setor;
+                }
+            }
+            document.getElementById('admin-setor-critico').innerText = setorMaisCritico;
+
+            tbody.innerHTML = htmlRows;
+        }
     </script>
 </body>
 </html>
