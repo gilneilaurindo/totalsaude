@@ -510,7 +510,7 @@
         // --- CONFIGURAÇÃO SUPABASE E GOOGLE SHEETS ---
         const SUPABASE_URL = 'COLE_AQUI_SUA_URL';
         const SUPABASE_ANON_KEY = 'COLE_AQUI_SUA_CHAVE_ANON';
-        const GOOGLE_SHEETS_WEBHOOK_URL = 'COLE_AQUI_SUA_URL_DO_APPS_SCRIPT';
+        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby0r2p0uE9Ix82bg7sz3vFpJrjo6SahZSd2zLnLS-hCfbHc3haEHNb3OsT2j6We_6g/exec';
         
         if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('COLE_AQUI')) {
             appState.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
