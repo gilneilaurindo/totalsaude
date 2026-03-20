@@ -470,12 +470,14 @@
                     </h2>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
+                    <table class="w-full text-left text-sm text-slate-600 whitespace-nowrap">
                         <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
                             <tr>
                                 <th class="p-4">Colaborador</th>
-                                <th class="p-4">Setor</th>
+                                <th class="p-4">Perfil</th>
+                                <th class="p-4">Setor & Tempo</th>
                                 <th class="p-4">Estresse Relatado</th>
+                                <th class="p-4">Dores Físicas</th>
                                 <th class="p-4">Score (0-15)</th>
                                 <th class="p-4">Risco Geral</th>
                             </tr>
@@ -510,7 +512,7 @@
         // --- CONFIGURAÇÃO SUPABASE E GOOGLE SHEETS ---
         const SUPABASE_URL = 'COLE_AQUI_SUA_URL';
         const SUPABASE_ANON_KEY = 'COLE_AQUI_SUA_CHAVE_ANON';
-        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby0r2p0uE9Ix82bg7sz3vFpJrjo6SahZSd2zLnLS-hCfbHc3haEHNb3OsT2j6We_6g/exec';
+        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxhUFjAkXUtG1rGJoHnvd5ZKm8EsJf1ipWs56rcfPljhf1jhobn7Xvowpqm_BSAP0mx/exec';
         
         if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('COLE_AQUI')) {
             appState.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -828,7 +830,7 @@
                     method: "POST",
                     mode: "no-cors", // Crucial: Evita o bloqueio de CORS padrão do Google Apps Script
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "text/plain;charset=utf-8" // Usado text/plain para contornar preflight CORS
                     },
                     body: JSON.stringify(dados)
                 }).catch(() => console.log("Aviso: O Google Sheets pode estar offline, mas o fluxo continua."));
@@ -948,14 +950,33 @@
                 if(item.classificacao === 'Médio') riscoBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning"></i> Risco Médio</span>`;
                 if(item.classificacao === 'Alto') riscoBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 border border-red-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning-octagon animate-pulse"></i> Risco Alto</span>`;
 
+                // Agrupando novas informações detalhadas
+                const perfil = `${item.idade || '-'} • ${item.sexo ? item.sexo.charAt(0) : '-'}`;
+                const tempo = item.tempo_empresa || '-';
+                
+                // Validação inteligente de dores
+                let temDor = `<span class="text-green-600 font-medium"><i class="ph-bold ph-check"></i> Nenhuma</span>`;
+                if (item.dores && item.dores.length > 0 && !item.dores[0].includes("Não sinto")) {
+                    temDor = `<span class="text-red-500 font-bold"><i class="ph-bold ph-warning"></i> Sim</span>`;
+                }
+
                 htmlRows += `
                     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
                         <td class="p-4 font-medium text-slate-800 flex items-center gap-2">
-                            <i class="ph-fill ph-user-circle text-orange-500 text-lg"></i> ${item.name}
+                            <i class="ph-fill ph-user-circle text-orange-500 text-lg"></i> 
+                            <div>
+                                ${item.name}
+                                <div class="text-[10px] text-slate-400 font-normal uppercase mt-0.5"><i class="ph-fill ph-buildings"></i> ${item.company}</div>
+                            </div>
                         </td>
-                        <td class="p-4 text-xs font-semibold text-slate-500">${setorAtual}</td>
+                        <td class="p-4 text-xs text-slate-600">${perfil}</td>
+                        <td class="p-4 text-xs font-semibold text-slate-600">
+                            ${setorAtual}
+                            <div class="text-[10px] font-normal text-slate-400 mt-0.5">${tempo}</div>
+                        </td>
                         <td class="p-4 text-xs font-medium text-slate-600">${item.estresse || '-'}</td>
-                        <td class="p-4 text-center font-bold text-slate-700">${item.score_risco || 0}</td>
+                        <td class="p-4 text-xs">${temDor}</td>
+                        <td class="p-4 text-center font-bold text-slate-700 text-lg">${item.score_risco || 0}</td>
                         <td class="p-4">${riscoBadge}</td>
                     </tr>
                 `;
