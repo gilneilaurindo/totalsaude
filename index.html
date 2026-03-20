@@ -530,6 +530,8 @@
         // --- CONFIGURAÇÃO SUPABASE E GOOGLE SHEETS ---
         const SUPABASE_URL = 'COLE_AQUI_SUA_URL';
         const SUPABASE_ANON_KEY = 'COLE_AQUI_SUA_CHAVE_ANON';
+        
+        // ✨ O SEU LINK FOI INSERIDO AQUI 👇
         const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwy15DxOyGzG1NPuyH8vMJjStXKnLdbnlg7SX9ZCR6MoiA_rU4n0gWvC8aGPI2tDiQg/exec';
         
         if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('COLE_AQUI')) {
@@ -842,15 +844,19 @@
             dados.score_risco = calcularScore(dados);
             dados.classificacao = classificarRisco(dados.score_risco); 
 
-            // INTEGRAÇÃO RH: Disparo paralelo para o Google Sheets (Fire and forget)
+            // ✨ AQUI OCORRE A INTEGRAÇÃO COM A PLANILHA DO GOOGLE ✨
             if (GOOGLE_SHEETS_WEBHOOK_URL && !GOOGLE_SHEETS_WEBHOOK_URL.includes('COLE_AQUI')) {
-                // Envio simplificado para evitar bloqueios do Google
+                // Parâmetros 'mode' e 'headers' ajustados para evitar bloqueio de CORS no navegador
                 fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
                     method: "POST",
+                    mode: "no-cors", 
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
                     body: JSON.stringify(dados)
                 })
-                .then(() => console.log("Google Sheets notificado!"))
-                .catch((e) => console.log("Aviso: O Google Sheets pode estar offline.", e));
+                .then(() => console.log("Enviado para o Google Sheets com sucesso!"))
+                .catch((e) => console.log("Aviso ao tentar comunicar com Google Sheets:", e));
             }
 
             if (appState.supabase) {
