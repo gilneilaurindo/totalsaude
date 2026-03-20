@@ -494,8 +494,8 @@
     </main>
 
     <footer class="mt-8 text-center w-full max-w-lg relative z-10 transition-opacity mb-4" id="footer-links">
-        <button onclick="openAdmin()" class="text-xs text-orange-300 hover:text-orange-500 transition-colors flex items-center justify-center gap-1 mx-auto">
-            <i class="ph-fill ph-lock-key"></i> Acesso Restrito Liderança
+        <button onclick="openAdmin()" class="text-orange-300 hover:text-orange-500 transition-colors flex items-center justify-center mx-auto" title="Acesso Restrito" aria-label="Acesso Restrito Liderança">
+            <i class="ph-fill ph-lock-key text-xl"></i>
         </button>
     </footer>
 
@@ -512,7 +512,7 @@
         // --- CONFIGURAÇÃO SUPABASE E GOOGLE SHEETS ---
         const SUPABASE_URL = 'COLE_AQUI_SUA_URL';
         const SUPABASE_ANON_KEY = 'COLE_AQUI_SUA_CHAVE_ANON';
-        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbx1PNNNsE85fK81rrya2mVRLyihSu2qSI_7oEHD1UHRrTdPMHsWUPsBMf0t3Tp8XrJi/exec';
+        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwmbZfmACdoiONJ061LeUTZRYvOPBvRQkA97yl82lsE2vdtGgIazNVxiPK7i2R-tvr0/exec';
         
         if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('COLE_AQUI')) {
             appState.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
