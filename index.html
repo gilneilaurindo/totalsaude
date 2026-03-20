@@ -1,57 +1,115 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Metatags Básicas -->
     <title>Total Saúde - Inteligência Corporativa</title>
-    <meta name="description" content="Participe no nosso mapeamento confidencial de saúde e ajude-nos a construir um ambiente de trabalho com mais qualidade de vida.">
+    <meta name="description" content="Participe do nosso mapeamento confidencial de saúde e nos ajude a construir um ambiente de trabalho com mais qualidade de vida.">
     
-    <!-- Metatags para Redes Sociais (Imagem com Degradé Laranja) -->
+    <!-- Metatags para Redes Sociais (FOTO COM DEGRADÊ LARANJA) -->
     <meta property="og:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
-    <meta property="og:description" content="A sua voz importa! Participe na nossa pesquisa confidencial de saúde.">
+    <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões para melhorar nosso ambiente de trabalho.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1604076913837-52ab5629fba9?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
-    <!-- Favicon -->
+    <!-- Metatags para Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
+    <meta name="twitter:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1604076913837-52ab5629fba9?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Favicon (Ícone da Aba) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧡</text></svg>">
     
-    <!-- Tailwind CSS & Fontes -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Canvas Confetti para animação de sucesso -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #fff7ed; overflow-x: hidden; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff7ed;
+            overflow-x: hidden;
+        }
+        
         .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .splash-logo { animation: pulseLogo 1.5s infinite alternate; }
-        @keyframes pulseLogo { 0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); } 100% { transform: scale(1.15); filter: drop-shadow(0 0 25px rgba(255,255,255,0.8)); } }
+        @keyframes pulseLogo {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
+            100% { transform: scale(1.15); filter: drop-shadow(0 0 25px rgba(255,255,255,0.8)); }
+        }
+
         .splash-exit { animation: fadeOut 0.8s ease-in-out forwards; }
-        @keyframes fadeOut { from { opacity: 1; visibility: visible; } to { opacity: 0; visibility: hidden; } }
-        .custom-radio:checked + div, .custom-checkbox:checked + div { border-color: #ea580c; background-color: #fff7ed; box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.1); transform: translateY(-2px); }
+        @keyframes fadeOut {
+            from { opacity: 1; visibility: visible; }
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        .input-with-icon { padding-left: 2.5rem; }
+
+        .custom-radio:checked + div, .custom-checkbox:checked + div {
+            border-color: #ea580c; 
+            background-color: #fff7ed; 
+            box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.1), 0 2px 4px -1px rgba(234, 88, 12, 0.06);
+            transform: translateY(-2px);
+        }
         .custom-radio:checked + div .radio-dot { background-color: #ea580c; }
         .custom-checkbox:checked + div .checkbox-icon { color: #ea580c; opacity: 1; transform: scale(1); }
+        
         .option-card { transition: all 0.2s ease; }
         .option-card:hover { border-color: #fb923c; }
+        
         .checkbox-icon { opacity: 0; transform: scale(0.5); transition: all 0.2s; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+
+        /* Animação de erro (Tremida/Shake) */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
         .shake-animation { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
-        @keyframes popSelection { 0% { transform: scale(1); } 50% { transform: scale(0.95); } 100% { transform: scale(1); } }
+
+        /* Animação de seleção de opção (Pop) */
+        @keyframes popSelection {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
         .pop-selection { animation: popSelection 0.2s ease-out; }
+
+        /* Loader para a tela de análise */
+        .loader-dots div {
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        .loader-dots div:nth-child(1) { left: 8px; animation: loader-dots1 0.6s infinite; }
+        .loader-dots div:nth-child(2) { left: 8px; animation: loader-dots2 0.6s infinite; }
+        .loader-dots div:nth-child(3) { left: 32px; animation: loader-dots2 0.6s infinite; }
+        .loader-dots div:nth-child(4) { left: 56px; animation: loader-dots3 0.6s infinite; }
+        @keyframes loader-dots1 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        @keyframes loader-dots3 { 0% { transform: scale(1); } 100% { transform: scale(0); } }
+        @keyframes loader-dots2 { 0% { transform: translate(0, 0); } 100% { transform: translate(24px, 0); } }
     </style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <!-- ECRÃ DE ABERTURA -->
+    <!-- SPLASH SCREEN -->
     <div id="splash-screen" class="fixed inset-0 bg-gradient-to-br from-orange-500 to-orange-700 flex flex-col items-center justify-center z-50">
         <div class="splash-logo flex flex-col items-center text-white">
             <i class="ph-fill ph-heartbeat text-8xl mb-4"></i>
             <h1 class="text-4xl font-bold tracking-wider text-center">Total Saúde</h1>
-            <p class="text-orange-100 mt-2 font-medium tracking-widest uppercase text-sm text-center">Inteligência HR</p>
+            <p class="text-orange-100 mt-2 font-medium tracking-widest uppercase text-sm text-center">Inteligência de Dados HR</p>
         </div>
         <div class="absolute bottom-20 flex space-x-2">
             <div class="w-3 h-3 bg-white rounded-full animate-bounce"></div>
@@ -60,60 +118,96 @@
         </div>
     </div>
 
-    <!-- APLICAÇÃO PRINCIPAL -->
+    <!-- CONTAINER PRINCIPAL -->
     <main id="main-app" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500">
+        
         <header class="bg-gradient-to-r from-orange-600 to-orange-500 text-white p-6 text-center relative overflow-hidden">
-            <h1 class="text-2xl font-bold flex items-center justify-center gap-2 relative z-10"><i class="ph-fill ph-shield-check text-3xl"></i> Total Saúde</h1>
+            <div class="absolute -right-4 -top-4 opacity-20">
+                <i class="ph-fill ph-heartbeat text-8xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold flex items-center justify-center gap-2 relative z-10">
+                <i class="ph-fill ph-shield-check text-3xl"></i>
+                Total Saúde
+            </h1>
         </header>
 
         <div class="p-6 md:p-8">
-            <!-- INTRODUÇÃO -->
+
+            <!-- TELA 1: INTRO -->
             <div id="intro-screen" class="fade-in text-center">
-                <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="ph-duotone ph-clipboard-text text-4xl text-orange-600"></i></div>
+                <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="ph-duotone ph-clipboard-text text-4xl text-orange-600"></i>
+                </div>
                 <h2 class="text-2xl font-bold mb-4 text-gray-900">Perfil de Saúde Organizacional</h2>
+                
                 <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded text-left mb-6 shadow-sm">
                     <p class="text-sm text-orange-800 font-medium flex items-start gap-2">
                         <i class="ph-fill ph-lock-key text-xl flex-shrink-0 mt-0.5"></i>
-                        <span>As suas respostas são <strong>confidenciais</strong> e ajudam a liderança a tomar decisões orientadas a dados para melhorar o bem-estar e a infraestrutura.</span>
+                        <span>Suas respostas são <strong>confidenciais</strong> e ajudam a liderança a tomar decisões orientadas a dados para melhorar o bem-estar e a infraestrutura do seu setor.</span>
                     </p>
                 </div>
-                <button onclick="startSurvey()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-xl transition duration-300 shadow-lg flex items-center justify-center gap-2 text-lg">
+                
+                <p class="text-gray-500 mb-8 text-sm flex items-center justify-center gap-2">
+                    <i class="ph ph-clock text-lg"></i> Tempo estimado: 5 minutos
+                </p>
+                
+                <button onclick="startSurvey()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-lg">
                     Iniciar Mapeamento <i class="ph-bold ph-arrow-right"></i>
                 </button>
             </div>
 
             <!-- QUESTIONÁRIO -->
             <div id="survey-screen" class="hidden">
+                
                 <div class="mb-8">
                     <div class="flex justify-between text-xs text-gray-500 mb-2 font-medium">
-                        <span id="step-counter" class="bg-orange-100 text-orange-700 px-3 py-1 rounded-md">Etapa 1 de 5</span>
-                        <span id="step-percentage" class="flex items-center gap-1"><i class="ph-fill ph-chart-line-up"></i> 20%</span>
+                        <span id="step-counter" class="bg-orange-100 text-orange-700 px-3 py-1 rounded-md">Etapa 1 de 6</span>
+                        <span id="step-percentage" class="flex items-center gap-1"><i class="ph-fill ph-chart-line-up"></i> 16%</span>
                     </div>
-                    <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                        <div id="progress-bar" class="bg-gradient-to-r from-orange-400 to-orange-600 h-full rounded-full transition-all duration-500" style="width: 20%"></div>
+                    <div class="w-full bg-gray-100 rounded-full h-3 shadow-inner overflow-hidden">
+                        <div id="progress-bar" class="bg-gradient-to-r from-orange-400 to-orange-600 h-full rounded-full transition-all duration-500 ease-out" style="width: 16%"></div>
                     </div>
                 </div>
 
                 <form id="health-form" onsubmit="return false;">
                     
-                    <!-- ETAPA 1 -->
+                    <!-- ETAPA 1: INFO GERAIS -->
                     <div class="step fade-in" id="step-1">
-                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2"><i class="ph-duotone ph-identification-card text-orange-500 text-3xl"></i> 1. Informações Gerais</h3>
+                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
+                            <i class="ph-duotone ph-identification-card text-orange-500 text-3xl"></i> 1. Informações Gerais
+                        </h3>
+                        
                         <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-2">Digite o seu nome completo</label><input type="text" id="user-name" placeholder="O seu nome" class="w-full p-3 border rounded-xl outline-none focus:border-orange-500 bg-gray-50 focus:bg-white"></div>
-                            <div><label class="block text-sm font-semibold mb-2">Nome da empresa</label><input type="text" id="company-name" placeholder="A sua empresa" class="w-full p-3 border rounded-xl outline-none focus:border-orange-500 bg-gray-50 focus:bg-white"></div>
-                            <div><label class="block text-sm font-semibold mb-2">Faixa etária</label>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="ate25"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">Até 25 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="26a35"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">26 a 35 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="36a45"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">36 a 45 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="acima45"><div class="option-card p-3 border rounded-xl flex items-center"><div class="radio-dot w-2 h-2 rounded-full m-1 border"></div><span class="text-sm">Acima de 45 anos</span></div></label>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Digite seu nome completo *</label>
+                                <div class="relative">
+                                    <i class="ph ph-user text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="user-name" placeholder="Seu nome" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
                                 </div>
                             </div>
-                            
-                            <!-- IDENTIDADE DE GÉNERO (Atualizado e Inclusivo) -->
+
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Como se identifica? (Identidade de Género)</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Nome da empresa *</label>
+                                <div class="relative">
+                                    <i class="ph ph-buildings text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="company-name" placeholder="Nome da empresa onde trabalha" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Faixa etária *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="ate25"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">Até 25 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="26a35"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">26 a 35 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="36a45"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">36 a 45 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="46a55"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">46 a 55 anos</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="idade" class="custom-radio hidden" value="acima55"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">Acima de 55 anos</span></div></label>
+                                </div>
+                            </div>
+
+                            <!-- IDENTIDADE DE GÊNERO ATUALIZADA -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Como você se identifica? (Identidade de Gênero) *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <label class="block cursor-pointer">
                                         <input type="radio" name="sexo" class="custom-radio hidden" value="Feminino (Cis/Trans)">
@@ -146,143 +240,343 @@
                                 </div>
                             </div>
 
-                            <div><label class="block text-sm font-semibold mb-2">Setor (Digite o seu setor de atuação)</label><input type="text" id="setor-outro" class="w-full p-3 border rounded-xl bg-gray-50 focus:bg-white outline-none focus:border-orange-500" placeholder="Ex: Administrativo, Comercial, Operacional..."></div>
-                            <div><label class="block text-sm font-semibold mb-2">Tempo de empresa</label>
-                                <select id="tempo_empresa" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Menos de 1 ano">Menos de 1 ano</option><option value="1 a 3 anos">1 a 3 anos</option><option value="Mais de 3 anos">Mais de 3 anos</option>
-                                </select>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Área ou setor da empresa *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Administrativo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Administrativo</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Operacional"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Operacional</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Comercial"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Comercial</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Gestão"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Gestão</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="setor" class="custom-radio hidden" value="Outro" onclick="document.getElementById('setor-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700 whitespace-nowrap mr-2">Outro:</span><input type="text" id="setor-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm" placeholder="Especifique"></div></label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Tempo de empresa *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="Menos de 1 ano"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Menos de 1 ano</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="1 a 3 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">1 a 3 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="4 a 6 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">4 a 6 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="Mais de 6 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Mais de 6 anos</span></div></label>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ETAPA 2 -->
+                    <!-- ETAPA 2: Biometria e Condições -->
                     <div class="step hidden fade-in" id="step-2">
-                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-stethoscope text-orange-500 text-3xl"></i> 2. Saúde Geral</h3>
+                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
+                            <i class="ph-duotone ph-stethoscope text-orange-500 text-3xl"></i> 2. Biometria e Saúde Geral
+                        </h3>
+                        
                         <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-3">Como avalia a sua saúde atualmente?</label>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Excelente"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Excelente</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Boa"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Boa</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Regular"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Regular</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Ruim"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Ruim</span></div></label>
+                            <div class="grid grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Qual o seu peso? (kg) *</label>
+                                    <div class="relative">
+                                        <i class="ph ph-scales text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                        <input type="number" id="peso" placeholder="Ex: 85" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Qual a sua altura? (m) *</label>
+                                    <div class="relative">
+                                        <i class="ph ph-ruler text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                        <input type="number" step="0.01" id="altura" placeholder="Ex: 1.71" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                    </div>
                                 </div>
                             </div>
-                            <div><label class="block text-sm font-semibold mb-3">Possui diagnóstico de doença crónica?</label>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Não possuo"><div class="option-card p-3 border rounded-xl bg-gray-50"><span class="text-sm font-bold">Não possuo</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Hipertensão"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Hipertensão</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Diabetes"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Diabetes</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Ansiedade/Depressão"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Ansiedade/Depressão</span></div></label>
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Outro" onclick="document.getElementById('doenca-outro').focus()"><div class="option-card p-3 border rounded-xl flex items-center"><span class="text-sm mr-2 w-16">Outro:</span><input type="text" id="doenca-outro" class="w-full border-b border-gray-300 outline-none text-sm bg-transparent" placeholder="Especifique"></div></label>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Como você avalia sua saúde atualmente? *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Excelente"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley text-green-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Excelente</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Boa"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-meh text-blue-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Boa</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Regular"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-sad text-yellow-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Regular</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Ruim"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-x-eyes text-red-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Ruim</span></div></label>
                                 </div>
                             </div>
-                            <div><label class="block text-sm font-semibold mb-3">Faz uso contínuo de medicamentos?</label>
-                                <div class="flex gap-4">
-                                    <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Não"><div class="option-card p-3 border rounded-xl text-center"><span class="text-sm">Não</span></div></label>
-                                    <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Sim"><div class="option-card p-3 border rounded-xl text-center"><span class="text-sm">Sim</span></div></label>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Você tem algum problema de saúde ou doença crônica? (Marque todas as opções que se aplicam) *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Não possuo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-bold text-gray-700">Não possuo nenhum</span></div></label>
+                                    
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Pressão Alta / Hipertensão"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Pressão Alta (Hipertensão)</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Diabetes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Diabetes</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Obesidade"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Obesidade</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Colesterol Alto"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Colesterol Alto</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Problemas nos rins"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas nos rins</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Problemas respiratórios"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas respiratórios</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Câncer"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Câncer</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Depressão"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Depressão</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Ansiedade"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Ansiedade</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Doença autoimune"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Doença autoimune</span></div></label>
+                                    
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Outro" onclick="document.getElementById('doenca-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outra:</span><input type="text" id="doenca-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm" placeholder="Qual?"></div></label>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ETAPA 3 -->
+                    <!-- ETAPA 3: Histórico e Cuidados Médicos -->
                     <div class="step hidden fade-in" id="step-3">
-                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-sneaker text-orange-500 text-3xl"></i> 3. Estilo de Vida</h3>
-                        <div class="space-y-5">
-                            <div><label class="block text-sm font-semibold mb-2">Frequência de exercícios físicos?</label>
-                                <select id="exercicio" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Não pratico">Não pratico</option><option value="1 a 2 vezes">1 a 2 vezes por semana</option><option value="3 ou mais">3 ou mais vezes</option>
-                                </select></div>
-                            <div><label class="block text-sm font-semibold mb-2">Como avalia a sua alimentação?</label>
-                                <select id="alimentacao" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Saudável">Saudável</option><option value="Regular">Regular</option><option value="Ruim">Pouco saudável</option>
-                                </select></div>
-                            <div class="grid grid-cols-2 gap-5">
-                                <div><label class="block text-sm font-semibold mb-2">Consumo de água/dia</label><select id="agua" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="Pouco">Pouco (Menos de 1L)</option><option value="Ideal">Ideal (Mais de 2L)</option></select></div>
-                                <div><label class="block text-sm font-semibold mb-2">Horas de sono</label><select id="sono" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="-5h">Menos de 5h</option><option value="6-8h">Entre 6h e 8h</option><option value="+8h">Mais de 8h</option></select></div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-5">
-                                <div><label class="block text-sm font-semibold mb-2">Fuma?</label><select id="fumo" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="Não">Não</option><option value="Sim">Sim</option><option value="Ex-fumante">Ex-fumante</option></select></div>
-                                <div><label class="block text-sm font-semibold mb-2">Consome álcool?</label><select id="alcool" class="w-full p-3 border rounded-xl bg-gray-50 outline-none"><option value="-" selected>Selecione...</option><option value="Não">Não</option><option value="Ocasionalmente">Ocasionalmente</option><option value="Frequentemente">Frequentemente</option></select></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ETAPA 4 -->
-                    <div class="step hidden fade-in" id="step-4">
-                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-brain text-orange-500 text-3xl"></i> 4. Saúde Mental</h3>
+                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
+                            <i class="ph-duotone ph-heartbeat text-orange-500 text-3xl"></i> 3. Histórico e Cuidados Médicos
+                        </h3>
+                        
                         <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-3">Com que frequência se sente estressado no trabalho?</label>
-                                <select id="estresse" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Nunca">Nunca</option><option value="Raramente">Raramente</option><option value="Às vezes">Às vezes</option><option value="Frequentemente">Frequentemente</option><option value="Sempre">Sempre</option>
-                                </select></div>
-                            <div><label class="block text-sm font-semibold mb-3">Como avalia o seu equilíbrio entre trabalho e vida pessoal?</label>
-                                <select id="equilibrio" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Bom">Bom / Muito bom</option><option value="Regular">Regular</option><option value="Ruim">Ruim</option>
-                                </select></div>
-                            <div><label class="block text-sm font-semibold mb-3">Sente que o trabalho impacta a sua saúde mental?</label>
-                                <select id="impacto" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Não">Não</option><option value="Pouco">Pouco</option><option value="Moderadamente">Moderadamente</option><option value="Sim, muito">Sim, muito</option>
-                                </select></div>
-                        </div>
-                    </div>
-
-                    <!-- ETAPA 5 -->
-                    <div class="step hidden fade-in" id="step-5">
-                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b pb-3"><i class="ph-duotone ph-office-chair text-orange-500 text-3xl"></i> 5. Ambiente de Trabalho</h3>
-                        <div class="space-y-6">
-                            <div><label class="block text-sm font-semibold mb-3">Sente dores ou desconfortos relacionados ao trabalho? Onde?</label>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Não sinto dores"><div class="option-card p-3 border rounded-xl bg-gray-50"><span class="text-sm font-bold">Não sinto dores</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Coluna"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Coluna</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Ombros/Pescoço"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Ombros/Pescoço</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Punhos/Mãos"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Punhos/Mãos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pernas"><div class="option-card p-3 border rounded-xl"><span class="text-sm">Pernas</span></div></label>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Você tem histórico familiar de alguma doença (pai, mãe, irmãos, avós e tios)? *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Não possuo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-bold text-gray-700">Nenhum histórico</span></div></label>
+                                    
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Diabetes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Diabetes</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Pressão alta"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Pressão alta</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Problemas nos rins"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas nos rins</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Câncer"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Câncer</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Doença autoimune"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Doença autoimune</span></div></label>
+                                    
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Outras" onclick="document.getElementById('historico-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outras(Quais):</span><input type="text" id="historico-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm" placeholder="Especificar"></div></label>
                                 </div>
                             </div>
-                            <div><label class="block text-sm font-semibold mb-3">O seu posto de trabalho é ergonomicamente adequado?</label>
-                                <select id="ergonomia" class="w-full p-3 border rounded-xl bg-gray-50 focus:border-orange-500 outline-none">
-                                    <option value="" disabled selected>Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option><option value="Parcialmente">Parcialmente</option><option value="Não sei avaliar">Não sei avaliar</option>
-                                </select></div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Realizou alguma cirurgia nos últimos 06 meses? *</label>
+                                    <div class="flex gap-2 mb-2">
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="cirurgia_radio" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="cirurgia_radio" class="custom-radio hidden" value="Sim"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Sim</span></div></label>
+                                    </div>
+                                    <input type="text" id="cirurgia-qual" class="w-full p-2 border-b border-gray-300 outline-none text-sm hidden mt-2" placeholder="Qual cirurgia?">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Teve alguma internação hospitalar nos últimos 30 dias? *</label>
+                                    <div class="flex gap-2 mb-2">
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="internacao_radio" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="internacao_radio" class="custom-radio hidden" value="Sim"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Sim</span></div></label>
+                                    </div>
+                                    <input type="text" id="internacao-qual" class="w-full p-2 border-b border-gray-300 outline-none text-sm hidden mt-2" placeholder="Qual o motivo?">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Você já é acompanhado por algum médico? *</label>
+                                    <div class="flex gap-4">
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medico" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medico" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Sim</span></div></label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Utiliza alguma medicação de uso contínuo? *</label>
+                                    <div class="flex gap-4">
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Sim</span></div></label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="mt-8 flex justify-between gap-4 border-t pt-6">
-                        <button type="button" id="btn-prev" onclick="prevStep()" class="hidden w-1/3 bg-white border-2 py-3 px-4 rounded-xl flex items-center justify-center font-bold text-gray-700">Voltar</button>
-                        <button type="button" id="btn-next" onclick="nextStep()" class="w-full bg-orange-600 hover:bg-orange-700 transition text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center">Continuar</button>
+                    <!-- ETAPA 4: Estilo de Vida -->
+                    <div class="step hidden fade-in" id="step-4">
+                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
+                            <i class="ph-duotone ph-sneaker text-orange-500 text-3xl"></i> 4. Estilo de Vida
+                        </h3>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Faz atividade física regularmente? / Quantas vezes? *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="Não pratico"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Não pratico</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="1 ou 2 vezes na semana"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">1 ou 2 vezes na semana</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="3 ou 4 vezes na semana"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">3 ou 4 vezes na semana</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="5 ou mais vezes na semana"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">5 ou mais vezes na semana</span></div></label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Como você avalia sua alimentação? *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Muito saudável"><div class="option-card p-2 text-center border border-gray-200 rounded-xl"><i class="ph-fill ph-apple-logo text-green-500 text-2xl mb-1"></i><div class="text-xs font-medium">Muito saudável</div></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Moderadamente saudável"><div class="option-card p-2 text-center border border-gray-200 rounded-xl"><i class="ph-fill ph-hamburger text-yellow-500 text-2xl mb-1"></i><div class="text-xs font-medium">Moderada</div></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Pouco saudável"><div class="option-card p-2 text-center border border-gray-200 rounded-xl"><i class="ph-fill ph-pizza text-red-500 text-2xl mb-1"></i><div class="text-xs font-medium">Pouco saudável</div></div></label>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Consumo de água *</label>
+                                    <select id="agua" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-gray-50">
+                                        <option value="" disabled selected>Selecione...</option>
+                                        <option value="Menos de 1 litro/dia">Menos de 1 litro/dia</option>
+                                        <option value="1 a 2 litros/dia">1 a 2 litros/dia</option>
+                                        <option value="Mais de 2 litros/dia">Mais de 2 litros/dia</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Horas de sono *</label>
+                                    <select id="sono" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-gray-50">
+                                        <option value="" disabled selected>Selecione...</option>
+                                        <option value="Menos de 5 horas">Menos de 5 horas</option>
+                                        <option value="5 a 6 horas">5 a 6 horas</option>
+                                        <option value="7 a 8 horas">7 a 8 horas</option>
+                                        <option value="Mais de 8 horas">Mais de 8 horas</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Você fuma? *</label>
+                                    <select id="fumo" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-gray-50">
+                                        <option value="" disabled selected>Selecione...</option>
+                                        <option value="Não">Não</option>
+                                        <option value="Sim">Sim</option>
+                                        <option value="Ex-fumante">Ex-fumante</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Faz consumo de bebida alcoólica regularmente? *</label>
+                                    <select id="alcool" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-gray-50">
+                                        <option value="" disabled selected>Selecione...</option>
+                                        <option value="Não">Não</option>
+                                        <option value="Ocasionalmente">Ocasionalmente</option>
+                                        <option value="Frequentemente">Frequentemente</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ETAPA 5: Saúde Mental -->
+                    <div class="step hidden fade-in" id="step-5">
+                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
+                            <i class="ph-duotone ph-brain text-orange-500 text-3xl"></i> 5. Saúde Mental
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Com que frequência você se sente estressado no trabalho? *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Nunca"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Nunca</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Raramente"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Raramente</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Às vezes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Às vezes</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Frequentemente"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Frequentemente</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="estresse" class="custom-radio hidden" value="Sempre"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Sempre</span></div></label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Como você avalia seu equilíbrio entre trabalho e vida pessoal? *</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Muito bom"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Muito bom</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Bom"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Bom</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Regular"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Regular</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Ruim"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Ruim</span></div></label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Você sente que o trabalho impacta sua saúde mental? *</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Não</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Pouco"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Pouco</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Moderadamente"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Moderado</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Muito"><div class="option-card p-3 border border-gray-200 rounded-xl bg-red-50"><span class="text-sm font-medium text-red-700">Muito</span></div></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ETAPA 6: Ambiente de Trabalho -->
+                    <div class="step hidden fade-in" id="step-6">
+                        <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
+                            <i class="ph-duotone ph-office-chair text-orange-500 text-3xl"></i> 6. Ambiente de Trabalho
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Você sente dores ou desconfortos relacionados ao trabalho? Onde? *</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                    <label class="block cursor-pointer sm:col-span-3"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Não sinto dores"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-bold text-gray-700">Não sinto dores</span></div></label>
+                                    
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Coluna"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Coluna</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pescoço"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Pescoço</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Ombros"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Ombros</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Punhos/mãos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Punhos/mãos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pernas"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Pernas</span></div></label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Seu posto de trabalho é ergonomicamente adequado? *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Sim</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Parcialmente"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Parcialmente</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Não</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não sei avaliar"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Não sei avaliar</span></div></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controles -->
+                    <div class="mt-8 flex justify-between gap-4 border-t border-gray-100 pt-6">
+                        <button type="button" id="btn-prev" onclick="prevStep()" class="hidden w-1/3 bg-white border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2">
+                            <i class="ph-bold ph-arrow-left"></i> Voltar
+                        </button>
+                        <button type="button" id="btn-next" onclick="nextStep()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl transition duration-300 shadow-md hover:shadow-orange-500/40 flex items-center justify-center gap-2">
+                            Continuar <i class="ph-bold ph-arrow-right"></i>
+                        </button>
                     </div>
                 </form>
             </div>
 
-            <!-- ECRÃ DE SUCESSO -->
-            <div id="success-screen" class="hidden fade-in text-center py-10">
-                <div class="relative w-24 h-24 mx-auto mb-6">
-                    <div class="absolute inset-0 bg-orange-200 rounded-full animate-ping opacity-75"></div>
-                    <div class="relative w-24 h-24 bg-gradient-to-tr from-orange-500 to-orange-400 text-white rounded-full flex items-center justify-center shadow-lg"><i class="ph-bold ph-check text-5xl"></i></div>
+            <!-- TELA DE LOADING DA ANÁLISE -->
+            <div id="loading-screen" class="hidden fade-in text-center py-10">
+                <div class="relative w-24 h-24 mx-auto mb-6 flex justify-center items-center">
+                    <div class="loader-dots flex relative w-20 h-4">
+                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
+                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
+                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
+                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
+                    </div>
                 </div>
-                <h2 class="text-3xl font-bold mb-3 text-gray-900">Mapeamento Concluído!</h2>
-                <p class="text-gray-600 mb-8 text-lg">As suas respostas foram registadas com segurança.<br>Obrigado por contribuir para a saúde de todos! 💙</p>
-                <button onclick="location.reload()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-xl flex items-center mx-auto transition">Voltar ao Início</button>
+                <h2 class="text-2xl font-bold mb-3 text-gray-900">Analisando suas respostas...</h2>
+                <p class="text-gray-500 text-sm">Por favor aguarde, estamos processando as informações com segurança.</p>
             </div>
+
+            <!-- TELA SUCESSO -->
+            <div id="success-screen" class="hidden fade-in text-center py-10">
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 shadow-sm flex items-center justify-center gap-3">
+                    <i class="ph-fill ph-clipboard-text text-green-600 text-2xl"></i>
+                    <span class="text-green-800 font-medium">Suas respostas nos ajudam a cuidar melhor de você.</span>
+                </div>
+                
+                <div class="relative w-24 h-24 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-green-200 rounded-full animate-ping opacity-75"></div>
+                    <div class="relative w-24 h-24 bg-gradient-to-tr from-green-500 to-green-400 text-white rounded-full flex items-center justify-center shadow-lg">
+                        <i class="ph-bold ph-check text-5xl"></i>
+                    </div>
+                </div>
+                
+                <h2 class="text-3xl font-bold mb-3 text-gray-900">Perfil de Saúde Concluído</h2>
+                <p class="text-gray-600 mb-8 text-lg">Obrigado(a) por responder e nos ajudar a cuidar melhor de você!</p>
+                
+                <button onclick="location.reload()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-xl transition duration-200 flex items-center justify-center mx-auto gap-2">
+                    <i class="ph-bold ph-house"></i> Voltar ao Início
+                </button>
+            </div>
+
         </div>
     </main>
 
-    <footer class="mt-8 text-center w-full max-w-lg relative z-10 transition-opacity mb-4" id="footer-links">
-        <button onclick="openLoginModal()" class="text-orange-300 hover:text-orange-500 transition-colors flex mx-auto outline-none"><i class="ph-fill ph-lock-key text-xl"></i></button>
-    </footer>
-
-    <!-- MODAL DE LOGIN ADMIN -->
-    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 transform scale-95 transition-transform duration-300" id="login-card">
-            <h2 class="text-xl font-bold text-center text-slate-800 mb-4">Acesso Restrito</h2>
-            <input type="text" id="admin-user" class="w-full p-3 border rounded-xl mb-3 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="Utilizador RH">
-            <input type="password" id="admin-pass" class="w-full p-3 border rounded-xl mb-4 focus:ring-2 focus:ring-orange-500 outline-none" placeholder="Senha">
-            <button onclick="authenticateAdmin()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl mb-2 transition">Entrar no Painel</button>
-            <button onclick="closeLoginModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 rounded-xl transition">Cancelar</button>
-        </div>
-    </div>
-    
-    <!-- DASHBOARD RH (Oculto) -->
+    <!-- ÁREA RH - DASHBOARD ESTRATÉGICO -->
     <main id="admin-container" class="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500 mt-10">
         <header class="bg-slate-800 text-white p-6 flex justify-between items-center">
             <h1 class="text-2xl font-bold flex items-center gap-3">
@@ -295,6 +589,7 @@
         </header>
 
         <div class="p-6 md:p-8 bg-slate-50 min-h-[500px]">
+            
             <!-- KPIs Estratégicos -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex items-center gap-4 border-l-4 border-l-blue-500 fade-in" style="animation-delay: 0.1s">
@@ -333,7 +628,7 @@
                                 <th class="p-4">Colaborador</th>
                                 <th class="p-4">Perfil</th>
                                 <th class="p-4">Setor & Tempo</th>
-                                <th class="p-4">Stress Relatado</th>
+                                <th class="p-4">Estresse Relatado</th>
                                 <th class="p-4">Dores Físicas</th>
                                 <th class="p-4">Score (0-15)</th>
                                 <th class="p-4">Risco Geral</th>
@@ -351,249 +646,140 @@
         </div>
     </main>
 
+    <!-- MODAL DE LOGIN ADMIN -->
+    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-300" id="login-card">
+            <div class="bg-slate-800 p-6 text-center relative">
+                <div class="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="ph-fill ph-lock-key text-3xl text-orange-500"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white">Acesso Restrito</h2>
+                <p class="text-slate-400 text-sm mt-1">Área exclusiva para Liderança e RH</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Usuário</label>
+                    <div class="relative">
+                        <i class="ph-fill ph-user text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                        <input type="text" id="admin-user" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="Digite o usuário">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Senha</label>
+                    <div class="relative">
+                        <i class="ph-fill ph-password text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                        <input type="password" id="admin-pass" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="••••••••">
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button onclick="authenticateAdmin()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl transition duration-300 shadow-md">
+                        Entrar no Painel
+                    </button>
+                    <button onclick="closeLoginModal()" class="w-full bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold py-3 px-4 rounded-xl transition duration-300 mt-3">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center w-full max-w-lg relative z-10 transition-opacity mb-4" id="footer-links">
+        <button onclick="openLoginModal()" class="text-orange-300 hover:text-orange-500 transition-colors flex items-center justify-center mx-auto" title="Acesso Restrito" aria-label="Acesso Restrito Liderança">
+            <i class="ph-fill ph-lock-key text-xl"></i>
+        </button>
+    </footer>
+
+    <!-- JS -->
     <script>
-        const appState = { currentStep: 1, totalSteps: 5, database: [] };
+        // --- ARQUITETURA DE ESTADO ---
+        const appState = {
+            currentStep: 1,
+            totalSteps: 6,
+            database: []
+        };
 
-        // >>> LINK INTEGRADO DO GOOGLE APPS SCRIPT <<<
+        // --- LINK DO GOOGLE SHEETS ---
         const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby0untVRw1AOesO5V8lWKCxcHGla-9bydp4uuic3W5BkxqUCO3J7XoqVFHFClF45eRK/exec';
-
+        
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('main-app').classList.remove('hidden', 'opacity-0');
-            }, 1200);
+                const splash = document.getElementById('splash-screen');
+                const mainApp = document.getElementById('main-app');
+                splash.classList.add('splash-exit');
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    mainApp.classList.remove('hidden');
+                    setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
+                }, 800);
+            }, 2000);
 
-            // Logica para desmarcar checkboxes se "Não" for selecionado e vice-versa
-            document.querySelectorAll('input[name="doencas"], input[name="dores"]').forEach(el => {
+            // Logica para desmarcar checkboxes se "Não possuo" for selecionado
+            function setupExclusiveCheckbox(name, exclusiveValue) {
+                document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+                    el.addEventListener('change', (e) => {
+                        if (e.target.value.includes(exclusiveValue) && e.target.checked) {
+                            document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(i => {
+                                if (i !== e.target) i.checked = false;
+                            });
+                        } else if (e.target.checked) {
+                            const exclusiveCheckbox = document.querySelector(`input[name="${e.target.name}"][value^="${exclusiveValue}"]`);
+                            if (exclusiveCheckbox) exclusiveCheckbox.checked = false;
+                        }
+                    });
+                });
+            }
+
+            setupExclusiveCheckbox('doencas', 'Não possuo');
+            setupExclusiveCheckbox('historico', 'Não possuo');
+            setupExclusiveCheckbox('dores', 'Não sinto');
+
+            // Mostrar/Ocultar campos de texto específicos
+            document.querySelectorAll('input[name="cirurgia_radio"]').forEach(el => {
                 el.addEventListener('change', (e) => {
-                    if (e.target.value.includes("Não") && e.target.checked) {
-                        document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(i => { if (i !== e.target) i.checked = false; });
-                    } else if (e.target.checked) {
-                        const naoCheckbox = document.querySelector(`input[name="${e.target.name}"][value^="Não"]`);
-                        if (naoCheckbox) naoCheckbox.checked = false;
-                    }
+                    const input = document.getElementById('cirurgia-qual');
+                    if(e.target.value === 'Sim') { input.classList.remove('hidden'); input.focus(); } 
+                    else { input.classList.add('hidden'); input.value = ''; }
                 });
             });
 
-            // Vibração global nos radio buttons e checkboxes
+            document.querySelectorAll('input[name="internacao_radio"]').forEach(el => {
+                el.addEventListener('change', (e) => {
+                    const input = document.getElementById('internacao-qual');
+                    if(e.target.value === 'Sim') { input.classList.remove('hidden'); input.focus(); } 
+                    else { input.classList.add('hidden'); input.value = ''; }
+                });
+            });
+
+            // FEEDBACK TÁTIL E VISUAL NAS OPÇÕES
             document.querySelectorAll('.custom-radio, .custom-checkbox, select').forEach(input => {
                 input.addEventListener('change', (e) => {
-                    if (navigator.vibrate) {
-                        navigator.vibrate(30); // Vibração curta de feedback
+                    if (e.target.checked || e.target.type === 'checkbox' || e.target.tagName === 'SELECT') {
+                        if (navigator.vibrate) { navigator.vibrate(30); }
+                        
+                        const card = e.target.nextElementSibling;
+                        if (card && card.classList.contains('option-card')) {
+                            card.classList.remove('pop-selection');
+                            void card.offsetWidth; 
+                            card.classList.add('pop-selection');
+                        }
                     }
                 });
             });
         });
 
-        function failValidation(msg) {
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Alerta vibratório duplo
-            alert(msg); return false;
-        }
-
-        function validateStep(step) {
-            // Validação aprimorada da Etapa 1
-            if (step === 1) {
-                if (!document.getElementById('user-name').value.trim()) return failValidation("Por favor, preencha o seu nome.");
-                if (!document.getElementById('company-name').value.trim()) return failValidation("Por favor, preencha a sua empresa.");
-                if (!document.querySelector('input[name="idade"]:checked')) return failValidation("Selecione a sua faixa etária.");
-                if (!document.querySelector('input[name="sexo"]:checked')) return failValidation("Por favor, selecione como se identifica.");
-                
-                const setorValue = document.getElementById('setor-outro').value.trim();
-                if (!setorValue) return failValidation("Por favor, informe o seu setor de trabalho.");
-                if (!document.getElementById('tempo_empresa').value) return failValidation("Indique o seu tempo de empresa.");
-            }
-            return true;
-        }
-
-        function startSurvey() {
-            document.getElementById('intro-screen').classList.add('hidden');
-            document.getElementById('survey-screen').classList.remove('hidden');
-            updateUI();
-        }
-
-        function nextStep() {
-            if (!validateStep(appState.currentStep)) return;
-            if (appState.currentStep < appState.totalSteps) {
-                document.getElementById(`step-${appState.currentStep}`).classList.add('hidden');
-                appState.currentStep++;
-                document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
-                updateUI();
-            } else { submitSurvey(); }
-        }
-
-        function prevStep() {
-            if (appState.currentStep > 1) {
-                document.getElementById(`step-${appState.currentStep}`).classList.add('hidden');
-                appState.currentStep--;
-                document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
-                updateUI();
-            }
-        }
-
-        function updateUI() {
-            const percentage = (appState.currentStep / appState.totalSteps) * 100;
-            document.getElementById('progress-bar').style.width = `${percentage}%`;
-            document.getElementById('step-percentage').innerText = `${Math.round(percentage)}%`;
-            document.getElementById('step-counter').innerText = `Etapa ${appState.currentStep} de ${appState.totalSteps}`;
-            
-            const btnPrev = document.getElementById('btn-prev'); const btnNext = document.getElementById('btn-next');
-            if (appState.currentStep === 1) { btnPrev.classList.add('hidden'); btnNext.classList.remove('w-2/3'); btnNext.classList.add('w-full'); } 
-            else { btnPrev.classList.remove('hidden'); btnNext.classList.remove('w-full'); btnNext.classList.add('w-2/3'); }
-            
-            if (appState.currentStep === appState.totalSteps) {
-                btnNext.innerHTML = 'Concluir Mapeamento'; btnNext.classList.replace('bg-orange-600', 'bg-green-600'); btnNext.classList.replace('hover:bg-orange-700', 'hover:bg-green-700');
-            } else {
-                btnNext.innerHTML = 'Continuar'; btnNext.classList.replace('bg-green-600', 'bg-orange-600'); btnNext.classList.replace('hover:bg-green-700', 'hover:bg-orange-700');
-            }
-        }
-
-        function getFormData() {
-            const getRadioVal = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value || "-";
-            const getSelectVal = (id) => { const el = document.getElementById(id); return el ? el.value : "-"; };
-            const getCheckboxesArray = (name) => {
-                const arr = Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
-                return arr.length > 0 ? arr : ["-"];
-            };
-
-            let doencasArr = getCheckboxesArray("doencas");
-            if (doencasArr.includes("Outro")) {
-                const outroDoc = document.getElementById('doenca-outro').value.trim() || 'Não especificada';
-                doencasArr[doencasArr.indexOf("Outro")] = `Outro (${outroDoc})`;
-            }
-
-            return {
-                name: document.getElementById('user-name').value.trim() || "-",
-                company: document.getElementById('company-name').value.trim() || "-",
-                idade: getRadioVal("idade"), sexo: getRadioVal("sexo"),
-                setor: document.getElementById('setor-outro').value.trim() || "-",
-                tempo_empresa: getSelectVal("tempo_empresa"), saude: getRadioVal("saude"),
-                doencas: doencasArr, medicamentos: getRadioVal("medicamentos"),
-                exercicio: getSelectVal("exercicio"), alimentacao: getSelectVal("alimentacao"),
-                agua: getSelectVal("agua"), sono: getSelectVal("sono"), fumo: getSelectVal("fumo"),
-                alcool: getSelectVal("alcool"), estresse: getSelectVal("estresse"),
-                equilibrio: getSelectVal("equilibrio"), impacto: getSelectVal("impacto"),
-                dores: getCheckboxesArray("dores"), ergonomia: getSelectVal("ergonomia")
-            };
-        }
-
-        function submitSurvey() {
-            if (!validateStep(appState.currentStep)) return;
-            const btnNext = document.getElementById('btn-next');
-            const originalText = btnNext.innerHTML; 
-            btnNext.innerHTML = 'A enviar os dados... <i class="ph-bold ph-spinner animate-spin"></i>'; 
-            btnNext.disabled = true;
-
-            const dados = getFormData();
-            
-            // INTELIGÊNCIA: Calcula o score e guarda na memória local para o Dashboard
-            dados.score_risco = calcularScore(dados);
-            dados.classificacao = classificarRisco(dados.score_risco); 
-            appState.database.push(dados);
-
-            // Lógica de envio assíncrono para o Google Apps Script
-            fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8"
-                },
-                body: JSON.stringify(dados)
-            })
-            .then(() => {
-                document.getElementById('survey-screen').classList.add('hidden');
-                document.getElementById('success-screen').classList.remove('hidden');
-                
-                // ✨ VIBRAÇÃO COMEMORATIVA NO FINAL! ✨
-                if (navigator.vibrate) {
-                    // Vibra 300ms, pausa 100ms, vibra 300ms, pausa 100ms, vibra longo 800ms
-                    navigator.vibrate([300, 100, 300, 100, 800]); 
-                }
-
-                if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-            })
-            .catch((err) => {
-                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                alert("Ocorreu um problema de ligação. Por favor, tente submeter novamente.");
-                btnNext.innerHTML = originalText; btnNext.disabled = false;
-            });
-        }
-
-        // ==========================================
-        // SISTEMA DE LOGIN DE ADMINISTRAÇÃO SEGURO
-        // ==========================================
-
-        function openLoginModal() { 
-            const modal = document.getElementById('login-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                document.getElementById('login-card').classList.remove('scale-95');
-            }, 10);
-        }
-        
-        function closeLoginModal() { 
-            const modal = document.getElementById('login-modal');
-            modal.classList.add('opacity-0');
-            document.getElementById('login-card').classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.getElementById('admin-user').value = '';
-                document.getElementById('admin-pass').value = '';
-            }, 300);
-        }
-        
-        function authenticateAdmin() {
-            const user = document.getElementById('admin-user').value.trim();
-            const pass = document.getElementById('admin-pass').value.trim();
-
-            // CRedenciais Atualizadas (Maiúsculas, minúsculas e carateres especiais)
-            const USUARIO_CORRETO = "admin_rh";
-            const SENHA_CORRETA = "TotalSaude@2026#";
-
-            if (user === USUARIO_CORRETO && pass === SENHA_CORRETA) {
-                closeLoginModal(); 
-                document.getElementById('main-app').classList.add('hidden');
-                document.getElementById('footer-links').classList.add('hidden');
-                
-                const adminContainer = document.getElementById('admin-container');
-                adminContainer.classList.remove('hidden');
-                setTimeout(() => adminContainer.classList.remove('opacity-0'), 50);
-                document.body.classList.replace('bg-[#fff7ed]', 'bg-slate-200');
-                
-                renderAdminData(); // CARREGA AS ANIMAÇÕES E GRÁFICOS
-            } else { 
-                if (navigator.vibrate) navigator.vibrate([200, 50, 200]); // Alerta vibratório de erro
-                alert("Utilizador ou senha incorretos! Verifique as maiúsculas/minúsculas.");
-                
-                const card = document.getElementById('login-card');
-                card.classList.remove('shake-animation');
-                void card.offsetWidth; 
-                card.classList.add('shake-animation');
-            }
-        }
-        
-        function closeAdmin() { 
-            document.getElementById('admin-container').classList.add('hidden', 'opacity-0'); 
-            document.getElementById('main-app').classList.remove('hidden'); 
-            document.getElementById('footer-links').classList.remove('hidden');
-            document.body.classList.replace('bg-slate-200', 'bg-[#fff7ed]');
-        }
-        
         function calcularScore(dados) {
             let score = 0;
             if (dados.estresse === "Frequentemente" || dados.estresse === "Sempre") score += 4;
             else if (dados.estresse === "Às vezes") score += 2;
             
-            if (dados.sono === "-5h") score += 3;
-            else if (dados.sono === "6-8h") score += 1;
+            if (dados.sono === "Menos de 5 horas") score += 3;
+            else if (dados.sono === "5 a 6 horas") score += 1;
 
             if (dados.exercicio === "Não pratico") score += 2;
-            if (dados.alimentacao === "Ruim") score += 2;
+            if (dados.alimentacao === "Pouco saudável") score += 2;
             if (dados.fumo === "Sim") score += 2;
             
-            if (dados.dores && dados.dores.length > 0 && !dados.dores[0].includes("Não sinto")) {
-                score += 2;
-            }
+            if (dados.dores && dados.dores.length > 0 && !dados.dores[0].includes("Não")) { score += 2; }
             return score;
         }
 
@@ -602,11 +788,348 @@
             if (score <= 7) return "Médio";
             return "Alto";
         }
-        
-        function renderAdminData() {
+
+        function showError(message) {
+            if (navigator.vibrate) { navigator.vibrate([100, 50, 100]); }
+
+            let toast = document.getElementById('error-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'error-toast';
+                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-5 py-3 rounded-xl shadow-2xl z-50 flex items-center gap-3 font-semibold transition-all duration-300 translate-y-[-150%] opacity-0 w-11/12 max-w-md';
+                toast.innerHTML = `<i class="ph-bold ph-warning-circle text-2xl"></i> <span id="toast-msg" class="text-sm"></span>`;
+                document.body.appendChild(toast);
+            }
+
+            document.getElementById('toast-msg').innerText = message;
+            toast.classList.remove('translate-y-[-150%]', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            const formContainer = document.getElementById(`step-${appState.currentStep}`);
+            if(formContainer){
+                formContainer.classList.remove('shake-animation');
+                void formContainer.offsetWidth;
+                formContainer.classList.add('shake-animation');
+            }
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-[-150%]', 'opacity-0');
+            }, 3500);
+        }
+
+        function failValidation(msg) {
+            showError(msg);
+            return false;
+        }
+
+        // VALIDAÇÃO POR ETAPAS
+        function validateStep(step) {
+            if (step === 1) {
+                if (!document.getElementById('user-name').value.trim()) return failValidation("Qual é o seu nome completo?");
+                if (!document.getElementById('company-name').value.trim()) return failValidation("Qual o nome da empresa onde trabalha?");
+                if (!document.querySelector('input[name="idade"]:checked')) return failValidation("Por favor, selecione sua faixa etária.");
+                if (!document.querySelector('input[name="sexo"]:checked')) return failValidation("Por favor, selecione como se identifica.");
+                if (!document.querySelector('input[name="setor"]:checked')) return failValidation("Em qual setor você trabalha?");
+                
+                const setorRadio = document.querySelector('input[name="setor"]:checked');
+                if (setorRadio && setorRadio.value === "Outro" && !document.getElementById('setor-outro').value.trim()) {
+                    return failValidation("Por favor, especifique o seu setor no campo em branco.");
+                }
+
+                if (!document.querySelector('input[name="tempo_empresa"]:checked')) return failValidation("Quanto tempo de empresa você tem?");
+                
+            } else if (step === 2) {
+                if (!document.getElementById('peso').value) return failValidation("Por favor, informe seu peso.");
+                if (!document.getElementById('altura').value) return failValidation("Por favor, informe sua altura.");
+                if (!document.querySelector('input[name="saude"]:checked')) return failValidation("Como você avalia sua saúde hoje?");
+                if (document.querySelectorAll('input[name="doencas"]:checked').length === 0) return failValidation("Selecione alguma doença ou marque 'Não possuo'.");
+                
+                const doencasArr = Array.from(document.querySelectorAll('input[name="doencas"]:checked')).map(cb => cb.value);
+                if (doencasArr.includes("Outro") && !document.getElementById('doenca-outro').value.trim()) {
+                    return failValidation("Por favor, especifique qual a outra doença.");
+                }
+
+            } else if (step === 3) {
+                if (document.querySelectorAll('input[name="historico"]:checked').length === 0) return failValidation("Selecione o histórico familiar ou 'Não possuo'.");
+                
+                const histArr = Array.from(document.querySelectorAll('input[name="historico"]:checked')).map(cb => cb.value);
+                if (histArr.includes("Outras") && !document.getElementById('historico-outro').value.trim()) {
+                    return failValidation("Especifique qual o outro histórico familiar.");
+                }
+
+                if (!document.querySelector('input[name="cirurgia_radio"]:checked')) return failValidation("Responda se realizou cirurgia.");
+                if (document.querySelector('input[name="cirurgia_radio"]:checked').value === "Sim" && !document.getElementById('cirurgia-qual').value.trim()) {
+                    return failValidation("Informe qual cirurgia realizou.");
+                }
+
+                if (!document.querySelector('input[name="internacao_radio"]:checked')) return failValidation("Responda se teve internação.");
+                if (document.querySelector('input[name="internacao_radio"]:checked').value === "Sim" && !document.getElementById('internacao-qual').value.trim()) {
+                    return failValidation("Informe o motivo da internação.");
+                }
+
+                if (!document.querySelector('input[name="medico"]:checked')) return failValidation("Você é acompanhado por algum médico?");
+                if (!document.querySelector('input[name="medicamentos"]:checked')) return failValidation("Você faz uso contínuo de algum medicamento?");
+                
+            } else if (step === 4) {
+                if (!document.querySelector('input[name="exercicio"]:checked')) return failValidation("Qual a sua frequência de atividade física?");
+                if (!document.querySelector('input[name="alimentacao"]:checked')) return failValidation("Como você avalia sua alimentação?");
+                if (!document.getElementById('agua').value) return failValidation("Selecione seu consumo diário de água.");
+                if (!document.getElementById('sono').value) return failValidation("Quantas horas você dorme por noite, em média?");
+                if (!document.getElementById('fumo').value) return failValidation("Você fuma?");
+                if (!document.getElementById('alcool').value) return failValidation("Você consome bebida alcoólica?");
+                
+            } else if (step === 5) {
+                if (!document.querySelector('input[name="estresse"]:checked')) return failValidation("Com que frequência você se sente estressado?");
+                if (!document.querySelector('input[name="equilibrio"]:checked')) return failValidation("Como avalia o equilíbrio entre seu trabalho e vida pessoal?");
+                if (!document.querySelector('input[name="impacto"]:checked')) return failValidation("Sente que o trabalho impacta sua saúde mental?");
+                
+            } else if (step === 6) {
+                if (document.querySelectorAll('input[name="dores"]:checked').length === 0) return failValidation("Sente alguma dor? Marque as opções ou 'Não sinto dores'.");
+                if (!document.querySelector('input[name="ergonomia"]:checked')) return failValidation("O seu posto de trabalho é ergonomicamente adequado?");
+            }
+            return true;
+        }
+
+        function startSurvey() {
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('survey-screen').classList.remove('hidden');
+            updateUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        }
+
+        function nextStep() {
+            if (!validateStep(appState.currentStep)) return;
+
+            if (appState.currentStep < appState.totalSteps) {
+                document.getElementById(`step-${appState.currentStep}`).classList.add('hidden');
+                appState.currentStep++;
+                document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
+                updateUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            } else {
+                submitSurvey();
+            }
+        }
+
+        function prevStep() {
+            if (appState.currentStep > 1) {
+                document.getElementById(`step-${appState.currentStep}`).classList.add('hidden');
+                appState.currentStep--;
+                document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
+                updateUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            }
+        }
+
+        function updateUI() {
+            const percentage = ((appState.currentStep) / appState.totalSteps) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('step-percentage').innerHTML = `<i class="ph-fill ph-chart-line-up"></i> ${Math.round(percentage)}%`;
+            document.getElementById('step-counter').innerText = `Etapa ${appState.currentStep} de ${appState.totalSteps}`;
+
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+
+            if (appState.currentStep === 1) {
+                btnPrev.classList.add('hidden');
+                btnNext.classList.remove('w-2/3');
+                btnNext.classList.add('w-full');
+            } else {
+                btnPrev.classList.remove('hidden');
+                btnNext.classList.remove('w-full');
+                btnNext.classList.add('w-2/3');
+            }
+
+            if (appState.currentStep === appState.totalSteps) {
+                btnNext.innerHTML = 'Concluir Mapeamento <i class="ph-bold ph-paper-plane-tilt"></i>';
+                btnNext.classList.remove('bg-orange-600', 'hover:bg-orange-700');
+                btnNext.classList.add('bg-green-600', 'hover:bg-green-700');
+            } else {
+                btnNext.innerHTML = 'Continuar <i class="ph-bold ph-arrow-right"></i>';
+                btnNext.classList.remove('bg-green-600', 'hover:bg-green-700');
+                btnNext.classList.add('bg-orange-600', 'hover:bg-orange-700');
+            }
+        }
+
+        // --- COLETA ESTRUTURADA DOS NOVOS DADOS ---
+        function getFormData() {
+            const getRadioVal = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value;
+            const getSelectVal = (id) => document.getElementById(id).value;
+            
+            const getCheckboxesArray = (name) => {
+                return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
+            };
+
+            let setor = getRadioVal("setor");
+            if (setor === "Outro") { setor = document.getElementById('setor-outro').value.trim() || 'Outro'; }
+
+            let doencasArr = getCheckboxesArray("doencas");
+            if (doencasArr.includes("Outro")) {
+                doencasArr[doencasArr.indexOf("Outro")] = `Outro (${document.getElementById('doenca-outro').value.trim()})`;
+            }
+
+            let histArr = getCheckboxesArray("historico");
+            if (histArr.includes("Outras")) {
+                histArr[histArr.indexOf("Outras")] = `Outras (${document.getElementById('historico-outro').value.trim()})`;
+            }
+
+            let cirurgia = getRadioVal("cirurgia_radio");
+            if (cirurgia === "Sim") cirurgia = "Sim - " + document.getElementById("cirurgia-qual").value.trim();
+
+            let internacao = getRadioVal("internacao_radio");
+            if (internacao === "Sim") internacao = "Sim - " + document.getElementById("internacao-qual").value.trim();
+
+            return {
+                name: document.getElementById('user-name').value.trim(),
+                company: document.getElementById('company-name').value.trim(),
+                idade: getRadioVal("idade"),
+                sexo: getRadioVal("sexo"),
+                setor: setor,
+                tempo_empresa: getRadioVal("tempo_empresa"),
+                
+                peso: document.getElementById("peso").value.trim(),
+                altura: document.getElementById("altura").value.trim(),
+                saude: getRadioVal("saude"),
+                doencas: doencasArr,
+                
+                historico_familiar: histArr,
+                cirurgia: cirurgia,
+                internacao: internacao,
+                acompanhamento_medico: getRadioVal("medico"),
+                medicamentos: getRadioVal("medicamentos"),
+                
+                exercicio: getRadioVal("exercicio"),
+                alimentacao: getRadioVal("alimentacao"),
+                agua: getSelectVal("agua"),
+                sono: getSelectVal("sono"),
+                fumo: getSelectVal("fumo"),
+                alcool: getSelectVal("alcool"),
+                
+                estresse: getRadioVal("estresse"),
+                equilibrio: getRadioVal("equilibrio"),
+                impacto: getRadioVal("impacto"),
+                
+                dores: getCheckboxesArray("dores"),
+                ergonomia: getRadioVal("ergonomia")
+            };
+        }
+
+        async function submitSurvey() {
+            if (!validateStep(appState.currentStep)) return;
+
+            document.getElementById('survey-screen').classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const dados = getFormData();
+            
+            dados.score_risco = calcularScore(dados);
+            dados.classificacao = classificarRisco(dados.score_risco); 
+            appState.database.push(dados);
+
+            if (GOOGLE_SHEETS_WEBHOOK_URL && !GOOGLE_SHEETS_WEBHOOK_URL.includes('COLE_AQUI')) {
+                fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify(dados)
+                })
+                .then(() => {
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').classList.add('hidden');
+                        document.getElementById('success-screen').classList.remove('hidden');
+
+                        // ✨ VIBRAÇÃO COMEMORATIVA ✨
+                        if (navigator.vibrate) {
+                            navigator.vibrate([300, 100, 300, 100, 800]); 
+                        }
+
+                        if (typeof confetti === 'function') {
+                            const duration = 3000;
+                            const end = Date.now() + duration;
+
+                            (function frame() {
+                                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#22c55e', '#16a34a', '#ffffff'] });
+                                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#22c55e', '#16a34a', '#ffffff'] });
+                                if (Date.now() < end) requestAnimationFrame(frame);
+                            }());
+                        }
+                    }, 2000); // Simulando o tempo de processamento
+                })
+                .catch((e) => {
+                    document.getElementById('loading-screen').classList.add('hidden');
+                    document.getElementById('survey-screen').classList.remove('hidden');
+                    showError("Ocorreu um erro de conexão. Tente novamente.");
+                });
+            }
+        }
+
+        function openLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                document.getElementById('login-card').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('login-card').classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('admin-user').value = '';
+                document.getElementById('admin-pass').value = '';
+            }, 300);
+        }
+
+        function authenticateAdmin() {
+            const user = document.getElementById('admin-user').value.trim();
+            const pass = document.getElementById('admin-pass').value.trim();
+
+            const USUARIO_CORRETO = "admin_rh";
+            const SENHA_CORRETA = "TotalSaude@2026#";
+
+            if (user === USUARIO_CORRETO && pass === SENHA_CORRETA) {
+                closeLoginModal();
+                
+                document.getElementById('main-app').classList.add('hidden');
+                document.getElementById('footer-links').classList.add('hidden');
+                
+                const adminContainer = document.getElementById('admin-container');
+                adminContainer.classList.remove('hidden');
+                setTimeout(() => adminContainer.classList.remove('opacity-0'), 50);
+                document.body.classList.replace('bg-[#fff7ed]', 'bg-slate-200');
+
+                renderAdminData();
+            } else {
+                showError("Usuário ou senha incorretos! Verifique maiúsculas e minúsculas.");
+                const card = document.getElementById('login-card');
+                card.classList.remove('shake-animation');
+                void card.offsetWidth; 
+                card.classList.add('shake-animation');
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('admin-container').classList.add('hidden', 'opacity-0');
+            document.getElementById('main-app').classList.remove('hidden');
+            document.getElementById('footer-links').classList.remove('hidden');
+            document.body.classList.replace('bg-slate-200', 'bg-[#fff7ed]');
+        }
+
+        async function renderAdminData() {
             const tbody = document.getElementById('admin-table-body');
             const emptyState = document.getElementById('empty-state');
             
+            tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-500"><i class="ph-bold ph-spinner animate-spin text-2xl mb-2"></i><br>Buscando inteligência...</td></tr>';
+            emptyState.style.display = 'none';
+
             let db = [...appState.database].reverse();
 
             const total = db.length;
@@ -634,14 +1157,14 @@
                 scorePorSetor[setorAtual].count++;
 
                 let riscoBadge = `<span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-bold uppercase">${item.classificacao || 'N/A'}</span>`;
-                if(item.classificacao === 'Baixo') riscoBadge = `<span class="px-2 py-1 bg-green-100 text-green-700 border border-green-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-check-circle"></i> Baixo</span>`;
-                if(item.classificacao === 'Médio') riscoBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning"></i> Médio</span>`;
-                if(item.classificacao === 'Alto') riscoBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 border border-red-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning-octagon animate-pulse"></i> Alto</span>`;
+                if(item.classificacao === 'Baixo') riscoBadge = `<span class="px-2 py-1 bg-green-100 text-green-700 border border-green-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-check-circle"></i> Risco Baixo</span>`;
+                if(item.classificacao === 'Médio') riscoBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning"></i> Risco Médio</span>`;
+                if(item.classificacao === 'Alto') riscoBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 border border-red-200 rounded text-xs font-bold uppercase"><i class="ph-fill ph-warning-octagon animate-pulse"></i> Risco Alto</span>`;
 
                 const perfil = `${item.idade || '-'} • ${item.sexo ? item.sexo.charAt(0) : '-'}`;
                 const tempo = item.tempo_empresa || '-';
                 
-                let temDor = `<span class="text-green-600 font-medium"><i class="ph-bold ph-check"></i> Não</span>`;
+                let temDor = `<span class="text-green-600 font-medium"><i class="ph-bold ph-check"></i> Nenhuma</span>`;
                 if (item.dores && item.dores.length > 0 && !item.dores[0].includes("Não sinto")) {
                     temDor = `<span class="text-red-500 font-bold"><i class="ph-bold ph-warning"></i> Sim</span>`;
                 }
