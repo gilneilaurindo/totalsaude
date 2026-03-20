@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Total Saúde - Inteligência Corporativa</title>
+    <!-- Favicon (Ícone da Aba) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧡</text></svg>">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -62,6 +64,14 @@
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
         .shake-animation { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+
+        /* Animação de seleção de opção (Pop) */
+        @keyframes popSelection {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        .pop-selection { animation: popSelection 0.2s ease-out; }
     </style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col items-center justify-center p-4">
@@ -140,16 +150,20 @@
                         </h3>
                         
                         <div class="space-y-6">
-                            <div class="relative">
+                            <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Digite seu nome completo</label>
-                                <i class="ph ph-user text-gray-400 text-lg absolute left-3 top-[38px]"></i>
-                                <input type="text" id="user-name" placeholder="Seu nome" class="w-full input-with-icon p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                <div class="relative">
+                                    <i class="ph ph-user text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="user-name" placeholder="Seu nome" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                </div>
                             </div>
 
-                            <div class="relative">
+                            <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Nome da empresa</label>
-                                <i class="ph ph-buildings text-gray-400 text-lg absolute left-3 top-[38px]"></i>
-                                <input type="text" id="company-name" placeholder="Nome da empresa onde trabalha" class="w-full input-with-icon p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                <div class="relative">
+                                    <i class="ph ph-buildings text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="company-name" placeholder="Nome da empresa onde trabalha" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                </div>
                             </div>
 
                             <div>
@@ -504,7 +518,7 @@
             console.warn("Supabase não configurado. Usando banco em memória (modo local).");
         }
 
-        // --- RESOLUÇÃO DE CONFLITOS DOS CHECKBOXES ---
+        // --- RESOLUÇÃO DE CONFLITOS E FEEDBACK VISUAL ---
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
@@ -541,6 +555,26 @@
                     } else if (e.target.checked) {
                         const naoCheckbox = document.querySelector('input[name="dores"][value="Não sinto dores"]');
                         if (naoCheckbox) naoCheckbox.checked = false;
+                    }
+                });
+            });
+
+            // --- FEEDBACK TÁTIL E VISUAL NAS OPÇÕES ---
+            document.querySelectorAll('.custom-radio, .custom-checkbox').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    if (e.target.checked || e.target.type === 'checkbox') {
+                        // Vibração sutil
+                        if (navigator.vibrate) {
+                            navigator.vibrate(50); // 50ms = vibração leve e rápida
+                        }
+                        
+                        // Animação "pop" no card adjacente
+                        const card = e.target.nextElementSibling;
+                        if (card && card.classList.contains('option-card')) {
+                            card.classList.remove('pop-selection');
+                            void card.offsetWidth; // Trigger reflow para reiniciar a animação
+                            card.classList.add('pop-selection');
+                        }
                     }
                 });
             });
@@ -668,6 +702,7 @@
             document.getElementById('intro-screen').classList.add('hidden');
             document.getElementById('survey-screen').classList.remove('hidden');
             updateUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Volta pro topo
         }
 
         function nextStep() {
@@ -678,6 +713,7 @@
                 appState.currentStep++;
                 document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
                 updateUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Volta pro topo
             } else {
                 submitSurvey();
             }
@@ -689,6 +725,7 @@
                 appState.currentStep--;
                 document.getElementById(`step-${appState.currentStep}`).classList.remove('hidden');
                 updateUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Volta pro topo
             }
         }
 
