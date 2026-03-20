@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Metatags Básicas -->
     <title>Total Saúde - Inteligência Corporativa</title>
+    <meta name="description" content="Participe do nosso mapeamento confidencial de saúde e nos ajude a construir um ambiente de trabalho com mais qualidade de vida.">
+    
+    <!-- Metatags para Redes Sociais (Open Graph / WhatsApp / LinkedIn / Facebook) -->
+    <meta property="og:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
+    <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões para melhorar nosso ambiente de trabalho.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:url" content="https://seusite.com.br">
+    <meta property="og:type" content="website">
+
+    <!-- Metatags para Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
+    <meta name="twitter:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões para melhorar nosso ambiente de trabalho.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80">
+
     <!-- Favicon (Ícone da Aba) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧡</text></svg>">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -512,7 +530,7 @@
         // --- CONFIGURAÇÃO SUPABASE E GOOGLE SHEETS ---
         const SUPABASE_URL = 'COLE_AQUI_SUA_URL';
         const SUPABASE_ANON_KEY = 'COLE_AQUI_SUA_CHAVE_ANON';
-        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwmbZfmACdoiONJ061LeUTZRYvOPBvRQkA97yl82lsE2vdtGgIazNVxiPK7i2R-tvr0/exec';
+        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwy15DxOyGzG1NPuyH8vMJjStXKnLdbnlg7SX9ZCR6MoiA_rU4n0gWvC8aGPI2tDiQg/exec';
         
         if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('COLE_AQUI')) {
             appState.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -826,14 +844,13 @@
 
             // INTEGRAÇÃO RH: Disparo paralelo para o Google Sheets (Fire and forget)
             if (GOOGLE_SHEETS_WEBHOOK_URL && !GOOGLE_SHEETS_WEBHOOK_URL.includes('COLE_AQUI')) {
+                // Envio simplificado para evitar bloqueios do Google
                 fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
                     method: "POST",
-                    mode: "no-cors", // Crucial: Evita o bloqueio de CORS padrão do Google Apps Script
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8" // Usado text/plain para contornar preflight CORS
-                    },
                     body: JSON.stringify(dados)
-                }).catch(() => console.log("Aviso: O Google Sheets pode estar offline, mas o fluxo continua."));
+                })
+                .then(() => console.log("Google Sheets notificado!"))
+                .catch((e) => console.log("Aviso: O Google Sheets pode estar offline.", e));
             }
 
             if (appState.supabase) {
