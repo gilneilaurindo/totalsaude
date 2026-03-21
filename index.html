@@ -15,13 +15,13 @@
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
-    <!-- Favicon Personalizado baseado na imagem (Coração Laranja c/ Eletro) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 h70 a30 30 0 0 1 30 30 v70 h-100 z' fill='%23f97316'/%3E%3Cpath d='M50 80 C 50 80, 15 50, 15 30 A 15 15 0 0 1 50 20 A 15 15 0 0 1 85 30 C 85 50, 50 80, 50 80 Z' fill='%23fdba74' opacity='0.8'/%3E%3Cpolyline points='20,50 40,50 50,30 60,65 70,50 80,50' fill='none' stroke='%23f97316' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <!-- Favicon Personalizado baseado na nova imagem (Fundo Laranja, Coração Branco, Linha Laranja) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ea580c'/%3E%3Cpath d='M50 85 C 50 85, 10 55, 10 30 A 20 20 0 0 1 50 20 A 20 20 0 0 1 90 30 C 90 55, 50 85, 50 85 Z' fill='white'/%3E%3Cpolyline points='15,50 35,50 45,30 55,75 65,50 85,50' fill='none' stroke='%23ea580c' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <!-- Canvas Confetti -->
@@ -36,12 +36,18 @@
             -webkit-user-select: none;
         }
         
-        /* Permite seleção apenas nos inputs */
-        input, select { user-select: auto; -webkit-user-select: auto; }
+        /* Permite seleção apenas nos inputs e áreas permitidas */
+        input, select, .selectable-text { user-select: auto; -webkit-user-select: auto; }
 
         .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -95,32 +101,43 @@
         @keyframes loader-dots2 { 0% { transform: translate(0, 0); } 100% { transform: translate(24px, 0); } }
 
         /* Estilo para scrollbar no modal e divs de filtro */
-        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        .bar-grow { animation: barGrow 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .bar-grow { animation: barGrow 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes barGrow { from { width: 0; } }
 
-        /* Estilos para o badge das empresas */
+        /* Estilos para o badge das empresas no Admin */
         .company-badge {
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .company-badge:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transform: translateY(-2px);
+            border-color: #ea580c;
+            box-shadow: 0 10px 15px -3px rgba(234, 88, 12, 0.1), 0 4px 6px -2px rgba(234, 88, 12, 0.05);
+            transform: translateY(-4px);
         }
         
-        .insight-pulse { animation: insightPulse 2s infinite; }
+        .insight-pulse { animation: insightPulse 2.5s infinite; }
         @keyframes insightPulse {
             0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(234, 88, 12, 0); }
+            70% { box-shadow: 0 0 0 15px rgba(234, 88, 12, 0); }
             100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+        }
+
+        /* Timeline vertical */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e2e8f0;
+            z-index: 0;
         }
     </style>
 </head>
@@ -141,7 +158,7 @@
     </div>
 
     <!-- CONTAINER PRINCIPAL (FORMULÁRIO) -->
-    <main id="main-app" class="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500">
+    <main id="main-app" class="w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500">
         
         <header class="bg-gradient-to-r from-orange-600 to-orange-500 text-white p-6 text-center relative overflow-hidden">
             <div class="absolute -right-4 -top-4 opacity-20">
@@ -162,7 +179,7 @@
                 </div>
                 <h2 class="text-2xl font-bold mb-4 text-gray-900">Perfil de Saúde Organizacional</h2>
                 
-                <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded text-left mb-6 shadow-sm">
+                <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-xl text-left mb-6 shadow-sm">
                     <p class="text-sm text-orange-800 font-medium flex items-start gap-2">
                         <i class="ph-fill ph-lock-key text-xl flex-shrink-0 mt-0.5"></i>
                         <span>Suas respostas são <strong>confidenciais</strong> e ajudam a liderança a tomar decisões orientadas a dados para melhorar o bem-estar e a infraestrutura do seu setor.</span>
@@ -170,7 +187,7 @@
                 </div>
                 
                 <p class="text-gray-500 mb-8 text-sm flex items-center justify-center gap-2">
-                    <i class="ph ph-clock text-lg"></i> Tempo estimado: 5 minutos
+                    <i class="ph-bold ph-clock text-lg"></i> Tempo estimado: 5 minutos
                 </p>
                 
                 <button onclick="startSurvey()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-xl transition duration-300 shadow-lg hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-lg">
@@ -183,8 +200,8 @@
                 
                 <div class="mb-8">
                     <div class="flex justify-between text-xs text-gray-500 mb-2 font-medium">
-                        <span id="step-counter" class="bg-orange-100 text-orange-700 px-3 py-1 rounded-md">Etapa 1 de 6</span>
-                        <span id="step-percentage" class="flex items-center gap-1"><i class="ph-fill ph-chart-line-up"></i> 16%</span>
+                        <span id="step-counter" class="bg-orange-100 text-orange-700 px-3 py-1 rounded-md font-bold">Etapa 1 de 6</span>
+                        <span id="step-percentage" class="flex items-center gap-1 font-bold text-orange-600"><i class="ph-fill ph-chart-line-up"></i> 16%</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-3 shadow-inner overflow-hidden">
                         <div id="progress-bar" class="bg-gradient-to-r from-orange-400 to-orange-600 h-full rounded-full transition-all duration-500 ease-out" style="width: 16%"></div>
@@ -203,66 +220,66 @@
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Digite seu nome completo *</label>
                                 <div class="relative">
-                                    <i class="ph ph-user text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                                    <input type="text" id="user-name" placeholder="Seu nome" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                    <i class="ph-bold ph-user text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="user-name" placeholder="Seu nome" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white font-medium">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">CPF (Apenas números) *</label>
                                 <div class="relative">
-                                    <i class="ph ph-identification-badge text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                                    <input type="text" id="user-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                    <i class="ph-bold ph-identification-badge text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="user-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white font-medium">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Nome da empresa/unidade *</label>
                                 <div class="relative">
-                                    <i class="ph ph-buildings text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                                    <input type="text" id="company-name" placeholder="Empresa ou Unidade em que trabalha" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                    <i class="ph-bold ph-buildings text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="company-name" placeholder="Ex: Matriz, Filial Norte, Empresa X..." class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white font-medium">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Faixa etária *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="Até 25 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">Até 25 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="26 a 35 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">26 a 35 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="36 a 45 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">36 a 45 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="46 a 55 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">46 a 55 anos</span></div></label>
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="idade" class="custom-radio hidden" value="Acima de 55 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">Acima de 55 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="Até 25 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">Até 25 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="26 a 35 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">26 a 35 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="36 a 45 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">36 a 45 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="idade" class="custom-radio hidden" value="46 a 55 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">46 a 55 anos</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="idade" class="custom-radio hidden" value="Acima de 55 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full transition-colors"></div></div><span class="text-sm font-medium text-gray-700">Acima de 55 anos</span></div></label>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Sexo / Gênero *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Feminino"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Feminino</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Masculino"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Masculino</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Outro"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Outro</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Prefiro não informar"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Prefiro não informar</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Feminino"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Feminino</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Masculino"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Masculino</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Outro"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Outro</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="sexo" class="custom-radio hidden" value="Prefiro não informar"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Prefiro não informar</span></div></label>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Área ou setor da empresa *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Administrativo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Administrativo</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Operacional"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Operacional</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Comercial"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Comercial</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Gestão"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Gestão</span></div></label>
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="setor" class="custom-radio hidden" value="Outro" onclick="document.getElementById('setor-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700 whitespace-nowrap mr-2">Outro:</span><input type="text" id="setor-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm" placeholder="Especifique"></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Administrativo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Administrativo</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Operacional"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Operacional</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Comercial"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Comercial</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="setor" class="custom-radio hidden" value="Gestão"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Gestão</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="setor" class="custom-radio hidden" value="Outro" onclick="document.getElementById('setor-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700 whitespace-nowrap mr-2">Outro:</span><input type="text" id="setor-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm font-medium" placeholder="Especifique"></div></label>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Tempo de empresa *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="Menos de 1 ano"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Menos de 1 ano</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="1 a 3 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">1 a 3 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="4 a 6 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">4 a 6 anos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="Mais de 6 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Mais de 6 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="Menos de 1 ano"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Menos de 1 ano</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="1 a 3 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">1 a 3 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="4 a 6 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">4 a 6 anos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="tempo_empresa" class="custom-radio hidden" value="Mais de 6 anos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Mais de 6 anos</span></div></label>
                                 </div>
                             </div>
                         </div>
@@ -271,7 +288,7 @@
                     <!-- ETAPA 2: Biometria e Condições -->
                     <div class="step hidden fade-in" id="step-2">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
-                            <i class="ph-duotone ph-stethoscope text-orange-500 text-3xl"></i> 2. Biometria e Saúde Geral
+                            <i class="ph-duotone ph-stethoscope text-orange-500 text-3xl"></i> 2. Biometria e Saúde
                         </h3>
                         
                         <div class="space-y-6">
@@ -279,15 +296,15 @@
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-2">Qual o seu peso? (kg) *</label>
                                     <div class="relative">
-                                        <i class="ph ph-scales text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                                        <input type="number" id="peso" placeholder="Ex: 85" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                        <i class="ph-bold ph-scales text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                        <input type="number" id="peso" placeholder="Ex: 85" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition bg-gray-50 focus:bg-white font-medium">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-2">Qual a sua altura? (m) *</label>
                                     <div class="relative">
-                                        <i class="ph ph-ruler text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                                        <input type="number" step="0.01" id="altura" placeholder="Ex: 1.71" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                        <i class="ph-bold ph-ruler text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                        <input type="number" step="0.01" id="altura" placeholder="Ex: 1.71" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition bg-gray-50 focus:bg-white font-medium">
                                     </div>
                                 </div>
                             </div>
@@ -295,24 +312,24 @@
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-3">Como você avalia sua saúde atualmente? *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Excelente"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley text-green-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Excelente</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Boa"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-meh text-blue-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Boa</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Regular"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-sad text-yellow-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Regular</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Ruim"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-x-eyes text-red-500 text-xl mr-2"></i><span class="text-sm font-medium text-gray-700">Ruim</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Excelente"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley text-green-500 text-2xl mr-2"></i><span class="text-sm font-bold text-gray-700">Excelente</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Boa"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-meh text-blue-500 text-2xl mr-2"></i><span class="text-sm font-bold text-gray-700">Boa</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Regular"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-sad text-yellow-500 text-2xl mr-2"></i><span class="text-sm font-bold text-gray-700">Regular</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="saude" class="custom-radio hidden" value="Ruim"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><i class="ph-fill ph-smiley-x-eyes text-red-500 text-2xl mr-2"></i><span class="text-sm font-bold text-gray-700">Ruim</span></div></label>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-3">Você tem algum problema de saúde ou doença crônica? *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Não possuo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-bold text-gray-700">Não possuo nenhum</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Pressão Alta"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Pressão Alta</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Diabetes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Diabetes</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Obesidade"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Obesidade</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Colesterol Alto"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Colesterol Alto</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Problemas respiratórios"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Respitatórios</span></div></label>
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Outro" onclick="document.getElementById('doenca-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outra:</span><input type="text" id="doenca-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm" placeholder="Qual?"></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Não possuo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-green-50 shadow-sm"><div class="w-5 h-5 rounded border-2 border-green-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon text-green-600"></i></div><span class="text-sm font-black text-green-800">Não possuo nenhum</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Pressão Alta"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Pressão Alta</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Diabetes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Diabetes</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Obesidade"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Obesidade</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Colesterol Alto"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Colesterol Alto</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Problemas respiratórios"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Respitatórios</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="doencas" class="custom-checkbox hidden" value="Outro" onclick="document.getElementById('doenca-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outra:</span><input type="text" id="doenca-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm font-bold text-orange-600" placeholder="Especifique qual"></div></label>
                                 </div>
                             </div>
                         </div>
@@ -321,17 +338,17 @@
                     <!-- ETAPA 3: Histórico e Cuidados Médicos -->
                     <div class="step hidden fade-in" id="step-3">
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
-                            <i class="ph-duotone ph-heartbeat text-orange-500 text-3xl"></i> 3. Histórico e Cuidados Médicos
+                            <i class="ph-duotone ph-first-aid text-orange-500 text-3xl"></i> 3. Histórico e Cuidados
                         </h3>
                         <div class="space-y-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-3">Você tem histórico familiar de alguma doença? *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Não possuo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-bold text-gray-700">Nenhum histórico</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Diabetes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Diabetes</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Pressão alta"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Pressão alta</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-radio hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Outras" onclick="document.getElementById('historico-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outras:</span><input type="text" id="historico-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm" placeholder="Especificar"></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Não possuo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-green-50 shadow-sm"><div class="w-5 h-5 rounded border-2 border-green-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon text-green-600"></i></div><span class="text-sm font-black text-green-800">Nenhum histórico</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Diabetes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Diabetes</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Pressão alta"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Pressão alta</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-radio hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Outras" onclick="document.getElementById('historico-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outras:</span><input type="text" id="historico-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm font-bold text-orange-600" placeholder="Especifique"></div></label>
                                 </div>
                             </div>
 
@@ -339,35 +356,35 @@
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-2">Realizou cirurgia nos últimos 06 meses? *</label>
                                     <div class="flex gap-2 mb-2">
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="cirurgia_radio" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Não</span></div></label>
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="cirurgia_radio" class="custom-radio hidden" value="Sim"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Sim</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="cirurgia_radio" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl text-center shadow-sm"><span class="text-sm font-bold">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="cirurgia_radio" class="custom-radio hidden" value="Sim"><div class="option-card p-3 border border-gray-200 rounded-xl text-center shadow-sm bg-orange-50"><span class="text-sm font-bold text-orange-700">Sim</span></div></label>
                                     </div>
-                                    <input type="text" id="cirurgia-qual" class="w-full p-2 border-b border-gray-300 outline-none text-sm hidden mt-2" placeholder="Qual cirurgia?">
+                                    <input type="text" id="cirurgia-qual" class="w-full p-2 border-b-2 border-orange-300 outline-none text-sm hidden mt-2 bg-orange-50 font-medium" placeholder="Qual cirurgia?">
                                 </div>
                                 
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-2">Internação nos últimos 30 dias? *</label>
                                     <div class="flex gap-2 mb-2">
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="internacao_radio" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Não</span></div></label>
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="internacao_radio" class="custom-radio hidden" value="Sim"><div class="option-card p-3 border border-gray-200 rounded-xl text-center"><span class="text-sm">Sim</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="internacao_radio" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl text-center shadow-sm"><span class="text-sm font-bold">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="internacao_radio" class="custom-radio hidden" value="Sim"><div class="option-card p-3 border border-gray-200 rounded-xl text-center shadow-sm bg-orange-50"><span class="text-sm font-bold text-orange-700">Sim</span></div></label>
                                     </div>
-                                    <input type="text" id="internacao-qual" class="w-full p-2 border-b border-gray-300 outline-none text-sm hidden mt-2" placeholder="Qual o motivo?">
+                                    <input type="text" id="internacao-qual" class="w-full p-2 border-b-2 border-orange-300 outline-none text-sm hidden mt-2 bg-orange-50 font-medium" placeholder="Qual o motivo?">
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 bg-slate-50 p-4 rounded-xl border border-slate-200">
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-3">Já é acompanhado por algum médico? *</label>
                                     <div class="flex gap-4">
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medico" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Não</span></div></label>
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medico" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Sim</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medico" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medico" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Sim</span></div></label>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-3">Usa medicação de uso contínuo? *</label>
                                     <div class="flex gap-4">
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Não</span></div></label>
-                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Sim</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Não</span></div></label>
+                                        <label class="block cursor-pointer flex-1"><input type="radio" name="medicamentos" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-2 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div><span class="text-sm font-medium text-gray-700">Sim</span></div></label>
                                     </div>
                                 </div>
                             </div>
@@ -379,43 +396,61 @@
                         <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                             <i class="ph-duotone ph-sneaker text-orange-500 text-3xl"></i> 4. Estilo de Vida
                         </h3>
-                        <div class="space-y-5">
+                        <div class="space-y-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Faz atividade física? / Frequência? *</label>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="Não pratico"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Não pratico</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="1 ou 2 vezes na semana"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">1 ou 2 vezes na semana</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="3 ou mais vezes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">3 ou mais vezes na semana</span></div></label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="Não pratico"><div class="option-card flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-armchair text-3xl text-red-400 mb-2"></i><span class="text-sm font-bold text-gray-700">Não pratico</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="1 ou 2 vezes na semana"><div class="option-card flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-person-simple-walk text-3xl text-yellow-500 mb-2"></i><span class="text-sm font-bold text-gray-700">1 a 2x/sem</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="exercicio" class="custom-radio hidden" value="3 ou mais vezes"><div class="option-card flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-person-simple-run text-3xl text-green-500 mb-2"></i><span class="text-sm font-bold text-gray-700">3 ou mais/sem</span></div></label>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Avaliação da alimentação *</label>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Muito saudável"><div class="option-card p-2 text-center border border-gray-200 rounded-xl"><i class="ph-fill ph-apple-logo text-green-500 text-2xl mb-1"></i><div class="text-xs font-medium">Saudável</div></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Moderadamente saudável"><div class="option-card p-2 text-center border border-gray-200 rounded-xl"><i class="ph-fill ph-hamburger text-yellow-500 text-2xl mb-1"></i><div class="text-xs font-medium">Moderada</div></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Pouco saudável"><div class="option-card p-2 text-center border border-gray-200 rounded-xl"><i class="ph-fill ph-pizza text-red-500 text-2xl mb-1"></i><div class="text-xs font-medium">Pouco saudável</div></div></label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Muito saudável"><div class="option-card flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-apple-logo text-3xl text-green-500 mb-2"></i><span class="text-sm font-bold text-gray-700">Saudável</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Moderadamente saudável"><div class="option-card flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-hamburger text-3xl text-yellow-500 mb-2"></i><span class="text-sm font-bold text-gray-700">Moderada</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="alimentacao" class="custom-radio hidden" value="Pouco saudável"><div class="option-card flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-pizza text-3xl text-red-500 mb-2"></i><span class="text-sm font-bold text-gray-700">Pouco Saudável</span></div></label>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 bg-slate-50 p-5 rounded-xl border border-slate-200">
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Consumo de água *</label>
-                                    <select id="agua" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-gray-50">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><i class="ph-fill ph-drop text-blue-500 text-lg mr-1"></i> Água diária *</label>
+                                    <select id="agua" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-white font-medium shadow-sm cursor-pointer">
                                         <option value="" disabled selected>Selecione...</option>
-                                        <option value="Menos de 1 litro/dia">Menos de 1 litro/dia</option>
-                                        <option value="1 a 2 litros/dia">1 a 2 litros/dia</option>
-                                        <option value="Mais de 2 litros/dia">Mais de 2 litros/dia</option>
+                                        <option value="Menos de 1 litro/dia">Menos de 1 litro</option>
+                                        <option value="1 a 2 litros/dia">1 a 2 litros</option>
+                                        <option value="Mais de 2 litros/dia">Mais de 2 litros</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Horas de sono *</label>
-                                    <select id="sono" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-gray-50">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><i class="ph-fill ph-moon-stars text-indigo-500 text-lg mr-1"></i> Sono diário *</label>
+                                    <select id="sono" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-white font-medium shadow-sm cursor-pointer">
                                         <option value="" disabled selected>Selecione...</option>
                                         <option value="Menos de 5 horas">Menos de 5 horas</option>
                                         <option value="5 a 6 horas">5 a 6 horas</option>
                                         <option value="7 a 8 horas">7 a 8 horas</option>
                                         <option value="Mais de 8 horas">Mais de 8 horas</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><i class="ph-fill ph-cigarette text-slate-500 text-lg mr-1"></i> Você fuma? *</label>
+                                    <select id="fumo" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-white font-medium shadow-sm cursor-pointer">
+                                        <option value="" disabled selected>Selecione...</option>
+                                        <option value="Não">Não</option>
+                                        <option value="Sim">Sim</option>
+                                        <option value="Ex-fumante">Ex-fumante</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><i class="ph-fill ph-wine text-red-500 text-lg mr-1"></i> Álcool? *</label>
+                                    <select id="alcool" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none text-sm bg-white font-medium shadow-sm cursor-pointer">
+                                        <option value="" disabled selected>Selecione...</option>
+                                        <option value="Não">Não</option>
+                                        <option value="Ocasionalmente">Ocasionalmente</option>
+                                        <option value="Frequentemente">Frequentemente</option>
                                     </select>
                                 </div>
                             </div>
@@ -430,20 +465,30 @@
                         <div class="space-y-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-3">Com que frequência você se sente estressado no trabalho? *</label>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Raramente ou Nunca"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Raramente / Nunca</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Às vezes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Às vezes</span></div></label>
-                                    <label class="block cursor-pointer sm:col-span-2"><input type="radio" name="estresse" class="custom-radio hidden" value="Frequentemente ou Sempre"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Frequentemente / Sempre</span></div></label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Raramente ou Nunca"><div class="option-card flex flex-col items-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-smiley text-3xl text-green-500 mb-2"></i><span class="text-sm font-bold text-gray-700">Raramente/Nunca</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Às vezes"><div class="option-card flex flex-col items-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-smiley-meh text-3xl text-yellow-500 mb-2"></i><span class="text-sm font-bold text-gray-700">Às vezes</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="estresse" class="custom-radio hidden" value="Frequentemente ou Sempre"><div class="option-card flex flex-col items-center p-4 border border-gray-200 rounded-xl bg-white shadow-sm h-full text-center"><i class="ph-fill ph-smiley-sad text-3xl text-red-500 mb-2"></i><span class="text-sm font-bold text-gray-700">Freq. / Sempre</span></div></label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Como você avalia seu equilíbrio entre trabalho e vida pessoal? *</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Muito bom"><div class="option-card p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Muito bom</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Bom"><div class="option-card p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Bom</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Regular"><div class="option-card p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Regular</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="equilibrio" class="custom-radio hidden" value="Ruim"><div class="option-card p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Ruim</span></div></label>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-3">Você sente que o trabalho impacta sua saúde mental? *</label>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Não</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Pouco"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Pouco</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Moderadamente"><div class="option-card p-3 border border-gray-200 rounded-xl"><span class="text-sm font-medium">Moderado</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Muito"><div class="option-card p-3 border border-gray-200 rounded-xl bg-red-50"><span class="text-sm font-medium text-red-700">Muito</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Não"><div class="option-card p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Não</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Pouco"><div class="option-card p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Pouco</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Moderadamente"><div class="option-card p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Moderado</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="impacto" class="custom-radio hidden" value="Muito"><div class="option-card p-3 border border-red-200 rounded-xl bg-red-50 shadow-sm"><span class="text-sm font-bold text-red-700">Muito</span></div></label>
                                 </div>
                             </div>
                         </div>
@@ -456,25 +501,26 @@
                         </h3>
                         <div class="space-y-6">
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Sente dores ou desconfortos relacionados ao trabalho? Onde? *</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Sente dores ou desconfortos físicos relacionados ao trabalho? Onde? *</label>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                    <label class="block cursor-pointer sm:col-span-3"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Não sinto dores"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-gray-50"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-bold text-gray-700">Não sinto dores</span></div></label>
+                                    <label class="block cursor-pointer sm:col-span-3"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Não sinto dores"><div class="option-card flex items-center p-4 border border-green-200 rounded-xl bg-green-50 shadow-sm justify-center"><i class="ph-bold ph-check checkbox-icon text-green-600 mr-2 text-xl"></i><span class="text-sm font-black text-green-800">Não sinto dores</span></div></label>
                                     
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Coluna"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Coluna</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pescoço"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Pescoço</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Ombros"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Ombros</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Punhos/Mãos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Punhos/Mãos</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pernas"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm">Pernas</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Coluna"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Coluna</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pescoço"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Pescoço</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Ombros"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Ombros</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Punhos/Mãos"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Punhos/Mãos</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Pernas/Pés"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Pernas/Pés</span></div></label>
+                                    <label class="block cursor-pointer"><input type="checkbox" name="dores" class="custom-checkbox hidden" value="Dores de Cabeça"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Dor de Cabeça</span></div></label>
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Seu posto de trabalho é ergonomicamente adequado? *</label>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Sim</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Parcialmente"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Parcialmente</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Não</span></div></label>
-                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não sei avaliar"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl"><div class="w-4 h-4 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2 h-2 rounded-full"></div></div><span class="text-sm">Não sei avaliar</span></div></label>
+                            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mt-6">
+                                <label class="block text-sm font-bold text-slate-800 mb-4 flex items-center gap-2"><i class="ph-fill ph-desktop text-orange-500 text-xl"></i> Seu posto de trabalho atual é ergonomicamente adequado (Cadeira, mesa, tela)? *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Sim</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Parcialmente"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Parcialmente</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Não</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não sei avaliar"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Não sei</span></div></label>
                                 </div>
                             </div>
                         </div>
@@ -493,37 +539,34 @@
             </div>
 
             <!-- TELA DE LOADING DA ANÁLISE -->
-            <div id="loading-screen" class="hidden fade-in text-center py-10">
+            <div id="loading-screen" class="hidden fade-in text-center py-12">
                 <div class="relative w-24 h-24 mx-auto mb-6 flex justify-center items-center">
-                    <div class="loader-dots flex relative w-20 h-4">
-                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
-                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
-                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
-                        <div class="absolute top-0 w-4 h-4 rounded-full bg-orange-500"></div>
-                    </div>
+                    <div class="absolute inset-0 border-4 border-orange-100 rounded-full"></div>
+                    <div class="absolute inset-0 border-4 border-orange-500 rounded-full border-t-transparent animate-spin"></div>
+                    <i class="ph-fill ph-shield-check text-4xl text-orange-500 absolute"></i>
                 </div>
                 <h2 class="text-2xl font-bold mb-3 text-gray-900">Analisando suas respostas...</h2>
-                <p class="text-gray-500 text-sm">Por favor aguarde, estamos processando as informações com segurança.</p>
+                <p class="text-gray-500 text-sm">Criptografando e enviando para nossa base de dados segura.</p>
             </div>
 
             <!-- TELA SUCESSO -->
             <div id="success-screen" class="hidden fade-in text-center py-10">
-                <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 shadow-sm flex items-center justify-center gap-3">
-                    <i class="ph-fill ph-clipboard-text text-green-600 text-2xl"></i>
-                    <span class="text-green-800 font-medium">Suas respostas nos ajudam a cuidar melhor de você.</span>
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-8 shadow-sm flex items-center justify-center gap-3">
+                    <i class="ph-fill ph-lock-key text-green-600 text-2xl"></i>
+                    <span class="text-green-800 font-medium">Dados salvos com total confidencialidade.</span>
                 </div>
                 
-                <div class="relative w-24 h-24 mx-auto mb-6">
+                <div class="relative w-32 h-32 mx-auto mb-6">
                     <div class="absolute inset-0 bg-green-200 rounded-full animate-ping opacity-75"></div>
-                    <div class="relative w-24 h-24 bg-gradient-to-tr from-green-500 to-green-400 text-white rounded-full flex items-center justify-center shadow-lg">
-                        <i class="ph-bold ph-check text-5xl"></i>
+                    <div class="relative w-full h-full bg-gradient-to-tr from-green-500 to-green-400 text-white rounded-full flex items-center justify-center shadow-xl">
+                        <i class="ph-bold ph-check text-6xl"></i>
                     </div>
                 </div>
                 
-                <h2 class="text-3xl font-bold mb-3 text-gray-900">Perfil de Saúde Concluído</h2>
-                <p class="text-gray-600 mb-8 text-lg">Obrigado(a) por responder e nos ajudar a cuidar melhor de você!</p>
+                <h2 class="text-3xl font-black mb-3 text-gray-900">Mapeamento Concluído!</h2>
+                <p class="text-gray-600 mb-10 text-lg font-medium">Obrigado(a) por nos ajudar a construir um ambiente de trabalho cada vez mais saudável.</p>
                 
-                <button onclick="location.reload()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-8 rounded-xl transition duration-200 flex items-center justify-center mx-auto gap-2">
+                <button onclick="location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-8 rounded-xl transition duration-300 flex items-center justify-center mx-auto gap-2 shadow-lg">
                     <i class="ph-bold ph-house"></i> Voltar ao Início
                 </button>
             </div>
@@ -532,148 +575,150 @@
     </main>
 
     <!-- ÁREA RH - DASHBOARD ESTRATÉGICO -->
-    <main id="admin-container" class="w-full max-w-[90rem] bg-slate-100 rounded-2xl shadow-2xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500 my-6 border border-slate-200">
+    <main id="admin-container" class="w-full max-w-[90rem] bg-slate-100 rounded-3xl shadow-2xl overflow-hidden relative hidden opacity-0 transition-opacity duration-500 my-6 border border-slate-200">
+        
         <!-- Header Painel -->
-        <header class="bg-slate-900 text-white p-5 flex justify-between items-center flex-wrap gap-4 border-b-4 border-orange-500">
-            <h1 class="text-2xl font-bold flex items-center gap-3">
-                <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-2.5 rounded-xl shadow-inner"><i class="ph-fill ph-chart-pie-slice text-2xl text-white"></i></div>
-                Central de Inteligência
+        <header class="bg-slate-900 text-white p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-b-4 border-orange-500">
+            <h1 class="text-3xl font-black flex items-center gap-4 tracking-tight">
+                <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-3 rounded-2xl shadow-inner"><i class="ph-fill ph-chart-pie-slice text-3xl text-white"></i></div>
+                Central de Inteligência HR
             </h1>
             <div class="flex gap-3">
-                <button onclick="renderAdminData()" class="bg-slate-800 border border-slate-700 hover:bg-slate-700 px-4 py-2.5 rounded-xl font-medium transition text-sm flex items-center gap-2 shadow-sm">
-                    <i class="ph-bold ph-arrows-clockwise"></i> Atualizar
+                <button onclick="renderAdminData()" class="bg-slate-800 border border-slate-700 hover:bg-slate-700 px-5 py-3 rounded-xl font-bold transition text-sm flex items-center gap-2 shadow-sm">
+                    <i class="ph-bold ph-arrows-clockwise text-lg"></i> Atualizar Dados
                 </button>
-                <button onclick="closeAdmin()" class="bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white px-4 py-2.5 rounded-xl font-medium transition text-sm flex items-center gap-2 shadow-sm">
-                    <i class="ph-bold ph-sign-out"></i> Sair
+                <button onclick="closeAdmin()" class="bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white px-5 py-3 rounded-xl font-bold transition text-sm flex items-center gap-2 shadow-sm">
+                    <i class="ph-bold ph-sign-out text-lg"></i> Sair
                 </button>
             </div>
         </header>
 
         <div class="p-6 md:p-8 bg-slate-50 min-h-[500px]">
             
-            <div id="sync-warning" class="hidden mb-6 bg-yellow-50 border border-yellow-200 p-4 rounded-xl shadow-sm text-yellow-800 text-sm font-medium flex gap-3 items-start">
-                <i class="ph-bold ph-warning text-xl text-yellow-600 mt-0.5"></i>
-                <p>A planilha do Google Sheets está restrita ou vazia. Os dados abaixo são cópias temporárias locais do seu navegador. Para habilitar a leitura online, defina sua planilha como "Qualquer pessoa com o link pode ler".</p>
+            <div id="sync-warning" class="hidden mb-8 bg-yellow-50 border-l-4 border-yellow-500 p-5 rounded-r-xl shadow-sm text-yellow-800 text-sm font-medium flex gap-3 items-start">
+                <i class="ph-fill ph-warning-circle text-2xl text-yellow-600 mt-0.5"></i>
+                <p class="text-base">A planilha do Google Sheets está restrita ou vazia. Os dados abaixo são do cache de demonstração do seu navegador. <br><span class="font-normal text-sm opacity-80">Para leitura online, defina a planilha como "Qualquer pessoa com o link pode ler".</span></p>
             </div>
 
-            <!-- INSIGHT GERADO POR IA (HEURÍSTICA) -->
-            <div id="ai-insight-box" class="hidden mb-6 bg-white border border-orange-200 p-5 rounded-2xl shadow-sm relative overflow-hidden">
+            <!-- INSIGHT GERADO (HEURÍSTICA) -->
+            <div id="ai-insight-box" class="hidden mb-8 bg-white border border-orange-200 p-6 rounded-2xl shadow-sm relative overflow-hidden group">
                 <div class="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-orange-400 to-orange-600 insight-pulse"></div>
-                <div class="flex gap-4 items-center">
-                    <div class="bg-orange-100 text-orange-600 p-3 rounded-full text-2xl shrink-0"><i class="ph-fill ph-sparkle"></i></div>
+                <div class="flex gap-5 items-center">
+                    <div class="bg-orange-50 text-orange-600 p-4 rounded-full text-3xl shrink-0 group-hover:scale-110 transition-transform"><i class="ph-fill ph-sparkle"></i></div>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Inteligência Ativa</h3>
-                        <p id="ai-insight-text" class="text-slate-800 font-medium text-lg leading-snug"></p>
+                        <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest mb-1">Resumo Executivo Ativo</h3>
+                        <p id="ai-insight-text" class="text-slate-800 font-medium text-xl leading-snug"></p>
                     </div>
                 </div>
             </div>
 
             <!-- FILTROS INTELIGENTES -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-6 flex flex-col md:flex-row items-center gap-4 relative z-20">
-                <div class="flex items-center gap-2 font-bold text-slate-700 md:border-r border-slate-200 md:pr-4">
-                    <i class="ph-bold ph-funnel text-orange-500 text-xl"></i> Filtros
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-8 flex flex-col md:flex-row items-center gap-5 relative z-20">
+                <div class="flex items-center gap-2 font-black text-slate-700 md:border-r border-slate-200 md:pr-5 text-lg uppercase tracking-tight">
+                    <i class="ph-bold ph-funnel text-orange-500 text-2xl"></i> Filtros
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1 w-full">
-                    <select id="filter-empresa" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-orange-500 focus:border-orange-500 block p-2.5 outline-none font-medium cursor-pointer transition hover:bg-slate-100">
+                    <select id="filter-empresa" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-bold text-sm rounded-xl focus:ring-orange-500 focus:border-orange-500 block p-3 outline-none cursor-pointer transition hover:bg-slate-100">
                         <option value="">🏢 Todas as Empresas</option>
                     </select>
                     
-                    <select id="filter-setor" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-orange-500 focus:border-orange-500 block p-2.5 outline-none font-medium cursor-pointer transition hover:bg-slate-100">
+                    <select id="filter-setor" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-bold text-sm rounded-xl focus:ring-orange-500 focus:border-orange-500 block p-3 outline-none cursor-pointer transition hover:bg-slate-100">
                         <option value="">📁 Todos os Setores</option>
                     </select>
 
-                    <select id="filter-risco" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-orange-500 focus:border-orange-500 block p-2.5 outline-none font-medium cursor-pointer transition hover:bg-slate-100">
-                        <option value="">📊 Todos os Níveis de Risco</option>
+                    <select id="filter-risco" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-bold text-sm rounded-xl focus:ring-orange-500 focus:border-orange-500 block p-3 outline-none cursor-pointer transition hover:bg-slate-100">
+                        <option value="">📊 Todos os Riscos</option>
                         <option value="Baixo">🟢 Risco Baixo</option>
                         <option value="Médio">🟡 Risco Médio</option>
                         <option value="Alto">🔴 Risco Alto</option>
                     </select>
                 </div>
 
-                <button onclick="clearFilters()" class="md:ml-auto bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2.5 rounded-xl font-medium transition text-sm flex items-center gap-2 whitespace-nowrap border border-slate-200">
-                    <i class="ph-bold ph-x-circle"></i> Limpar
+                <button onclick="clearFilters()" class="md:ml-auto bg-slate-100 hover:bg-slate-200 text-slate-600 px-5 py-3 rounded-xl font-bold transition text-sm flex items-center gap-2 whitespace-nowrap border border-slate-200">
+                    <i class="ph-bold ph-x-circle text-lg"></i> Limpar
                 </button>
             </div>
 
-            <!-- UNIDADES MAPEADAS (CARDS EMPRESAS) -->
-            <div class="mb-8">
-                <h2 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <i class="ph-fill ph-buildings text-slate-400 text-lg"></i> Visão por Unidade/Empresa
-                </h2>
-                <div id="companies-container" class="flex overflow-x-auto gap-4 pb-4 custom-scrollbar snap-x">
-                    <!-- Cards inseridos via JS -->
-                </div>
-            </div>
-
             <!-- LINHA 1: KPIs Principais (ASSERTIVOS) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5 mb-8">
                 
                 <!-- População Avaliada -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-blue-300 transition">
-                    <div class="absolute -right-4 -top-4 bg-blue-50 text-blue-100 p-4 rounded-full text-6xl opacity-30 group-hover:scale-110 transition-transform"><i class="ph-fill ph-users"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-blue-400 transition-colors">
+                    <div class="absolute -right-4 -bottom-4 bg-blue-50 text-blue-100 p-4 rounded-full text-7xl opacity-40 group-hover:scale-110 transition-transform duration-500"><i class="ph-fill ph-users"></i></div>
                     <div class="relative z-10">
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4 text-xl shadow-inner"><i class="ph-bold ph-users-three"></i></div>
                         <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Avaliados</p>
-                        <p class="text-4xl font-black text-slate-800" id="admin-kpi-total">0</p>
+                        <p class="text-5xl font-black text-slate-800 tracking-tighter" id="admin-kpi-total">0</p>
                     </div>
                 </div>
 
                 <!-- Risco Alto -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-red-300 transition">
-                    <div class="absolute -right-4 -top-4 bg-red-50 text-red-100 p-4 rounded-full text-6xl opacity-40 group-hover:scale-110 transition-transform"><i class="ph-fill ph-warning-octagon"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-red-400 transition-colors">
+                    <div class="absolute -right-4 -bottom-4 bg-red-50 text-red-100 p-4 rounded-full text-7xl opacity-50 group-hover:scale-110 transition-transform duration-500"><i class="ph-fill ph-warning-octagon"></i></div>
                     <div class="relative z-10">
-                        <p class="text-xs text-red-500 font-bold uppercase tracking-wider mb-1 flex items-center gap-1"><i class="ph-fill ph-warning-circle"></i> Risco Alto</p>
-                        <p class="text-4xl font-black text-slate-800" id="admin-kpi-risco">0%</p>
+                        <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center mb-4 text-xl shadow-inner"><i class="ph-bold ph-siren"></i></div>
+                        <p class="text-xs text-red-600 font-bold uppercase tracking-wider mb-1">População Risco Alto</p>
+                        <p class="text-5xl font-black text-slate-800 tracking-tighter" id="admin-kpi-risco">0%</p>
                     </div>
                 </div>
 
                 <!-- Estresse Severo -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-orange-300 transition">
-                    <div class="absolute -right-4 -top-4 bg-orange-50 text-orange-100 p-4 rounded-full text-6xl opacity-40 group-hover:scale-110 transition-transform"><i class="ph-fill ph-brain"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-orange-400 transition-colors">
+                    <div class="absolute -right-4 -bottom-4 bg-orange-50 text-orange-100 p-4 rounded-full text-7xl opacity-50 group-hover:scale-110 transition-transform duration-500"><i class="ph-fill ph-brain"></i></div>
                     <div class="relative z-10">
-                        <p class="text-xs text-orange-600 font-bold uppercase tracking-wider mb-1 flex items-center gap-1"><i class="ph-fill ph-lightning"></i> Estresse Freq.</p>
-                        <p class="text-4xl font-black text-slate-800" id="admin-kpi-estresse">0%</p>
+                        <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4 text-xl shadow-inner"><i class="ph-bold ph-lightning"></i></div>
+                        <p class="text-xs text-orange-600 font-bold uppercase tracking-wider mb-1">Estresse Frequente</p>
+                        <p class="text-5xl font-black text-slate-800 tracking-tighter" id="admin-kpi-estresse">0%</p>
                     </div>
                 </div>
 
                 <!-- Índice Sedentarismo -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-purple-300 transition">
-                    <div class="absolute -right-4 -top-4 bg-purple-50 text-purple-100 p-4 rounded-full text-6xl opacity-40 group-hover:scale-110 transition-transform"><i class="ph-fill ph-armchair"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-purple-400 transition-colors">
+                    <div class="absolute -right-4 -bottom-4 bg-purple-50 text-purple-100 p-4 rounded-full text-7xl opacity-50 group-hover:scale-110 transition-transform duration-500"><i class="ph-fill ph-armchair"></i></div>
                     <div class="relative z-10">
-                        <p class="text-xs text-purple-600 font-bold uppercase tracking-wider mb-1 flex items-center gap-1"><i class="ph-fill ph-sneaker"></i> Sedentarismo</p>
-                        <p class="text-4xl font-black text-slate-800" id="admin-kpi-sedentarismo">0%</p>
+                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4 text-xl shadow-inner"><i class="ph-bold ph-sneaker"></i></div>
+                        <p class="text-xs text-purple-600 font-bold uppercase tracking-wider mb-1">Sedentarismo</p>
+                        <p class="text-5xl font-black text-slate-800 tracking-tighter" id="admin-kpi-sedentarismo">0%</p>
                     </div>
                 </div>
 
                 <!-- Risco Ergonômico -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-yellow-400 transition">
-                    <div class="absolute -right-4 -top-4 bg-yellow-50 text-yellow-100 p-4 rounded-full text-6xl opacity-50 group-hover:scale-110 transition-transform"><i class="ph-fill ph-office-chair"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden group hover:border-yellow-400 transition-colors">
+                    <div class="absolute -right-4 -bottom-4 bg-yellow-50 text-yellow-100 p-4 rounded-full text-7xl opacity-60 group-hover:scale-110 transition-transform duration-500"><i class="ph-fill ph-office-chair"></i></div>
                     <div class="relative z-10">
-                        <p class="text-xs text-yellow-600 font-bold uppercase tracking-wider mb-1 flex items-center gap-1" title="Pessoas com dores + Ergonomia inadequada"><i class="ph-fill ph-bandaids"></i> Alerta Ergonôm.</p>
-                        <p class="text-4xl font-black text-slate-800" id="admin-kpi-ergonomia">0%</p>
+                        <div class="w-10 h-10 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center mb-4 text-xl shadow-inner"><i class="ph-bold ph-bandaids"></i></div>
+                        <p class="text-xs text-yellow-600 font-bold uppercase tracking-wider mb-1" title="Pessoas com dores e sem ergonomia adequada">Alerta Ergonômico</p>
+                        <p class="text-5xl font-black text-slate-800 tracking-tighter" id="admin-kpi-ergonomia">0%</p>
                     </div>
                 </div>
 
             </div>
 
-            <!-- LINHA 2: Gráficos e Ranking -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- LINHA 2: NOVO WIDGET SUPER ASSERTIVO (LINHA DO TEMPO + EMPRESAS) -->
+            <div class="mb-8 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 class="text-lg font-black text-slate-800 mb-6 flex items-center gap-3 border-b pb-4">
+                    <div class="bg-indigo-100 text-indigo-600 p-2 rounded-xl"><i class="ph-bold ph-calendar-check text-xl"></i></div>
+                    Volume de Mapeamentos por Empresa, Mês e Ano
+                </h3>
                 
-                <!-- Gráfico Mensal (NOVO) -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm col-span-1 lg:col-span-1">
-                    <h3 class="text-sm font-bold text-slate-800 mb-5 flex items-center gap-2 border-b pb-3">
-                        <div class="bg-green-100 p-1.5 rounded-lg"><i class="ph-fill ph-calendar-blank text-green-600 text-lg"></i></div>
-                        Evolução Mensal
-                    </h3>
-                    <div id="chart-timeline" class="space-y-4">
-                        <p class="text-slate-400 text-sm italic">Carregando dados...</p>
-                    </div>
+                <div id="timeline-companies-container" class="space-y-6 max-h-[400px] overflow-y-auto custom-scrollbar pr-2 relative">
+                    <!-- Gerado via JS. Exemplo visual esperado:
+                        ANO 2026 -> MES NOVEMBRO
+                        - Empresa X (10 pessoas) [Avatar][Avatar]...
+                        - Empresa Y (5 pessoas) [Avatar]...
+                    -->
+                    <p class="text-slate-400 italic">Carregando visualização temporal...</p>
                 </div>
+            </div>
 
+            <!-- LINHA 3: Gráficos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                
                 <!-- Ranking de Setores (Barras CSS) -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm col-span-1 lg:col-span-1">
-                    <h3 class="text-sm font-bold text-slate-800 mb-5 flex items-center gap-2 border-b pb-3">
-                        <div class="bg-orange-100 p-1.5 rounded-lg"><i class="ph-fill ph-chart-bar text-orange-600 text-lg"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <div class="bg-orange-100 p-2 rounded-xl"><i class="ph-bold ph-chart-bar text-orange-600 text-lg"></i></div>
                         Setores mais Críticos
                     </h3>
                     <div id="chart-sectors" class="space-y-4">
@@ -682,9 +727,9 @@
                 </div>
 
                 <!-- Principais Dores -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm col-span-1 lg:col-span-1">
-                    <h3 class="text-sm font-bold text-slate-800 mb-5 flex items-center gap-2 border-b pb-3">
-                        <div class="bg-red-100 p-1.5 rounded-lg"><i class="ph-fill ph-bandaids text-red-600 text-lg"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <div class="bg-red-100 p-2 rounded-xl"><i class="ph-bold ph-bandaids text-red-600 text-lg"></i></div>
                         Ranking Dores Físicas
                     </h3>
                     <div id="chart-pains" class="space-y-4">
@@ -693,9 +738,9 @@
                 </div>
 
                 <!-- Principais Doenças -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm col-span-1 lg:col-span-1">
-                    <h3 class="text-sm font-bold text-slate-800 mb-5 flex items-center gap-2 border-b pb-3">
-                        <div class="bg-blue-100 p-1.5 rounded-lg"><i class="ph-fill ph-stethoscope text-blue-600 text-lg"></i></div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <div class="bg-blue-100 p-2 rounded-xl"><i class="ph-bold ph-stethoscope text-blue-600 text-lg"></i></div>
                         Top Doenças Crônicas
                     </h3>
                     <div id="chart-diseases" class="space-y-4">
@@ -705,39 +750,41 @@
 
             </div>
 
-            <!-- TABELA DE RESULTADOS COM EXPORTAÇÃO -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-center bg-white/50 backdrop-blur-sm gap-4">
-                    <h2 class="font-bold text-slate-800 text-base flex items-center gap-2">
-                        <i class="ph-fill ph-table text-orange-500 text-xl"></i> Banco de Dados Filtrado
-                        <span class="bg-slate-200 text-slate-600 text-xs px-2 py-0.5 rounded-full ml-2" id="table-count">0 registros</span>
+            <!-- TABELA DE RESULTADOS (DIRETÓRIO) COM EXPORTAÇÃO -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                <div class="p-6 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-center bg-slate-50 gap-4">
+                    <h2 class="font-black text-slate-800 text-xl flex items-center gap-3 uppercase tracking-tight">
+                        <i class="ph-fill ph-address-book text-orange-500 text-3xl"></i> Diretório de Vidas
+                        <span class="bg-orange-100 text-orange-700 text-sm px-3 py-1 rounded-lg ml-2 shadow-inner" id="table-count">0 registros</span>
                     </h2>
                     
-                    <button onclick="exportToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl font-bold transition text-sm flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center">
-                        <i class="ph-bold ph-download-simple text-lg"></i> Exportar Relatório (CSV)
+                    <button onclick="exportToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-bold transition text-sm flex items-center gap-2 shadow-lg w-full sm:w-auto justify-center">
+                        <i class="ph-bold ph-microsoft-excel-logo text-xl"></i> Exportar Dados (CSV)
                     </button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-slate-600 whitespace-nowrap">
-                        <thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200 uppercase text-[10px] tracking-wider">
+                        <thead class="bg-slate-100 text-slate-500 font-black border-b-2 border-slate-200 uppercase text-[10px] tracking-widest">
                             <tr>
-                                <th class="p-4">Colaborador / CPF / Empresa</th>
-                                <th class="p-4">Perfil</th>
-                                <th class="p-4">Setor</th>
-                                <th class="p-4">Estresse</th>
-                                <th class="p-4">Dores Físicas</th>
-                                <th class="p-4 text-center">Score</th>
-                                <th class="p-4">Alerta de Risco</th>
+                                <th class="p-5 pl-6">Colaborador / Identificação</th>
+                                <th class="p-5">Perfil Demográfico</th>
+                                <th class="p-5">Área / Tempo</th>
+                                <th class="p-5">Carga Estresse</th>
+                                <th class="p-5">Dor Física</th>
+                                <th class="p-5 text-center">Score</th>
+                                <th class="p-5 pr-6">Status / Risco</th>
                             </tr>
                         </thead>
-                        <tbody id="admin-table-body" class="divide-y divide-slate-100"></tbody>
+                        <tbody id="admin-table-body" class="divide-y divide-slate-100 bg-white"></tbody>
                     </table>
-                    <div id="empty-state" class="p-12 text-center text-slate-400 bg-slate-50" style="display: none;">
-                        <i class="ph-duotone ph-magnifying-glass text-6xl mb-4 text-slate-300"></i>
-                        <p class="font-medium text-lg text-slate-500">Nenhum dado encontrado para os filtros atuais.</p>
-                        <p class="text-sm mt-2">Remova os filtros ou verifique a planilha do Google Sheets.</p>
-                        <button onclick="clearFilters()" class="mt-4 bg-orange-100 text-orange-700 hover:bg-orange-200 px-5 py-2 rounded-xl font-bold transition mx-auto inline-flex items-center gap-2">
-                            Limpar Filtros
+                    <div id="empty-state" class="p-16 text-center text-slate-400 bg-white" style="display: none;">
+                        <div class="bg-slate-50 w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                            <i class="ph-duotone ph-magnifying-glass text-6xl text-slate-300"></i>
+                        </div>
+                        <p class="font-black text-2xl text-slate-700 tracking-tight">Nenhum registro encontrado</p>
+                        <p class="text-base mt-2 font-medium">Os filtros aplicados não retornaram resultados.</p>
+                        <button onclick="clearFilters()" class="mt-6 bg-orange-100 text-orange-700 hover:bg-orange-200 px-6 py-3 rounded-xl font-bold transition mx-auto inline-flex items-center gap-2 shadow-sm">
+                            <i class="ph-bold ph-funnel-x text-lg"></i> Limpar Filtros
                         </button>
                     </div>
                 </div>
@@ -745,36 +792,36 @@
         </div>
     </main>
 
-    <!-- MODAL DE LOGIN ADMIN -->
-    <div id="login-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-300" id="login-card">
-            <div class="bg-slate-800 p-6 text-center relative">
-                <div class="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i class="ph-fill ph-lock-key text-3xl text-orange-500"></i>
+    <!-- MODAL DE LOGIN ADMIN (Ofuscado) -->
+    <div id="login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-300 border border-slate-200" id="login-card">
+            <div class="bg-slate-900 p-8 text-center relative border-b-4 border-orange-500">
+                <div class="w-20 h-20 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-inner border border-slate-700">
+                    <i class="ph-fill ph-lock-key text-4xl text-orange-500"></i>
                 </div>
-                <h2 class="text-xl font-bold text-white">Acesso Restrito</h2>
-                <p class="text-slate-400 text-sm mt-1">Área exclusiva para Liderança e RH</p>
+                <h2 class="text-2xl font-black text-white tracking-tight">Acesso Protegido</h2>
+                <p class="text-slate-400 text-sm mt-1 font-medium">Autenticação obrigatória</p>
             </div>
-            <div class="p-6 space-y-4">
+            <div class="p-8 space-y-5 bg-slate-50">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Usuário</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Login</label>
                     <div class="relative">
-                        <i class="ph-fill ph-user text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                        <input type="text" id="admin-user" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="Seu usuário">
+                        <i class="ph-bold ph-user text-slate-400 absolute left-4 top-1/2 transform -translate-y-1/2 text-lg"></i>
+                        <input type="text" id="admin-user" class="w-full pl-12 p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition font-bold bg-white shadow-sm placeholder:font-normal" placeholder="Usuário autorizado">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Senha</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Senha</label>
                     <div class="relative">
-                        <i class="ph-fill ph-password text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                        <input type="password" id="admin-pass" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" placeholder="••••••••">
+                        <i class="ph-bold ph-password text-slate-400 absolute left-4 top-1/2 transform -translate-y-1/2 text-lg"></i>
+                        <input type="password" id="admin-pass" class="w-full pl-12 p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition font-bold bg-white shadow-sm" placeholder="••••••••">
                     </div>
                 </div>
-                <div class="pt-2">
-                    <button onclick="authenticateAdmin()" class="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-bold py-3 px-4 rounded-xl transition duration-300 shadow-md">
-                        Entrar no Painel
+                <div class="pt-4">
+                    <button onclick="authenticateAdmin()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-black text-lg py-4 px-4 rounded-xl transition duration-300 shadow-lg flex justify-center items-center gap-2">
+                        Entrar <i class="ph-bold ph-sign-in"></i>
                     </button>
-                    <button onclick="closeLoginModal()" class="w-full bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold py-3 px-4 rounded-xl transition duration-300 mt-3">
+                    <button onclick="closeLoginModal()" class="w-full text-slate-500 hover:text-slate-800 hover:bg-slate-200 font-bold py-4 px-4 rounded-xl transition duration-300 mt-2">
                         Cancelar
                     </button>
                 </div>
@@ -783,91 +830,136 @@
     </div>
 
     <!-- MODAL DE DETALHES DO FUNCIONÁRIO -->
-    <div id="employee-details-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform scale-95 transition-transform duration-300" id="employee-details-card">
+    <div id="employee-details-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[60] hidden flex items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-50 rounded-3xl shadow-2xl w-full max-w-5xl max-h-[95vh] flex flex-col transform scale-95 transition-transform duration-300 overflow-hidden border border-slate-700" id="employee-details-card">
+            
             <!-- Cabeçalho do Modal -->
-            <div class="bg-slate-800 p-5 text-white flex justify-between items-center rounded-t-2xl shrink-0 border-b-4 border-orange-500">
-                <div class="flex items-center gap-4">
-                    <div class="bg-slate-700 p-3 rounded-xl border border-slate-600 shadow-inner">
-                        <i class="ph-fill ph-identification-badge text-3xl text-orange-400"></i>
+            <div class="bg-slate-900 p-6 sm:p-8 text-white flex justify-between items-start shrink-0 border-b-4 border-orange-500 relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 opacity-10"><i class="ph-fill ph-identification-card text-[15rem]"></i></div>
+                
+                <div class="flex items-center gap-5 relative z-10">
+                    <div id="modal-avatar" class="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-4xl font-black text-white shadow-lg border-2 border-white/20">
+                        A
                     </div>
                     <div>
-                        <h2 class="text-xl font-bold" id="detail-name">Nome do Funcionário</h2>
-                        <p class="text-slate-300 text-sm font-medium mt-0.5" id="detail-company-cpf">Empresa - CPF</p>
+                        <h2 class="text-3xl font-black tracking-tight" id="detail-name">Nome</h2>
+                        <div class="flex flex-wrap gap-2 mt-2 font-medium">
+                            <span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg text-sm text-slate-300 flex items-center gap-1.5 selectable-text"><i class="ph-fill ph-buildings text-orange-400"></i> <span id="detail-company">Empresa</span></span>
+                            <span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg text-sm text-slate-300 flex items-center gap-1.5 selectable-text"><i class="ph-fill ph-identification-badge text-orange-400"></i> <span id="detail-cpf">CPF</span></span>
+                        </div>
                     </div>
                 </div>
-                <button onclick="closeEmployeeDetails()" class="text-slate-400 hover:text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors p-2">
-                    <i class="ph-bold ph-x text-xl"></i>
+                <button onclick="closeEmployeeDetails()" class="text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors p-3 shadow-inner relative z-10">
+                    <i class="ph-bold ph-x text-2xl"></i>
                 </button>
             </div>
             
             <!-- Corpo do Modal com Scroll -->
-            <div class="p-6 overflow-y-auto custom-scrollbar bg-slate-50 flex-1 rounded-b-2xl">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-6 sm:p-8 overflow-y-auto custom-scrollbar flex-1">
+                
+                <div class="mb-6 flex justify-between items-end">
+                    <div class="bg-white px-4 py-2 rounded-xl border border-slate-200 text-sm font-bold text-slate-500 flex items-center gap-2 shadow-sm inline-flex">
+                        <i class="ph-bold ph-calendar-plus text-lg"></i> Mapeado em: <span class="text-slate-800 selectable-text" id="detail-date">Data</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     
-                    <div class="space-y-6">
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                            <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2"><i class="ph-fill ph-briefcase text-orange-500 text-lg"></i> Perfil Profissional</h3>
-                            <ul class="space-y-3 text-sm text-slate-600">
-                                <li><strong class="text-slate-800">Setor:</strong> <span id="detail-sector" class="bg-slate-100 px-2 py-0.5 rounded font-medium"></span></li>
-                                <li><strong class="text-slate-800">Tempo de Empresa:</strong> <span id="detail-tenure"></span></li>
-                                <li><strong class="text-slate-800">Idade:</strong> <span id="detail-age"></span></li>
-                                <li><strong class="text-slate-800">Sexo/Gênero:</strong> <span id="detail-gender"></span></li>
+                    <!-- Coluna 1: Perfil e Biometria -->
+                    <div class="space-y-6 lg:col-span-1">
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                            <h3 class="font-black text-slate-800 mb-5 flex items-center gap-2 text-lg uppercase tracking-tight"><div class="bg-slate-100 p-2 rounded-lg text-orange-500"><i class="ph-fill ph-user-circle"></i></div> Demografia</h3>
+                            <ul class="space-y-4 text-sm text-slate-600">
+                                <li><p class="text-xs font-bold text-slate-400 uppercase mb-1">Setor Atual</p> <span id="detail-sector" class="bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg font-bold text-slate-700 inline-block selectable-text"></span></li>
+                                <li><p class="text-xs font-bold text-slate-400 uppercase mb-1">Tempo na Empresa</p> <span id="detail-tenure" class="font-medium text-slate-800 selectable-text"></span></li>
+                                <li class="flex gap-6">
+                                    <div><p class="text-xs font-bold text-slate-400 uppercase mb-1">Idade</p> <span id="detail-age" class="font-bold text-slate-800 selectable-text"></span></div>
+                                    <div><p class="text-xs font-bold text-slate-400 uppercase mb-1">Gênero</p> <span id="detail-gender" class="font-bold text-slate-800 selectable-text"></span></div>
+                                </li>
+                                <li class="flex gap-6 pt-4 border-t border-slate-100">
+                                    <div><p class="text-xs font-bold text-slate-400 uppercase mb-1">Peso</p> <span id="detail-weight" class="bg-slate-100 px-3 py-1 rounded-lg font-bold text-slate-700 inline-block selectable-text"></span></div>
+                                    <div><p class="text-xs font-bold text-slate-400 uppercase mb-1">Altura</p> <span id="detail-height" class="bg-slate-100 px-3 py-1 rounded-lg font-bold text-slate-700 inline-block selectable-text"></span></div>
+                                </li>
                             </ul>
                         </div>
+                        
+                        <!-- Mini Card Score -->
+                        <div class="bg-slate-900 p-6 rounded-3xl shadow-lg text-white flex justify-between items-center relative overflow-hidden border border-slate-800">
+                            <div class="absolute -right-4 -bottom-4 opacity-10 text-9xl"><i class="ph-fill ph-shield-warning"></i></div>
+                            <div class="relative z-10">
+                                <p class="text-slate-400 text-xs font-black uppercase tracking-widest mb-1">Risco Total</p>
+                                <p class="text-6xl font-black text-white tracking-tighter" id="detail-score">0</p>
+                            </div>
+                            <div class="text-right relative z-10 flex flex-col items-end">
+                                <div id="detail-risk-badge" class="mb-2"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                            <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2"><i class="ph-fill ph-heartbeat text-red-500 text-lg"></i> Saúde e Histórico</h3>
-                            <ul class="space-y-3 text-sm text-slate-600">
-                                <li class="flex gap-4">
-                                    <span><strong class="text-slate-800">Peso:</strong> <span id="detail-weight" class="bg-slate-100 px-2 py-0.5 rounded font-medium"></span></span>
-                                    <span><strong class="text-slate-800">Altura:</strong> <span id="detail-height" class="bg-slate-100 px-2 py-0.5 rounded font-medium"></span></span>
+                    <!-- Coluna 2: Saúde Física e Estilo de Vida -->
+                    <div class="space-y-6 lg:col-span-1">
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                            <h3 class="font-black text-slate-800 mb-5 flex items-center gap-2 text-lg uppercase tracking-tight"><div class="bg-red-50 p-2 rounded-lg text-red-500"><i class="ph-fill ph-heartbeat"></i></div> Saúde Clínica</h3>
+                            <ul class="space-y-4 text-sm text-slate-600">
+                                <li><p class="text-xs font-bold text-slate-400 uppercase mb-1">Autoavaliação Geral</p> <span id="detail-health" class="font-bold text-slate-800 text-base selectable-text"></span></li>
+                                
+                                <li class="bg-red-50 p-4 rounded-xl border border-red-100">
+                                    <p class="text-xs font-black text-red-800 uppercase mb-2 flex items-center gap-1.5"><i class="ph-fill ph-warning-circle text-lg"></i> Doenças Crônicas Mapeadas</p> 
+                                    <span id="detail-diseases" class="text-red-600 font-bold text-base block selectable-text"></span>
                                 </li>
-                                <li><strong class="text-slate-800">Autoavaliação Geral:</strong> <span id="detail-health"></span></li>
-                                <li class="bg-red-50 p-3 rounded-lg border border-red-100"><strong class="text-red-800"><i class="ph-fill ph-warning-circle"></i> Doenças Crônicas:</strong> <br><span id="detail-diseases" class="text-red-600 font-medium mt-1 inline-block"></span></li>
-                                <li><strong class="text-slate-800">Histórico Familiar:</strong> <br><span id="detail-family" class="text-slate-500 italic"></span></li>
-                                <li class="pt-3 border-t border-slate-100 mt-2"><strong class="text-slate-800">Acomp. Médico Ativo:</strong> <span id="detail-doctor"></span></li>
-                                <li><strong class="text-slate-800">Uso de Medicamentos:</strong> <span id="detail-meds"></span></li>
-                                <li><strong class="text-slate-800">Cirurgia (Últimos 6m):</strong> <span id="detail-surgery"></span></li>
-                                <li><strong class="text-slate-800">Internação (Últimos 30d):</strong> <span id="detail-hospital"></span></li>
+                                
+                                <li class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                    <p class="text-xs font-bold text-slate-500 uppercase mb-1">Histórico Familiar</p> 
+                                    <span id="detail-family" class="text-slate-700 font-medium selectable-text"></span>
+                                </li>
+
+                                <li class="pt-2">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Médico Ativo?</p> <span id="detail-doctor" class="font-bold text-slate-700 selectable-text"></span></div>
+                                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Medicamentos?</p> <span id="detail-meds" class="font-bold text-slate-700 selectable-text"></span></div>
+                                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Cirurgia (6m)?</p> <span id="detail-surgery" class="font-bold text-slate-700 selectable-text"></span></div>
+                                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Internação (30d)?</p> <span id="detail-hospital" class="font-bold text-slate-700 selectable-text"></span></div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="space-y-6">
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                            <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2"><i class="ph-fill ph-sneaker text-green-500 text-lg"></i> Estilo de Vida</h3>
-                            <ul class="space-y-3 text-sm text-slate-600">
-                                <li><strong class="text-slate-800">Atividade Física:</strong> <span id="detail-exercise"></span></li>
-                                <li><strong class="text-slate-800">Alimentação:</strong> <span id="detail-food"></span></li>
-                                <li><strong class="text-slate-800">Consumo de Água:</strong> <span id="detail-water"></span></li>
-                                <li><strong class="text-slate-800">Horas de Sono:</strong> <span id="detail-sleep"></span></li>
-                                <li><strong class="text-slate-800">Tabagismo:</strong> <span id="detail-smoke"></span></li>
-                                <li><strong class="text-slate-800">Álcool:</strong> <span id="detail-alcohol"></span></li>
-                            </ul>
+                    <!-- Coluna 3: Estilo de Vida e Ambiente -->
+                    <div class="space-y-6 lg:col-span-1">
+                        
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                            <h3 class="font-black text-slate-800 mb-5 flex items-center gap-2 text-lg uppercase tracking-tight"><div class="bg-green-50 p-2 rounded-lg text-green-500"><i class="ph-fill ph-sneaker"></i></div> Hábitos</h3>
+                            
+                            <div class="grid grid-cols-2 gap-y-5 gap-x-4 text-sm">
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1 flex items-center gap-1"><i class="ph-fill ph-person-simple-run"></i> Exercício</p> <span id="detail-exercise" class="font-bold text-slate-800 leading-tight block selectable-text"></span></div>
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1 flex items-center gap-1"><i class="ph-fill ph-apple-logo"></i> Dieta</p> <span id="detail-food" class="font-bold text-slate-800 leading-tight block selectable-text"></span></div>
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1 flex items-center gap-1"><i class="ph-fill ph-drop"></i> Água</p> <span id="detail-water" class="font-bold text-slate-800 leading-tight block selectable-text"></span></div>
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1 flex items-center gap-1"><i class="ph-fill ph-moon-stars"></i> Sono</p> <span id="detail-sleep" class="font-bold text-slate-800 leading-tight block selectable-text"></span></div>
+                                <div class="col-span-2 flex gap-4 pt-4 border-t border-slate-100">
+                                    <div class="w-1/2"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Tabagismo</p> <span id="detail-smoke" class="font-bold text-slate-700 selectable-text"></span></div>
+                                    <div class="w-1/2"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Álcool</p> <span id="detail-alcohol" class="font-bold text-slate-700 selectable-text"></span></div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                            <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2"><i class="ph-fill ph-brain text-purple-500 text-lg"></i> Bem-Estar e Ambiente</h3>
-                            <ul class="space-y-3 text-sm text-slate-600">
-                                <li><strong class="text-slate-800">Nível de Estresse:</strong> <span id="detail-stress"></span></li>
-                                <li><strong class="text-slate-800">Equilíbrio Vida/Trab:</strong> <span id="detail-balance"></span></li>
-                                <li><strong class="text-slate-800">Impacto na Saúde Mental:</strong> <span id="detail-impact"></span></li>
-                                <li class="bg-orange-50 p-3 rounded-lg border border-orange-100 mt-2"><strong class="text-orange-800"><i class="ph-fill ph-bandaids"></i> Dores Relatadas:</strong> <br><span id="detail-pain" class="text-orange-600 font-medium mt-1 inline-block"></span></li>
-                                <li class="mt-2"><strong class="text-slate-800">Ergonomia Adequada:</strong> <span id="detail-ergonomics"></span></li>
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                            <h3 class="font-black text-slate-800 mb-5 flex items-center gap-2 text-lg uppercase tracking-tight"><div class="bg-purple-50 p-2 rounded-lg text-purple-500"><i class="ph-fill ph-brain"></i></div> Mental & Físico</h3>
+                            <ul class="space-y-4 text-sm text-slate-600">
+                                <li><p class="text-xs font-bold text-slate-400 uppercase mb-1">Carga de Estresse</p> <span id="detail-stress" class="font-bold text-slate-800 text-base selectable-text"></span></li>
+                                
+                                <li class="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                                    <p class="text-xs font-black text-orange-800 uppercase mb-2 flex items-center gap-1.5"><i class="ph-fill ph-bandaids text-lg"></i> Dores Relatadas</p> 
+                                    <span id="detail-pain" class="text-orange-600 font-bold text-base block selectable-text"></span>
+                                </li>
+                                
+                                <li class="pt-2">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Equilíbrio Vida/Trab</p> <span id="detail-balance" class="font-bold text-slate-700 selectable-text"></span></div>
+                                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Ergonomia OK?</p> <span id="detail-ergonomics" class="font-bold text-slate-700 selectable-text"></span></div>
+                                    </div>
+                                </li>
                             </ul>
-                        </div>
-                        
-                        <div class="bg-slate-800 p-6 rounded-2xl shadow-md text-white flex justify-between items-center relative overflow-hidden border border-slate-700">
-                            <div class="absolute -right-4 -bottom-4 opacity-10 text-9xl"><i class="ph-fill ph-chart-line-up"></i></div>
-                            <div class="relative z-10">
-                                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Score Calculado</p>
-                                <p class="text-5xl font-black text-white" id="detail-score">0</p>
-                            </div>
-                            <div class="text-right relative z-10">
-                                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Classificação Final</p>
-                                <div id="detail-risk-badge"></div>
-                            </div>
                         </div>
 
                     </div>
@@ -876,23 +968,28 @@
         </div>
     </div>
 
-    <footer class="mt-8 text-center w-full max-w-lg relative z-10 transition-opacity mb-4" id="footer-links">
-        <button onclick="openLoginModal()" class="text-orange-300 hover:text-orange-500 transition-colors flex items-center justify-center mx-auto p-2" title="Acesso Restrito" aria-label="Acesso Restrito Liderança">
-            <i class="ph-fill ph-lock-key text-3xl"></i>
+    <!-- BOTÃO FLUTUANTE DE ACESSO RH -->
+    <div class="fixed bottom-6 right-6 z-40 hidden" id="floating-admin-btn">
+        <button onclick="openLoginModal()" class="bg-slate-800 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-orange-600 transition-colors border-2 border-white/20 group relative">
+            <i class="ph-bold ph-lock-key text-2xl group-hover:scale-110 transition-transform"></i>
+            <span class="absolute right-full mr-4 bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">Painel de RH</span>
         </button>
-    </footer>
+    </div>
 
     <!-- JS -->
     <script>
+        // Mostra o botão flutuante apenas se estiver na tela inicial (esconde no painel)
+        function toggleFloatingBtn(show) {
+            const btn = document.getElementById('floating-admin-btn');
+            if(show) btn.classList.remove('hidden');
+            else btn.classList.add('hidden');
+        }
+
         // --- PROTEÇÃO BÁSICA DE FRONT-END ---
-        // Previne clique com o botão direito
         document.addEventListener('contextmenu', event => event.preventDefault());
-        // Previne uso de atalhos comuns de inspeção/desenvolvedor
         document.onkeydown = function(e) {
-            if (e.keyCode == 123 || // F12
-               (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || // Ctrl+Shift+I/J/C
-               (e.ctrlKey && e.keyCode == 85)) { // Ctrl+U
-                return false;
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) { 
+                return false; 
             }
         };
 
@@ -900,19 +997,19 @@
         const appState = {
             currentStep: 1,
             totalSteps: 6,
-            database: [], // Local fallback (se falhar Sheets)
-            normalizedAdminDb: [], // Dados totais recuperados/normalizados
-            filteredDb: [], // Dados que estão visíveis na tela atualmente
+            database: [],
+            normalizedAdminDb: [], 
+            filteredDb: [], 
             isSubmitting: false
         };
 
         const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxqFkpPxIjuRAy0yV7JpQ2FuH7qIzLSTt50AB-khz1Yv9aXDUMdJkk-yUIEU9v4-et4/exec';
-        
-        // Configurações do Sheets (LEITURA)
         const GOOGLE_SHEET_ID = '1q6oCp71W8dZf4UkeupKoWvuQE7DcgwQqmNXulvMT7vo';
         const GOOGLE_SHEET_GID = '2028508545';
         
         window.addEventListener('load', () => {
+            toggleFloatingBtn(true);
+            
             const savedData = localStorage.getItem('totalSaudeData');
             if (savedData) {
                 try { appState.database = JSON.parse(savedData); } catch(e) {}
@@ -929,6 +1026,7 @@
                 }, 800);
             }, 2000);
 
+            // Logica Exclusiva de Checkboxes
             function setupExclusiveCheckbox(name, exclusiveValue) {
                 document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
                     el.addEventListener('change', (e) => {
@@ -974,7 +1072,6 @@
             });
         });
 
-        // MASCRAS E VALIDAÇÃO CPF ...
         function maskCPF(i) {
             var v = i.value.replace(/\D/g, ''); 
             i.setAttribute("maxlength", "14");
@@ -1025,8 +1122,8 @@
             if (!toast) {
                 toast = document.createElement('div');
                 toast.id = 'error-toast';
-                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-5 py-3 rounded-xl shadow-2xl z-50 flex items-center gap-3 font-semibold transition-all duration-300 translate-y-[-150%] opacity-0 w-11/12 max-w-md';
-                toast.innerHTML = `<i class="ph-bold ph-warning-circle text-2xl"></i> <span id="toast-msg" class="text-sm"></span>`;
+                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 flex items-center gap-4 font-bold transition-all duration-300 translate-y-[-150%] opacity-0 w-11/12 max-w-md border-b-4 border-red-800';
+                toast.innerHTML = `<i class="ph-fill ph-warning-circle text-3xl"></i> <span id="toast-msg" class="text-sm"></span>`;
                 document.body.appendChild(toast);
             }
             document.getElementById('toast-msg').innerText = message;
@@ -1049,31 +1146,31 @@
 
         function validateStep(step) {
             if (step === 1) {
-                if (!document.getElementById('user-name').value.trim()) return failValidation("Qual é o seu nome completo?");
+                if (!document.getElementById('user-name').value.trim()) return failValidation("Por favor, digite seu nome completo.");
                 const cpfVal = document.getElementById('user-cpf').value;
-                if (!cpfVal || !validarCPF(cpfVal)) return failValidation("Por favor, informe um CPF válido.");
-                if (!document.getElementById('company-name').value.trim()) return failValidation("Qual o nome da empresa/unidade?");
+                if (!cpfVal || !validarCPF(cpfVal)) return failValidation("O CPF informado é inválido.");
+                if (!document.getElementById('company-name').value.trim()) return failValidation("Por favor, informe a empresa ou unidade.");
                 if (!document.querySelector('input[name="idade"]:checked')) return failValidation("Selecione sua faixa etária.");
                 if (!document.querySelector('input[name="sexo"]:checked')) return failValidation("Selecione seu sexo/gênero.");
                 if (!document.querySelector('input[name="setor"]:checked')) return failValidation("Em qual setor você trabalha?");
-                if (document.querySelector('input[name="setor"]:checked').value === "Outro" && !document.getElementById('setor-outro').value.trim()) return failValidation("Especifique o setor.");
+                if (document.querySelector('input[name="setor"]:checked').value === "Outro" && !document.getElementById('setor-outro').value.trim()) return failValidation("Especifique seu setor.");
             } else if (step === 2) {
-                if (!document.getElementById('peso').value || !document.getElementById('altura').value) return failValidation("Informe peso e altura.");
-                if (!document.querySelector('input[name="saude"]:checked')) return failValidation("Avalie sua saúde hoje.");
-                if (document.querySelectorAll('input[name="doencas"]:checked').length === 0) return failValidation("Marque alguma doença ou 'Não possuo'.");
+                if (!document.getElementById('peso').value || !document.getElementById('altura').value) return failValidation("Informe seu peso e altura corretamente.");
+                if (!document.querySelector('input[name="saude"]:checked')) return failValidation("Como você avalia sua saúde hoje?");
+                if (document.querySelectorAll('input[name="doencas"]:checked').length === 0) return failValidation("Selecione alguma condição crônica ou marque 'Não possuo'.");
             } else if (step === 3) {
-                if (document.querySelectorAll('input[name="historico"]:checked').length === 0) return failValidation("Marque o histórico familiar ou 'Não possuo'.");
-                if (!document.querySelector('input[name="cirurgia_radio"]:checked') || !document.querySelector('input[name="internacao_radio"]:checked')) return failValidation("Responda sobre internações e cirurgias.");
-                if (!document.querySelector('input[name="medico"]:checked') || !document.querySelector('input[name="medicamentos"]:checked')) return failValidation("Responda sobre acompanhamento médico.");
+                if (document.querySelectorAll('input[name="historico"]:checked').length === 0) return failValidation("Informe o histórico familiar ou marque 'Não possuo'.");
+                if (!document.querySelector('input[name="cirurgia_radio"]:checked') || !document.querySelector('input[name="internacao_radio"]:checked')) return failValidation("Responda as questões sobre cirurgias e internações.");
+                if (!document.querySelector('input[name="medico"]:checked') || !document.querySelector('input[name="medicamentos"]:checked')) return failValidation("Responda sobre acompanhamento médico e medicamentos.");
             } else if (step === 4) {
-                if (!document.querySelector('input[name="exercicio"]:checked') || !document.querySelector('input[name="alimentacao"]:checked')) return failValidation("Preencha atividade física e alimentação.");
-                if (!document.getElementById('agua').value || !document.getElementById('sono').value) return failValidation("Preencha água e sono.");
-                if (!document.getElementById('fumo').value || !document.getElementById('alcool').value) return failValidation("Preencha fumo e álcool.");
+                if (!document.querySelector('input[name="exercicio"]:checked') || !document.querySelector('input[name="alimentacao"]:checked')) return failValidation("Por favor, preencha os dados de atividade física e alimentação.");
+                if (!document.getElementById('agua').value || !document.getElementById('sono').value) return failValidation("Selecione o consumo de água e horas de sono.");
+                if (!document.getElementById('fumo').value || !document.getElementById('alcool').value) return failValidation("Selecione as informações de fumo e álcool.");
             } else if (step === 5) {
-                if (!document.querySelector('input[name="estresse"]:checked') || !document.querySelector('input[name="equilibrio"]:checked') || !document.querySelector('input[name="impacto"]:checked')) return failValidation("Preencha todas as avaliações de saúde mental.");
+                if (!document.querySelector('input[name="estresse"]:checked') || !document.querySelector('input[name="equilibrio"]:checked') || !document.querySelector('input[name="impacto"]:checked')) return failValidation("Responda todas as perguntas da seção de Saúde Mental.");
             } else if (step === 6) {
-                if (document.querySelectorAll('input[name="dores"]:checked').length === 0) return failValidation("Sente alguma dor? Preencha.");
-                if (!document.querySelector('input[name="ergonomia"]:checked')) return failValidation("O posto é adequado?");
+                if (document.querySelectorAll('input[name="dores"]:checked').length === 0) return failValidation("Selecione onde sente dores ou marque 'Não sinto dores'.");
+                if (!document.querySelector('input[name="ergonomia"]:checked')) return failValidation("Avalie a ergonomia do seu posto de trabalho.");
             }
             return true;
         }
@@ -1081,6 +1178,7 @@
         function startSurvey() {
             document.getElementById('intro-screen').classList.add('hidden');
             document.getElementById('survey-screen').classList.remove('hidden');
+            toggleFloatingBtn(false); // Esconde botão RH durante form
             updateUI();
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
@@ -1209,11 +1307,9 @@
             const min = d.getMinutes().toString().padStart(2, '0');
             dados.data_submissao = `${dia}/${mes}/${ano} ${hora}:${min}:00`;
 
-            // Backup Local
             appState.database.push(dados);
             localStorage.setItem('totalSaudeData', JSON.stringify(appState.database));
 
-            // Envia Google Sheets
             if (GOOGLE_SHEETS_WEBHOOK_URL) {
                 fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
                     method: "POST", mode: "no-cors",
@@ -1238,14 +1334,14 @@
                     appState.isSubmitting = false;
                     document.getElementById('loading-screen').classList.add('hidden');
                     document.getElementById('survey-screen').classList.remove('hidden');
-                    showError("Erro de conexão ao salvar na nuvem.");
+                    showError("Erro de conexão ao salvar. Tente novamente.");
                 });
             }
         }
 
         // --- FUNÇÕES DO ADMIN E DASHBOARD ---
-
         function openLoginModal() {
+            toggleFloatingBtn(false);
             const modal = document.getElementById('login-modal');
             modal.classList.remove('hidden');
             setTimeout(() => {
@@ -1255,6 +1351,7 @@
         }
 
         function closeLoginModal() {
+            toggleFloatingBtn(true);
             const modal = document.getElementById('login-modal');
             modal.classList.add('opacity-0');
             document.getElementById('login-card').classList.add('scale-95');
@@ -1269,13 +1366,10 @@
             const user = document.getElementById('admin-user').value.trim();
             const pass = document.getElementById('admin-pass').value.trim();
 
-            // Validação ofuscada em Base64 (proteção para não expor a senha no código-fonte)
-            // user esperado gerará "YWRtaW5fcmg=" (admin_rh)
-            // pass esperada gerará "VG90YWxTYXVkZUAyMDI2Iw==" (TotalSaude@2026#)
             if (btoa(user) === "YWRtaW5fcmg=" && btoa(pass) === "VG90YWxTYXVkZUAyMDI2Iw==") {
                 closeLoginModal();
+                toggleFloatingBtn(false);
                 document.getElementById('main-app').classList.add('hidden');
-                document.getElementById('footer-links').classList.add('hidden');
                 
                 const adminContainer = document.getElementById('admin-container');
                 adminContainer.classList.remove('hidden');
@@ -1284,7 +1378,7 @@
 
                 renderAdminData();
             } else {
-                showError("Credenciais inválidas.");
+                showError("Acesso Negado: Usuário ou senha incorretos.");
                 const card = document.getElementById('login-card');
                 card.classList.remove('shake-animation');
                 void card.offsetWidth; 
@@ -1295,7 +1389,7 @@
         function closeAdmin() {
             document.getElementById('admin-container').classList.add('hidden', 'opacity-0');
             document.getElementById('main-app').classList.remove('hidden');
-            document.getElementById('footer-links').classList.remove('hidden');
+            toggleFloatingBtn(true);
             document.body.classList.replace('bg-slate-200', 'bg-[#fff7ed]');
         }
 
@@ -1347,7 +1441,7 @@
             const record = {
                 name: getVal('nome', 'name', 'colaborador'),
                 cpf: getVal('cpf', 'documento'),
-                company: getVal('empresa', 'unidade', 'company'),
+                company: getVal('empresa', 'unidade', 'company', 'filial'),
                 idade: getVal('idade', 'etária', 'etaria', 'anos'),
                 sexo: getVal('sexo', 'gênero', 'genero'),
                 setor: getVal('setor', 'área', 'area', 'departamento'),
@@ -1377,12 +1471,8 @@
                 data_submissao: getVal('data', 'carimbo', 'timestamp')
             };
 
-            if (!record.score_risco || record.score_risco === 0) {
-                record.score_risco = calcularScore(record);
-            }
-            if (!record.classificacao) {
-                record.classificacao = classificarRisco(record.score_risco);
-            }
+            if (!record.score_risco || record.score_risco === 0) record.score_risco = calcularScore(record);
+            if (!record.classificacao) record.classificacao = classificarRisco(record.score_risco);
 
             return record;
         }
@@ -1391,7 +1481,7 @@
             const tbody = document.getElementById('admin-table-body');
             const syncWarning = document.getElementById('sync-warning');
             
-            tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-500"><i class="ph-bold ph-spinner animate-spin text-3xl mb-3 text-orange-500"></i><br>Sincronizando com Banco de Dados Seguro...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="p-10 text-center text-slate-500"><i class="ph-bold ph-spinner animate-spin text-5xl mb-4 text-orange-500"></i><br><span class="font-bold text-lg">Sincronizando Inteligência...</span></td></tr>';
             syncWarning.classList.add('hidden');
 
             let rawData = await fetchSheetData();
@@ -1467,36 +1557,14 @@
                 const escapeCsv = (str) => `"${String(str || '').replace(/"/g, '""')}"`;
                 
                 const row = [
-                    escapeCsv(emp.data_submissao),
-                    escapeCsv(emp.company),
-                    escapeCsv(emp.name),
-                    escapeCsv(emp.cpf),
-                    escapeCsv(emp.idade),
-                    escapeCsv(emp.sexo),
-                    escapeCsv(emp.setor),
-                    escapeCsv(emp.tempo_empresa),
-                    escapeCsv(emp.peso),
-                    escapeCsv(emp.altura),
-                    escapeCsv(emp.saude),
-                    escapeCsv((emp.doencas || []).join('; ')),
-                    escapeCsv((emp.historico_familiar || []).join('; ')),
-                    escapeCsv(emp.cirurgia),
-                    escapeCsv(emp.internacao),
-                    escapeCsv(emp.acompanhamento_medico),
-                    escapeCsv(emp.medicamentos),
-                    escapeCsv(emp.exercicio),
-                    escapeCsv(emp.alimentacao),
-                    escapeCsv(emp.agua),
-                    escapeCsv(emp.sono),
-                    escapeCsv(emp.fumo),
-                    escapeCsv(emp.alcool),
-                    escapeCsv(emp.estresse),
-                    escapeCsv(emp.equilibrio),
-                    escapeCsv(emp.impacto),
-                    escapeCsv((emp.dores || []).join('; ')),
-                    escapeCsv(emp.ergonomia),
-                    escapeCsv(emp.score_risco),
-                    escapeCsv(emp.classificacao)
+                    escapeCsv(emp.data_submissao), escapeCsv(emp.company), escapeCsv(emp.name), escapeCsv(emp.cpf),
+                    escapeCsv(emp.idade), escapeCsv(emp.sexo), escapeCsv(emp.setor), escapeCsv(emp.tempo_empresa),
+                    escapeCsv(emp.peso), escapeCsv(emp.altura), escapeCsv(emp.saude), escapeCsv((emp.doencas || []).join('; ')),
+                    escapeCsv((emp.historico_familiar || []).join('; ')), escapeCsv(emp.cirurgia), escapeCsv(emp.internacao),
+                    escapeCsv(emp.acompanhamento_medico), escapeCsv(emp.medicamentos), escapeCsv(emp.exercicio),
+                    escapeCsv(emp.alimentacao), escapeCsv(emp.agua), escapeCsv(emp.sono), escapeCsv(emp.fumo),
+                    escapeCsv(emp.alcool), escapeCsv(emp.estresse), escapeCsv(emp.equilibrio), escapeCsv(emp.impacto),
+                    escapeCsv((emp.dores || []).join('; ')), escapeCsv(emp.ergonomia), escapeCsv(emp.score_risco), escapeCsv(emp.classificacao)
                 ];
                 csvRows.push(row.join(","));
             });
@@ -1510,10 +1578,18 @@
             
             const link = document.createElement("a");
             link.setAttribute("href", url);
-            link.setAttribute("download", `Inteligencia_Saude_${fileDate}.csv`);
+            link.setAttribute("download", `Diretorio_Saude_${fileDate}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // FORMATAÇÃO DO AVATAR
+        function getInitials(name) {
+            if(!name) return "?";
+            let parts = name.trim().split(" ");
+            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
         }
 
         function renderDashboardUI(db) {
@@ -1522,7 +1598,7 @@
             const insightBox = document.getElementById('ai-insight-box');
             const total = db.length;
             
-            document.getElementById('table-count').innerText = `${total} registros`;
+            document.getElementById('table-count').innerText = `${total} Registros`;
 
             let totalRiscoAlto = 0;
             let totalEstresseAlto = 0;
@@ -1534,8 +1610,13 @@
             const doresCount = {};
             const doencasCount = {};
             const timelineCount = {}; 
+            
+            // Nova Estrutura para Linha do Tempo e Empresas
+            // format: groupedData[Year][Month][Company] = [ array of names ]
+            const groupedData = {}; 
 
-            const monthNames = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+            const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+            const shortMonthNames = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
             if (total === 0) {
                 tbody.innerHTML = '';
@@ -1546,11 +1627,12 @@
                 document.getElementById('admin-kpi-estresse').innerText = '0%';
                 document.getElementById('admin-kpi-sedentarismo').innerText = '0%';
                 document.getElementById('admin-kpi-ergonomia').innerText = '0%';
-                document.getElementById('companies-container').innerHTML = '<p class="text-sm text-slate-400 italic py-2">Nenhuma empresa mapeada neste filtro.</p>';
+                document.getElementById('companies-container').innerHTML = '<p class="text-sm text-slate-400 italic py-2">Nenhuma unidade neste filtro.</p>';
                 document.getElementById('chart-sectors').innerHTML = '';
                 document.getElementById('chart-pains').innerHTML = '';
                 document.getElementById('chart-diseases').innerHTML = '';
                 document.getElementById('chart-timeline').innerHTML = '';
+                document.getElementById('timeline-companies-container').innerHTML = '<p class="text-slate-400 italic text-sm">Sem dados agrupados para exibir.</p>';
                 return;
             }
 
@@ -1592,48 +1674,72 @@
                     });
                 }
 
-                let monthLabel = "S/ Data";
+                // Data Extraction & Grouping
+                let mLabel = "S/ Data";
+                let year = "Geral";
+                let monthFull = "Sem Mês";
+                
                 if(item.data_submissao) {
+                    // Esperado DD/MM/YYYY ou similar vindo do Sheets
                     const parts = item.data_submissao.split('/'); 
                     if(parts.length >= 3) {
                         const mIdx = parseInt(parts[1]) - 1;
                         if(mIdx >= 0 && mIdx < 12) {
-                            monthLabel = `${monthNames[mIdx]}/${parts[2].substring(0,4)}`;
+                            year = parts[2].substring(0,4);
+                            monthFull = monthNames[mIdx];
+                            mLabel = `${shortMonthNames[mIdx]}/${year}`;
                         }
                     }
                 }
-                timelineCount[monthLabel] = (timelineCount[monthLabel] || 0) + 1;
+                timelineCount[mLabel] = (timelineCount[mLabel] || 0) + 1;
 
-                let riscoBadge = `<span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs font-bold uppercase">${item.classificacao || 'N/A'}</span>`;
-                if(classRisco.includes('baixo')) riscoBadge = `<span class="px-2 py-1 bg-green-100 text-green-700 border border-green-200 rounded text-[10px] font-bold uppercase"><i class="ph-fill ph-check-circle"></i> Baixo</span>`;
-                if(classRisco.includes('médio') || classRisco.includes('medio')) riscoBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded text-[10px] font-bold uppercase"><i class="ph-fill ph-warning"></i> Médio</span>`;
-                if(classRisco.includes('alto')) riscoBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 border border-red-200 rounded text-[10px] font-bold uppercase"><i class="ph-fill ph-warning-octagon animate-pulse"></i> Alto</span>`;
+                // Build Grouped Object for New Widget
+                if(!groupedData[year]) groupedData[year] = {};
+                if(!groupedData[year][monthFull]) groupedData[year][monthFull] = {};
+                if(!groupedData[year][monthFull][compNome]) groupedData[year][monthFull][compNome] = [];
+                groupedData[year][monthFull][compNome].push(item.name || 'Anônimo');
 
-                let doresBadge = `<span class="text-green-600 font-medium"><i class="ph-bold ph-check"></i> Não</span>`;
-                if (temDorFisica) doresBadge = `<span class="text-orange-500 font-bold"><i class="ph-bold ph-warning"></i> Sim</span>`;
+                // UI DA TABELA (Diretório)
+                let riscoBadge = `<span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider">${item.classificacao || 'N/A'}</span>`;
+                if(classRisco.includes('baixo')) riscoBadge = `<span class="px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1"><i class="ph-bold ph-check"></i> Baixo</span>`;
+                if(classRisco.includes('médio') || classRisco.includes('medio')) riscoBadge = `<span class="px-3 py-1 bg-yellow-100 text-yellow-700 border border-yellow-300 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1"><i class="ph-bold ph-warning"></i> Médio</span>`;
+                if(classRisco.includes('alto')) riscoBadge = `<span class="px-3 py-1 bg-red-600 text-white shadow-lg rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1 animate-pulse"><i class="ph-bold ph-siren"></i> ALTO</span>`;
 
+                let doresBadge = `<span class="text-green-600 font-bold"><i class="ph-bold ph-check-circle"></i> Nenhuma</span>`;
+                if (temDorFisica) doresBadge = `<span class="text-orange-600 font-black"><i class="ph-bold ph-warning-circle"></i> Sim</span>`;
+                
+                let estresseBadge = item.estresse || '-';
+                if(estresseStr.includes('frequentemente') || estresseStr.includes('sempre')) {
+                    estresseBadge = `<span class="text-red-600 font-black"><i class="ph-fill ph-lightning"></i> ${item.estresse}</span>`;
+                }
+
+                const initials = getInitials(item.name);
                 const originalIndex = appState.normalizedAdminDb.indexOf(item);
 
                 htmlRows += `
-                    <tr class="hover:bg-orange-50 cursor-pointer transition border-b border-slate-100 group" onclick="viewEmployeeDetails(${originalIndex})">
-                        <td class="p-4 font-medium text-slate-800 flex items-center gap-3 relative">
-                            <div class="bg-slate-100 p-2 rounded-lg group-hover:bg-orange-100 group-hover:text-orange-600 transition-colors"><i class="ph-fill ph-user text-lg text-slate-500 group-hover:text-orange-600"></i></div>
-                            <div class="max-w-[150px] sm:max-w-[250px]">
-                                <div class="truncate font-bold">${item.name}</div>
-                                <div class="text-[10px] text-slate-400 font-normal mt-0.5 truncate">${item.cpf}</div>
-                                <div class="text-[10px] text-slate-400 font-bold uppercase mt-0.5 truncate"><i class="ph-fill ph-buildings"></i> ${item.company || 'Não informada'}</div>
+                    <tr class="hover:bg-slate-50 cursor-pointer transition-colors group" onclick="viewEmployeeDetails(${originalIndex})">
+                        <td class="p-5 pl-6 font-medium text-slate-800 flex items-center gap-4 relative">
+                            <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-black text-sm group-hover:bg-orange-500 group-hover:text-white shadow-inner transition-colors shrink-0">
+                                ${initials}
+                            </div>
+                            <div class="max-w-[200px] sm:max-w-[300px]">
+                                <div class="truncate font-black text-base text-slate-700 group-hover:text-orange-600 transition-colors">${item.name}</div>
+                                <div class="text-xs text-slate-400 font-bold uppercase mt-0.5 truncate flex items-center gap-1"><i class="ph-fill ph-buildings"></i> ${item.company || 'N/I'}</div>
                             </div>
                         </td>
-                        <td class="p-4 text-xs text-slate-600"><span class="font-bold">${item.idade || '-'}</span> <br> <span class="text-slate-400">${item.sexo || '-'}</span></td>
-                        <td class="p-4 text-xs font-semibold text-slate-600">
-                            <span class="bg-slate-100 px-2 py-1 rounded">${setorAtual}</span>
+                        <td class="p-5 text-xs text-slate-600"><span class="font-black text-sm text-slate-700">${item.idade || '-'}</span> <br> <span class="text-slate-400 font-medium">${item.sexo || '-'}</span></td>
+                        <td class="p-5 text-xs font-semibold text-slate-600">
+                            <span class="bg-slate-100 border border-slate-200 px-2 py-1 rounded shadow-sm text-slate-700">${setorAtual}</span>
+                            <div class="mt-1 text-[10px] text-slate-400 ml-1">${item.tempo_empresa || '-'}</div>
                         </td>
-                        <td class="p-4 text-xs font-medium text-slate-600">${item.estresse || '-'}</td>
-                        <td class="p-4 text-xs">${doresBadge}</td>
-                        <td class="p-4 text-center font-bold text-slate-800 text-lg">${item.score_risco}</td>
-                        <td class="p-4 flex items-center gap-2 justify-between">
+                        <td class="p-5 text-xs">${estresseBadge}</td>
+                        <td class="p-5 text-xs">${doresBadge}</td>
+                        <td class="p-5 text-center font-black text-slate-800 text-xl">${item.score_risco}</td>
+                        <td class="p-5 pr-6 flex items-center gap-3 justify-between">
                             ${riscoBadge}
-                            <i class="ph-bold ph-caret-right text-slate-300 group-hover:text-orange-500 transition-colors"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-orange-100 group-hover:text-orange-600 transition-colors">
+                                <i class="ph-bold ph-caret-right text-slate-400 group-hover:text-orange-600"></i>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -1645,6 +1751,7 @@
             document.getElementById('admin-kpi-sedentarismo').innerText = Math.round((totalSedentarios / total) * 100) + '%';
             document.getElementById('admin-kpi-ergonomia').innerText = Math.round((alertaErgonomico / total) * 100) + '%';
 
+            // INSIGHT
             const pctRisco = (totalRiscoAlto / total) * 100;
             const pctEstresse = (totalEstresseAlto / total) * 100;
             let insight = "";
@@ -1652,11 +1759,11 @@
             const piorSetor = arrSetores.length > 0 ? arrSetores[0].setor : 'Geral';
 
             if (pctRisco >= 30) {
-                insight = `Atenção Crítica: ${Math.round(pctRisco)}% da população filtrada está classificada como Risco Alto. O setor com maior fragilidade no momento é <strong>${piorSetor}</strong>. Intervenção preventiva recomendada.`;
+                insight = `Atenção Crítica: <span class="text-red-600 font-black">${Math.round(pctRisco)}%</span> da população mapeada está classificada como Risco Alto. O setor com maior fragilidade no momento é <strong>${piorSetor}</strong>. Intervenção imediata recomendada.`;
             } else if (pctEstresse >= 40) {
-                insight = `Alerta de Saúde Mental: ${Math.round(pctEstresse)}% relatam estresse frequente ou severo. Considere ações de descompressão e verifique a carga de trabalho.`;
+                insight = `Alerta de Saúde Mental: <span class="text-orange-600 font-black">${Math.round(pctEstresse)}%</span> relatam estresse frequente ou severo. Considere ações de descompressão e mapeamento de clima na liderança.`;
             } else if ((totalSedentarios / total) * 100 >= 60) {
-                insight = `Aviso de Hábitos: Cerca de ${Math.round((totalSedentarios / total) * 100)}% da equipe é sedentária. Programas de incentivo a atividades físicas podem reduzir os riscos a longo prazo.`;
+                insight = `Aviso Comportamental: <span class="text-purple-600 font-black">${Math.round((totalSedentarios / total) * 100)}%</span> da equipe é completamente sedentária. Campanhas de incentivo à atividade física são essenciais agora.`;
             } else {
                 insight = `Cenário Estável: A população filtrada apresenta índices controlados. Mantenha os programas preventivos e campanhas regulares de bem-estar ativas.`;
             }
@@ -1664,22 +1771,79 @@
             document.getElementById('ai-insight-text').innerHTML = insight;
             insightBox.classList.remove('hidden');
 
+            // CARDS EMPRESAS
             const compContainer = document.getElementById('companies-container');
             compContainer.innerHTML = '';
             const sortedCompanies = Object.keys(companiesCount).sort((a,b) => companiesCount[b] - companiesCount[a]);
             sortedCompanies.forEach(comp => {
                 const count = companiesCount[comp];
                 compContainer.innerHTML += `
-                    <div class="company-badge px-4 py-3 rounded-xl flex items-center gap-3 shrink-0 cursor-pointer" onclick="document.getElementById('filter-empresa').value='${comp}'; applyFilters();">
-                        <div class="bg-slate-800 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shadow-inner shrink-0">${comp.charAt(0).toUpperCase()}</div>
-                        <div>
-                            <p class="text-xs font-bold text-slate-700 uppercase tracking-wide truncate max-w-[140px]">${comp}</p>
-                            <p class="text-[10px] text-slate-500 font-medium">${count} vidas mapeadas</p>
+                    <div class="company-badge px-5 py-4 rounded-2xl flex items-center gap-4 shrink-0 cursor-pointer w-64" onclick="document.getElementById('filter-empresa').value='${comp}'; applyFilters();">
+                        <div class="bg-gradient-to-tr from-slate-700 to-slate-900 text-white w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg shadow-lg border border-slate-600 shrink-0">${comp.charAt(0).toUpperCase()}</div>
+                        <div class="overflow-hidden">
+                            <p class="text-sm font-black text-slate-700 uppercase tracking-tight truncate">${comp}</p>
+                            <p class="text-xs text-orange-600 font-bold mt-0.5"><i class="ph-bold ph-users"></i> ${count} mapeados</p>
                         </div>
                     </div>
                 `;
             });
 
+            // GERAÇÃO DO NOVO WIDGET TIMELINE/EMPRESAS/NOMES
+            const timelineContainer = document.getElementById('timeline-companies-container');
+            let timelineHtml = '';
+            
+            // Ordenar anos decrescente
+            const years = Object.keys(groupedData).sort((a,b) => b.localeCompare(a));
+            years.forEach(yr => {
+                timelineHtml += `<div class="mb-6 relative pl-6 timeline-line">`;
+                timelineHtml += `<div class="absolute left-0 top-0 bg-indigo-500 w-8 h-8 rounded-full border-4 border-white shadow-md flex items-center justify-center text-white font-bold text-[10px] z-10"><i class="ph-bold ph-calendar"></i></div>`;
+                timelineHtml += `<h4 class="text-2xl font-black text-slate-800 ml-4 pt-0.5 mb-4">${yr}</h4>`;
+                
+                // Ordenar meses (tentativa simples de pegar ordem correta se existirem)
+                const sortedMonths = Object.keys(groupedData[yr]).sort((a,b) => monthNames.indexOf(b) - monthNames.indexOf(a)); 
+                
+                sortedMonths.forEach(mth => {
+                    timelineHtml += `<div class="ml-4 mb-5 slide-up">`;
+                    timelineHtml += `<h5 class="text-lg font-bold text-indigo-600 uppercase tracking-widest mb-3 flex items-center gap-2"><i class="ph-bold ph-clock"></i> ${mth}</h5>`;
+                    timelineHtml += `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+                    
+                    const companiesInMonth = groupedData[yr][mth];
+                    const sortedCompsInMonth = Object.keys(companiesInMonth).sort((a,b) => companiesInMonth[b].length - companiesInMonth[a].length);
+                    
+                    sortedCompsInMonth.forEach(comp => {
+                        const names = companiesInMonth[comp];
+                        const count = names.length;
+                        
+                        // Limitar nomes exibidos para não quebrar layout
+                        const displayNames = names.slice(0, 8);
+                        const hiddenCount = count - displayNames.length;
+
+                        let avatarsHtml = '';
+                        displayNames.forEach(n => {
+                            avatarsHtml += `<div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-600 shadow-sm -ml-2 first:ml-0" title="${n}">${getInitials(n)}</div>`;
+                        });
+                        if(hiddenCount > 0) {
+                            avatarsHtml += `<div class="w-8 h-8 rounded-full bg-orange-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-orange-600 shadow-sm -ml-2">+${hiddenCount}</div>`;
+                        }
+
+                        timelineHtml += `
+                            <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm hover:border-indigo-300 transition-colors">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div class="font-bold text-slate-700 truncate pr-2"><i class="ph-fill ph-buildings text-slate-400 mr-1"></i> ${comp}</div>
+                                    <div class="bg-indigo-50 text-indigo-700 font-black text-xs px-2 py-1 rounded-lg">${count}</div>
+                                </div>
+                                <div class="flex items-center mt-2">${avatarsHtml}</div>
+                                <p class="text-[10px] text-slate-400 mt-3 truncate font-medium">Inclui: ${displayNames.join(', ')}...</p>
+                            </div>
+                        `;
+                    });
+                    timelineHtml += `</div></div>`;
+                });
+                timelineHtml += `</div>`;
+            });
+            timelineContainer.innerHTML = timelineHtml;
+
+            // PREENCHE TABELA
             tbody.innerHTML = htmlRows;
 
             const generateBarHTML = (dataArray, keyLabel, valueLabel, colorClass, emptyMsg) => {
@@ -1691,8 +1855,8 @@
                     const valText = Number.isInteger(d[valueLabel]) ? d[valueLabel] : d[valueLabel].toFixed(1);
                     html += `
                     <div class="flex items-center gap-3">
-                       <span class="w-1/3 text-xs font-medium text-slate-600 truncate" title="${d[keyLabel]}">${d[keyLabel]}</span>
-                       <div class="w-2/3 bg-slate-100 h-2.5 rounded-full overflow-hidden shadow-inner">
+                       <span class="w-1/3 text-xs font-bold text-slate-600 truncate" title="${d[keyLabel]}">${d[keyLabel]}</span>
+                       <div class="w-2/3 bg-slate-100 h-3 rounded-full overflow-hidden shadow-inner">
                            <div class="${colorClass} h-full bar-grow rounded-full" style="width: ${w}%"></div>
                        </div>
                        <span class="text-xs font-black text-slate-700 w-8 text-right">${valText}</span>
@@ -1717,8 +1881,11 @@
             const emp = appState.normalizedAdminDb[index];
             if(!emp) return;
 
+            document.getElementById('modal-avatar').innerText = getInitials(emp.name);
             document.getElementById('detail-name').innerText = emp.name;
-            document.getElementById('detail-company-cpf').innerText = `${emp.company} | CPF: ${emp.cpf} | Data: ${emp.data_submissao || 'Desconhecida'}`;
+            document.getElementById('detail-company').innerText = emp.company || 'Não Informada';
+            document.getElementById('detail-cpf').innerText = emp.cpf || 'Sem CPF';
+            document.getElementById('detail-date').innerText = emp.data_submissao || 'Desconhecida';
             
             document.getElementById('detail-sector').innerText = emp.setor || '-';
             document.getElementById('detail-tenure').innerText = emp.tempo_empresa || '-';
@@ -1754,10 +1921,10 @@
             document.getElementById('detail-score').innerText = emp.score_risco || '0';
 
             let classRisco = emp.classificacao ? emp.classificacao.toString().toLowerCase() : '';
-            let riscoBadge = `<span class="px-4 py-1.5 bg-slate-500/20 text-slate-300 rounded font-bold uppercase text-sm border border-slate-600">N/A</span>`;
-            if(classRisco.includes('baixo')) riscoBadge = `<span class="px-4 py-1.5 bg-green-500/20 text-green-300 rounded font-bold uppercase text-sm border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.2)]"><i class="ph-fill ph-check-circle"></i> Risco Baixo</span>`;
-            if(classRisco.includes('médio') || classRisco.includes('medio')) riscoBadge = `<span class="px-4 py-1.5 bg-yellow-500/20 text-yellow-300 rounded font-bold uppercase text-sm border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.2)]"><i class="ph-fill ph-warning"></i> Risco Médio</span>`;
-            if(classRisco.includes('alto')) riscoBadge = `<span class="px-4 py-1.5 bg-red-500/20 text-red-400 rounded font-bold uppercase text-sm border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)] animate-pulse"><i class="ph-fill ph-warning-octagon"></i> Risco Alto</span>`;
+            let riscoBadge = `<span class="px-4 py-1.5 bg-slate-800 text-slate-400 rounded-xl font-bold uppercase text-xs border border-slate-700">N/A</span>`;
+            if(classRisco.includes('baixo')) riscoBadge = `<span class="px-4 py-1.5 bg-green-500/20 text-green-400 rounded-xl font-black uppercase text-xs border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.2)] flex items-center gap-1"><i class="ph-bold ph-check-circle"></i> Risco Baixo</span>`;
+            if(classRisco.includes('médio') || classRisco.includes('medio')) riscoBadge = `<span class="px-4 py-1.5 bg-yellow-500/20 text-yellow-400 rounded-xl font-black uppercase text-xs border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.2)] flex items-center gap-1"><i class="ph-bold ph-warning"></i> Risco Médio</span>`;
+            if(classRisco.includes('alto')) riscoBadge = `<span class="px-4 py-1.5 bg-red-500/20 text-red-400 rounded-xl font-black uppercase text-xs border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.4)] animate-pulse flex items-center gap-1"><i class="ph-bold ph-warning-octagon"></i> Risco Alto</span>`;
             document.getElementById('detail-risk-badge').innerHTML = riscoBadge;
 
             const modal = document.getElementById('employee-details-modal');
