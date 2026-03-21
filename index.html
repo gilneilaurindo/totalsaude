@@ -8,20 +8,14 @@
     <title>Total Saúde - Inteligência Corporativa</title>
     <meta name="description" content="Participe do nosso mapeamento confidencial de saúde e nos ajude a construir um ambiente de trabalho com mais qualidade de vida.">
     
-    <!-- Metatags para Redes Sociais (FOTO COM DEGRADÊ LARANJA) -->
+    <!-- Metatags para Redes Sociais -->
     <meta property="og:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
     <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões para melhorar nosso ambiente de trabalho.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1604076913837-52ab5629fba9?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
-    <!-- Metatags para Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Total Saúde - Mapeamento de Bem-Estar Corporativo">
-    <meta name="twitter:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1604076913837-52ab5629fba9?auto=format&fit=crop&w=1200&q=80">
-
-    <!-- Favicon (Ícone da Aba) -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧡</text></svg>">
     
     <!-- Tailwind CSS -->
@@ -30,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <!-- Canvas Confetti para animação de sucesso -->
+    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -57,8 +51,6 @@
             to { opacity: 0; visibility: hidden; }
         }
 
-        .input-with-icon { padding-left: 2.5rem; }
-
         .custom-radio:checked + div, .custom-checkbox:checked + div {
             border-color: #ea580c; 
             background-color: #fff7ed; 
@@ -73,7 +65,6 @@
         
         .checkbox-icon { opacity: 0; transform: scale(0.5); transition: all 0.2s; }
 
-        /* Animação de erro (Tremida/Shake) */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
@@ -81,7 +72,6 @@
         }
         .shake-animation { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
 
-        /* Animação de seleção de opção (Pop) */
         @keyframes popSelection {
             0% { transform: scale(1); }
             50% { transform: scale(0.95); }
@@ -89,10 +79,7 @@
         }
         .pop-selection { animation: popSelection 0.2s ease-out; }
 
-        /* Loader para a tela de análise */
-        .loader-dots div {
-            animation-timing-function: cubic-bezier(0, 1, 1, 0);
-        }
+        .loader-dots div { animation-timing-function: cubic-bezier(0, 1, 1, 0); }
         .loader-dots div:nth-child(1) { left: 8px; animation: loader-dots1 0.6s infinite; }
         .loader-dots div:nth-child(2) { left: 8px; animation: loader-dots2 0.6s infinite; }
         .loader-dots div:nth-child(3) { left: 32px; animation: loader-dots2 0.6s infinite; }
@@ -186,6 +173,15 @@
                                 </div>
                             </div>
 
+                            <!-- NOVO CAMPO: CPF COM MÁSCARA -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">CPF (Apenas números) *</label>
+                                <div class="relative">
+                                    <i class="ph ph-identification-badge text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                    <input type="text" id="user-cpf" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-gray-50 focus:bg-white">
+                                </div>
+                            </div>
+
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Nome da empresa *</label>
                                 <div class="relative">
@@ -205,29 +201,29 @@
                                 </div>
                             </div>
 
-                            <!-- IDENTIDADE DE GÊNERO ATUALIZADA -->
+                            <!-- IDENTIDADE DE GÊNERO SIMPLIFICADA -->
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Como você se identifica? (Identidade de Gênero) *</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Sexo / Gênero *</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <label class="block cursor-pointer">
-                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Feminino (Cis/Trans)">
+                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Feminino">
                                         <div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white">
                                             <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div>
-                                            <span class="text-sm font-medium text-gray-700">Feminino (Cis/Trans)</span>
+                                            <span class="text-sm font-medium text-gray-700">Feminino</span>
                                         </div>
                                     </label>
                                     <label class="block cursor-pointer">
-                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Masculino (Cis/Trans)">
+                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Masculino">
                                         <div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white">
                                             <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div>
-                                            <span class="text-sm font-medium text-gray-700">Masculino (Cis/Trans)</span>
+                                            <span class="text-sm font-medium text-gray-700">Masculino</span>
                                         </div>
                                     </label>
                                     <label class="block cursor-pointer">
-                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Não-binário / Outro">
+                                        <input type="radio" name="sexo" class="custom-radio hidden" value="Outro">
                                         <div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white">
                                             <div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-3 flex items-center justify-center"><div class="radio-dot w-2.5 h-2.5 rounded-full"></div></div>
-                                            <span class="text-sm font-medium text-gray-700">Não-binário / Outro</span>
+                                            <span class="text-sm font-medium text-gray-700">Outro</span>
                                         </div>
                                     </label>
                                     <label class="block cursor-pointer">
@@ -699,7 +695,8 @@
         };
 
         // --- LINK DO GOOGLE SHEETS ---
-        const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby0untVRw1AOesO5V8lWKCxcHGla-9bydp4uuic3W5BkxqUCO3J7XoqVFHFClF45eRK/exec';
+        // ATENÇÃO: Cole abaixo o link gerado no Passo 5 do tutorial (termina com /exec)
+        const GOOGLE_SHEETS_WEBHOOK_URL = 'COLE_SEU_LINK_DO_APPS_SCRIPT_AQUI';
         
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -767,6 +764,44 @@
             });
         });
 
+        // --- MÁSCARA DE CPF ---
+        function maskCPF(i) {
+            var v = i.value;
+            if (isNaN(v[v.length - 1])) { i.value = v.substring(0, v.length - 1); return; }
+            i.setAttribute("maxlength", "14");
+            if (v.length == 3 || v.length == 7) i.value += ".";
+            if (v.length == 11) i.value += "-";
+        }
+
+        // --- VALIDAÇÃO MATEMÁTICA DE CPF ---
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, '');
+            if (cpf == '') return false;
+            // Elimina CPFs invalidos conhecidos
+            if (cpf.length != 11 || 
+                cpf == "00000000000" || cpf == "11111111111" || cpf == "22222222222" || 
+                cpf == "33333333333" || cpf == "44444444444" || cpf == "55555555555" || 
+                cpf == "66666666666" || cpf == "77777777777" || cpf == "88888888888" || 
+                cpf == "99999999999")
+                return false;
+            
+            // Valida 1o digito
+            let add = 0;
+            for (let i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+            let rev = 11 - (add % 11);
+            if (rev == 10 || rev == 11) rev = 0;
+            if (rev != parseInt(cpf.charAt(9))) return false;
+            
+            // Valida 2o digito
+            add = 0;
+            for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+            rev = 11 - (add % 11);
+            if (rev == 10 || rev == 11) rev = 0;
+            if (rev != parseInt(cpf.charAt(10))) return false;
+            
+            return true;
+        }
+
         function calcularScore(dados) {
             let score = 0;
             if (dados.estresse === "Frequentemente" || dados.estresse === "Sempre") score += 4;
@@ -827,9 +862,15 @@
         function validateStep(step) {
             if (step === 1) {
                 if (!document.getElementById('user-name').value.trim()) return failValidation("Qual é o seu nome completo?");
+                
+                // Validação Assertiva do CPF
+                const cpfVal = document.getElementById('user-cpf').value;
+                if (!cpfVal) return failValidation("Por favor, informe seu CPF.");
+                if (!validarCPF(cpfVal)) return failValidation("CPF inválido. Verifique os números digitados.");
+
                 if (!document.getElementById('company-name').value.trim()) return failValidation("Qual o nome da empresa onde trabalha?");
                 if (!document.querySelector('input[name="idade"]:checked')) return failValidation("Por favor, selecione sua faixa etária.");
-                if (!document.querySelector('input[name="sexo"]:checked')) return failValidation("Por favor, selecione como se identifica.");
+                if (!document.querySelector('input[name="sexo"]:checked')) return failValidation("Por favor, selecione seu sexo/gênero.");
                 if (!document.querySelector('input[name="setor"]:checked')) return failValidation("Em qual setor você trabalha?");
                 
                 const setorRadio = document.querySelector('input[name="setor"]:checked');
@@ -982,6 +1023,7 @@
 
             return {
                 name: document.getElementById('user-name').value.trim(),
+                cpf: document.getElementById('user-cpf').value.trim(),
                 company: document.getElementById('company-name').value.trim(),
                 idade: getRadioVal("idade"),
                 sexo: getRadioVal("sexo"),
@@ -1042,7 +1084,6 @@
                         document.getElementById('loading-screen').classList.add('hidden');
                         document.getElementById('success-screen').classList.remove('hidden');
 
-                        // ✨ VIBRAÇÃO COMEMORATIVA ✨
                         if (navigator.vibrate) {
                             navigator.vibrate([300, 100, 300, 100, 800]); 
                         }
@@ -1057,7 +1098,7 @@
                                 if (Date.now() < end) requestAnimationFrame(frame);
                             }());
                         }
-                    }, 2000); // Simulando o tempo de processamento
+                    }, 2000); 
                 })
                 .catch((e) => {
                     document.getElementById('loading-screen').classList.add('hidden');
@@ -1175,6 +1216,7 @@
                             <i class="ph-fill ph-user-circle text-orange-500 text-lg"></i> 
                             <div>
                                 ${item.name}
+                                <div class="text-[10px] text-slate-400 font-normal uppercase mt-0.5"><i class="ph-fill ph-identification-card"></i> ${item.cpf || 'Não informado'}</div>
                                 <div class="text-[10px] text-slate-400 font-normal uppercase mt-0.5"><i class="ph-fill ph-buildings"></i> ${item.company}</div>
                             </div>
                         </td>
