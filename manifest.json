@@ -8,10 +8,24 @@
   "description": "Mapeamento Corporativo de Saúde",
   "icons": [
     {
-      "src": "./icon-512.png",
+      "src": "[https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png](https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png)",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "[https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png](https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png)",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ]
 }
+
+
+2. A Ligação no Ficheiro HTML
+
+O seu ficheiro principal (geralmente o index.html) precisa de dizer ao navegador onde está o manifest. Verifique se dentro da secção <head> do seu HTML existe esta linha:
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#ea580c">
