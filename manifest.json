@@ -8,7 +8,7 @@
   "description": "Mapeamento Corporativo de Saúde",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
