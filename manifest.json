@@ -1,5 +1,6 @@
 {
-  "name": "Total Saúde - Inteligência",
+  "id": "/",
+  "name": "Total Saúde - Inteligência Corporativa",
   "short_name": "Total Saúde",
   "description": "Mapeamento confidencial de saúde para um ambiente de trabalho melhor.",
   "start_url": "/",
@@ -19,5 +20,22 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1280&h=720&q=80",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Painel de Mapeamento Desktop"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=720&h=1280&q=80",
+      "sizes": "720x1280",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Painel de Mapeamento Mobile"
+    }
+  ],
+  "related_applications": []
 }
