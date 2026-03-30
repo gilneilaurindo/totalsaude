@@ -1,59 +1,17 @@
 {
-  "id": "/",
-  "name": "Total Saúde - Inteligência Corporativa",
+  "name": "Total Saúde",
   "short_name": "Total Saúde",
-  "description": "Mapeamento confidencial de saúde para um ambiente de trabalho melhor.",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#fff7ed",
   "theme_color": "#ea580c",
-  "categories": ["health", "medical", "business"],
-  "prefer_related_applications": false,
-  "related_applications": [],
-  "iarc_rating_id": "",
+  "description": "Mapeamento Corporativo de Saúde",
   "icons": [
     {
-      "src": "https://www.pwabuilder.com/assets/icons/icon_192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://www.pwabuilder.com/assets/icons/icon_512.png",
+      "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1280&h=720&q=80",
-      "sizes": "1280x720",
-      "type": "image/jpeg",
-      "form_factor": "wide",
-      "label": "Painel de Mapeamento Desktop"
-    },
-    {
-      "src": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=720&h=1280&q=80",
-      "sizes": "720x1280",
-      "type": "image/jpeg",
-      "form_factor": "narrow",
-      "label": "Painel de Mapeamento Mobile"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Acesso Liderança (RH)",
-      "short_name": "Painel RH",
-      "description": "Visualizar resultados do mapeamento",
-      "url": "/admin.html",
-      "icons": [
-        {
-          "src": "https://www.pwabuilder.com/assets/icons/icon_192.png",
-          "sizes": "192x192"
-        }
-      ]
     }
   ]
 }
