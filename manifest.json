@@ -21,11 +21,3 @@
     }
   ]
 }
-
-
-2. A Ligação no Ficheiro HTML
-
-O seu ficheiro principal (geralmente o index.html) precisa de dizer ao navegador onde está o manifest. Verifique se dentro da secção <head> do seu HTML existe esta linha:
-
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#ea580c">
