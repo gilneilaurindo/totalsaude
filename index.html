@@ -93,23 +93,6 @@
             100% { transform: scale(1); }
         }
         .pop-selection { animation: popSelection 0.2s ease-out; }
-
-        .loader-dots div { animation-timing-function: cubic-bezier(0, 1, 1, 0); }
-        .loader-dots div:nth-child(1) { left: 8px; animation: loader-dots1 0.6s infinite; }
-        .loader-dots div:nth-child(2) { left: 8px; animation: loader-dots2 0.6s infinite; }
-        .loader-dots div:nth-child(3) { left: 32px; animation: loader-dots2 0.6s infinite; }
-        .loader-dots div:nth-child(4) { left: 56px; animation: loader-dots3 0.6s infinite; }
-        @keyframes loader-dots1 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-        @keyframes loader-dots3 { 0% { transform: scale(1); } 100% { transform: scale(0); } }
-        @keyframes loader-dots2 { 0% { transform: translate(0, 0); } 100% { transform: translate(24px, 0); } }
-
-        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        .bar-grow { animation: barGrow 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes barGrow { from { width: 0; } }
     </style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-500">
@@ -143,7 +126,8 @@
                 <i class="ph-fill ph-heartbeat text-8xl"></i>
             </div>
             <h1 class="text-2xl font-bold flex items-center justify-center gap-2 relative z-10">
-                <i class="ph-fill ph-shield-check text-3xl"></i>
+                <!-- CLIQUE SECRETO: 5 cliques no escudo para ir para admin.html -->
+                <i class="ph-fill ph-shield-check text-3xl cursor-pointer" onclick="secretAdminAccess()"></i>
                 Total Saúde
             </h1>
         </header>
@@ -544,7 +528,7 @@
                 <h2 class="text-3xl font-black mb-3 text-gray-900">Mapeamento Concluído!</h2>
                 <p class="text-gray-600 mb-10 text-lg font-medium">Obrigado(a) por nos ajudar a construir um ambiente de trabalho cada vez mais saudável.</p>
                 
-                <button onclick="location.reload()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-8 rounded-xl transition duration-300 flex items-center justify-center mx-auto gap-2 shadow-lg">
+                <button onclick="resetApp()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 px-8 rounded-xl transition duration-300 flex items-center justify-center mx-auto gap-2 shadow-lg">
                     <i class="ph-bold ph-house"></i> Voltar ao Início
                 </button>
             </div>
@@ -554,6 +538,7 @@
 
     <!-- JS -->
     <script>
+        // --- PROTEÇÃO BÁSICA DE FRONT-END ---
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) { 
@@ -740,6 +725,29 @@
             document.getElementById('survey-screen').classList.remove('hidden');
             updateUI();
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        }
+
+        function resetApp() {
+            document.getElementById('success-screen').classList.add('hidden');
+            document.getElementById('intro-screen').classList.remove('hidden');
+            document.getElementById('health-form').reset();
+            
+            appState.currentStep = 1;
+            
+            for (let i = 1; i <= appState.totalSteps; i++) {
+                const stepEl = document.getElementById(`step-${i}`);
+                if (stepEl) {
+                    if (i === 1) stepEl.classList.remove('hidden');
+                    else stepEl.classList.add('hidden');
+                }
+            }
+            
+            document.getElementById('cirurgia-qual').classList.add('hidden');
+            document.getElementById('internacao-qual').classList.add('hidden');
+            
+            document.querySelectorAll('.pop-selection').forEach(el => el.classList.remove('pop-selection'));
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function nextStep() {
@@ -938,6 +946,18 @@
             installContainer.classList.add('hidden');
             console.log('PWA foi instalado na máquina/dispositivo do usuário.');
         });
+
+        // Clique secreto para Admin (5 cliques no Escudo no cabeçalho)
+        let clickCount = 0;
+        let clickTimer;
+        function secretAdminAccess() {
+            clickCount++;
+            clearTimeout(clickTimer);
+            if (clickCount >= 5) {
+                window.location.href = 'admin.html';
+            }
+            clickTimer = setTimeout(() => { clickCount = 0; }, 1500); 
+        }
     </script>
 </body>
 </html>
