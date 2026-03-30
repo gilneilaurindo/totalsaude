@@ -15,6 +15,11 @@
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
+    <!-- METATAGS OBRIGATÓRIAS PARA PWABUILDER -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ea580c">
+    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=192&q=80">
+
     <!-- Favicon Personalizado baseado na nova imagem (Fundo Laranja, Coração Branco, Linha Laranja) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ea580c'/%3E%3Cpath d='M50 85 C 50 85, 10 55, 10 30 A 20 20 0 0 1 50 20 A 20 20 0 0 1 90 30 C 90 55, 50 85, 50 85 Z' fill='white'/%3E%3Cpolyline points='15,50 35,50 45,30 55,75 65,50 85,50' fill='none' stroke='%23ea580c' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     
@@ -142,6 +147,13 @@
     </style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-500">
+
+    <!-- BOTÃO INSTALAR PWA (Oculto por padrão, aparece via JS) -->
+    <div id="install-container" class="fixed top-4 right-4 z-[100] hidden fade-in">
+        <button onclick="installPWA()" class="bg-white text-orange-600 border-2 border-orange-500 hover:bg-orange-50 font-black py-2 px-4 rounded-xl shadow-lg flex items-center gap-2 transition-all transform hover:scale-105">
+            <i class="ph-bold ph-download-simple text-xl"></i> Instalar App
+        </button>
+    </div>
 
     <!-- SPLASH SCREEN -->
     <div id="splash-screen" class="fixed inset-0 bg-gradient-to-br from-orange-500 to-orange-700 flex flex-col items-center justify-center z-50">
@@ -713,11 +725,6 @@
                 </h3>
                 
                 <div id="timeline-companies-container" class="space-y-6 max-h-[400px] overflow-y-auto custom-scrollbar pr-2 relative">
-                    <!-- Gerado via JS. Exemplo visual esperado:
-                        ANO 2026 -> MES NOVEMBRO
-                        - Empresa X (10 pessoas) [Avatar][Avatar]...
-                        - Empresa Y (5 pessoas) [Avatar]...
-                    -->
                     <p class="text-slate-400 italic">Carregando visualização temporal...</p>
                 </div>
             </div>
@@ -1631,7 +1638,6 @@
             const timelineCount = {}; 
             
             // Nova Estrutura para Linha do Tempo e Empresas
-            // format: groupedData[Year][Month][Company] = [ array of names ]
             const groupedData = {}; 
 
             const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
@@ -1650,7 +1656,7 @@
                 document.getElementById('chart-sectors').innerHTML = '';
                 document.getElementById('chart-pains').innerHTML = '';
                 document.getElementById('chart-diseases').innerHTML = '';
-                document.getElementById('chart-timeline').innerHTML = '';
+                document.getElementById('chart-timeline') ? document.getElementById('chart-timeline').innerHTML = '' : null;
                 document.getElementById('timeline-companies-container').innerHTML = '<p class="text-slate-400 italic text-sm">Sem dados agrupados para exibir.</p>';
                 return;
             }
@@ -1693,13 +1699,11 @@
                     });
                 }
 
-                // Data Extraction & Grouping
                 let mLabel = "S/ Data";
                 let year = "Geral";
                 let monthFull = "Sem Mês";
                 
                 if(item.data_submissao) {
-                    // Esperado DD/MM/YYYY ou similar vindo do Sheets
                     const parts = item.data_submissao.split('/'); 
                     if(parts.length >= 3) {
                         const mIdx = parseInt(parts[1]) - 1;
@@ -1712,13 +1716,11 @@
                 }
                 timelineCount[mLabel] = (timelineCount[mLabel] || 0) + 1;
 
-                // Build Grouped Object for New Widget
                 if(!groupedData[year]) groupedData[year] = {};
                 if(!groupedData[year][monthFull]) groupedData[year][monthFull] = {};
                 if(!groupedData[year][monthFull][compNome]) groupedData[year][monthFull][compNome] = [];
                 groupedData[year][monthFull][compNome].push(item.name || 'Anônimo');
 
-                // UI DA TABELA (Diretório)
                 let riscoBadge = `<span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-wider">${item.classificacao || 'N/A'}</span>`;
                 if(classRisco.includes('baixo')) riscoBadge = `<span class="px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1"><i class="ph-bold ph-check"></i> Baixo</span>`;
                 if(classRisco.includes('médio') || classRisco.includes('medio')) riscoBadge = `<span class="px-3 py-1 bg-yellow-100 text-yellow-700 border border-yellow-300 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1"><i class="ph-bold ph-warning"></i> Médio</span>`;
@@ -1811,14 +1813,12 @@
             const timelineContainer = document.getElementById('timeline-companies-container');
             let timelineHtml = '';
             
-            // Ordenar anos decrescente
             const years = Object.keys(groupedData).sort((a,b) => b.localeCompare(a));
             years.forEach(yr => {
                 timelineHtml += `<div class="mb-6 relative pl-6 timeline-line">`;
                 timelineHtml += `<div class="absolute left-0 top-0 bg-indigo-500 w-8 h-8 rounded-full border-4 border-white shadow-md flex items-center justify-center text-white font-bold text-[10px] z-10"><i class="ph-bold ph-calendar"></i></div>`;
                 timelineHtml += `<h4 class="text-2xl font-black text-slate-800 ml-4 pt-0.5 mb-4">${yr}</h4>`;
                 
-                // Ordenar meses (tentativa simples de pegar ordem correta se existirem)
                 const sortedMonths = Object.keys(groupedData[yr]).sort((a,b) => monthNames.indexOf(b) - monthNames.indexOf(a)); 
                 
                 sortedMonths.forEach(mth => {
@@ -1833,7 +1833,6 @@
                         const names = companiesInMonth[comp];
                         const count = names.length;
                         
-                        // Limitar nomes exibidos para não quebrar layout
                         const displayNames = names.slice(0, 8);
                         const hiddenCount = count - displayNames.length;
 
@@ -1883,9 +1882,6 @@
                 });
                 return html;
             };
-
-            const arrTimeline = Object.keys(timelineCount).map(m => ({ mes: m, count: timelineCount[m] })).reverse(); 
-            document.getElementById('chart-timeline').innerHTML = generateBarHTML(arrTimeline, 'mes', 'count', 'bg-gradient-to-r from-green-400 to-green-500', 'Sem datas registradas.');
 
             document.getElementById('chart-sectors').innerHTML = generateBarHTML(arrSetores.slice(0, 5), 'setor', 'media', 'bg-gradient-to-r from-orange-400 to-orange-500', 'Sem dados de setores.');
 
@@ -1961,6 +1957,59 @@
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
+        // PWA: Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registrado com sucesso no escopo: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('Falha no registro do ServiceWorker: ', err);
+                    });
+            });
+        }
+
+        // --- LÓGICA DE INSTALAÇÃO DO PWA ---
+        let deferredPrompt;
+        const installContainer = document.getElementById('install-container');
+
+        // Ouve o evento que o navegador dispara quando o PWA está pronto para ser instalado
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Previne o mini-infobar padrão do Chrome de aparecer
+            e.preventDefault();
+            // Salva o evento para ser disparado depois quando o usuário clicar no botão
+            deferredPrompt = e;
+            // Mostra o nosso botão customizado
+            installContainer.classList.remove('hidden');
+        });
+
+        // Função chamada quando o usuário clica em "Instalar App"
+        async function installPWA() {
+            if (deferredPrompt) {
+                // Mostra o prompt de instalação nativo do sistema
+                deferredPrompt.prompt();
+                
+                // Aguarda o usuário aceitar ou recusar
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('Usuário aceitou a instalação do PWA');
+                } else {
+                    console.log('Usuário recusou a instalação do PWA');
+                }
+                
+                // O prompt só pode ser usado uma vez, então limpamos a variável
+                deferredPrompt = null;
+                // Esconde o botão após a interação
+                installContainer.classList.add('hidden');
+            }
+        }
+
+        // Detecta se o app foi instalado com sucesso para sumir com o botão
+        window.addEventListener('appinstalled', () => {
+            installContainer.classList.add('hidden');
+            console.log('PWA foi instalado na máquina/dispositivo do usuário.');
+        });
     </script>
 </body>
 </html>
