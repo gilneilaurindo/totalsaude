@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
 
     <!-- METATAGS PWA E iOS -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" id="dynamic-manifest">
     <meta name="theme-color" content="#ea580c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -34,6 +34,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -137,8 +138,8 @@
             <div class="absolute inset-0 bg-orange-400 rounded-3xl animate-ping opacity-20"></div>
         </div>
         
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">Preparando App...</h2>
-        <p id="downloadStatusText" class="text-gray-500 text-sm mb-8">Conectando aos servidores seguros</p>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Preparando Instalação...</h2>
+        <p id="downloadStatusText" class="text-gray-500 text-sm mb-8">Verificando segurança do sistema</p>
 
         <!-- Barra de Progresso -->
         <div class="w-64 bg-gray-200 rounded-full h-3 mb-4 overflow-hidden">
@@ -604,6 +605,26 @@
             }
         };
 
+        // --- GERAÇÃO DO MANIFEST DINÂMICO PARA PWA (Sem precisar de ficheiro extra) ---
+        const manifest = {
+            "name": "Total Saúde - Plataforma",
+            "short_name": "Total Saúde",
+            "start_url": window.location.href,
+            "display": "standalone",
+            "background_color": "#ea580c",
+            "theme_color": "#ea580c",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjZWE1ODBjIi8+PHBhdGggZD0iTTUwIDg1IEMgNTAgODUsIDEwIDU1LCAxMCAzMCBBIDIwIDIwIDAgMCAxIDUwIDIwIEEgMjAgMjAgMCAwIDEgOTAgMzAgQyA5MCA1NSwgNTAgODUsIDUwIDg1IFoiIGZpbGw9IndoaXRlIi8+PHBvbHlsaW5lIHBvaW50cz0iMTUsNTAgMzUsNTAgNDUsMzAgNTUsNzUgNjUsNTAgODUsNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VhNTgwYyIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml",
+                    "purpose": "any maskable"
+                }
+            ]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        document.getElementById('dynamic-manifest').setAttribute('href', URL.createObjectURL(blob));
+
         const appState = {
             currentStep: 1,
             totalSteps: 6,
@@ -719,7 +740,7 @@
             return "Alto";
         }
 
-        function showError(message) {
+        function showError(message, duration = 3500) {
             if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
             let toast = document.getElementById('error-toast');
             if (!toast) {
@@ -742,7 +763,7 @@
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-[-150%]', 'opacity-0');
-            }, 3500);
+            }, duration);
         }
 
         function failValidation(msg) { showError(msg); return false; }
@@ -964,16 +985,9 @@
         }
 
         // ==========================================
-        // LÓGICA DE INSTALAÇÃO PWA E SIMULAÇÃO
+        // LÓGICA DE INSTALAÇÃO PWA REAL / NATIVA
         // ==========================================
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(() => console.log('Service Worker Registrado!'))
-                .catch(err => console.log('Erro no Service Worker:', err));
-        }
-
-        // 2. Variáveis de Interface da Instalação
         let deferredPrompt;
         const installOverlay = document.getElementById('installOverlay');
         const installSheet = document.getElementById('installSheet');
@@ -983,19 +997,19 @@
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-        // 3. Captura do evento de Instalação (Apenas Android/Chrome)
+        // 1. O NAVEGADOR DISPARA ISSO SE ESTIVER HOSPEDADO EM HTTPS
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); 
-            deferredPrompt = e;
+            deferredPrompt = e; // Salva o evento nativo para usar no botão
             
             if (!isStandalone) {
-                setTimeout(showInstallModal, 2500); 
+                setTimeout(showInstallModal, 2000); 
             }
         });
 
-        // Forçar tela de instrução no iOS (Safari não tem evento beforeinstallprompt)
+        // 2. TELA PARA O IOS (Safari)
         if(isIOS && !isStandalone) {
-            setTimeout(showInstallModal, 2500);
+            setTimeout(showInstallModal, 2000);
         }
 
         function showInstallModal() {
@@ -1014,42 +1028,37 @@
 
         document.getElementById('btnDismiss').addEventListener('click', hideInstallModal);
 
+        // 3. O QUE ACONTECE QUANDO CLICA NO BOTÃO "BAIXAR"
         document.getElementById('btnStartDownload').addEventListener('click', async () => {
             hideInstallModal();
             downloadScreen.classList.remove('hidden');
 
             const bar = document.getElementById('progressBarDownload');
             const pctText = document.getElementById('progressPercentageDownload');
-            const statusText = document.getElementById('downloadStatusText');
 
-            const steps = [
-                { pct: 15, msg: "Configurando ambiente seguro..." },
-                { pct: 50, msg: "Baixando módulos..." },
-                { pct: 100, msg: "Pronto para instalar!" }
-            ];
-
-            for (const step of steps) {
-                await new Promise(r => setTimeout(r, 600));
-                bar.style.width = `${step.pct}%`;
-                pctText.innerText = `${step.pct}%`;
-                statusText.innerText = step.msg;
-            }
-
-            await new Promise(r => setTimeout(r, 500));
+            // Simulação visual rápida
+            bar.style.width = '50%'; pctText.innerText = '50%';
+            await new Promise(r => setTimeout(r, 600));
+            bar.style.width = '100%'; pctText.innerText = '100%';
+            await new Promise(r => setTimeout(r, 400));
+            
             downloadScreen.classList.add('hidden');
 
-            // Aciona o pop-up nativo de instalação do Sistema
+            // === A MÁGICA DA INSTALAÇÃO REAL ACONTECE AQUI ===
             if (deferredPrompt) {
+                // Se estiver no Netlify/HTTPS, ele chama a instalação do Android
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('Usuário aceitou a instalação!');
+                }
                 deferredPrompt = null;
             } else if (isIOS) {
+                // Se for iPhone, mostra o balão ensinando
                 iosInstruction.classList.remove('hidden');
                 iosInstruction.classList.add('flex');
-            } else {
-                // Caso falhe o pop-up nativo em Androids restritos
-                showError("Para instalar, toque nos 3 pontos do navegador e escolha 'Instalar App'.");
             }
+            // A mensagem de aviso alertando sobre o bloqueio do telemóvel foi removida
         });
 
         document.getElementById('closeIos').addEventListener('click', () => {
