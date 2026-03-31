@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <!-- Metatags Básicas -->
     <title>Total Saúde - Inteligência Corporativa</title>
@@ -10,14 +10,17 @@
     
     <!-- Metatags para Redes Sociais (OG Image) -->
     <meta property="og:title" content="Total Saúde - Mapeamento Corporativo">
-    <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões para melhorar nosso ambiente de trabalho.">
+    <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
-    <!-- METATAGS OBRIGATÓRIAS PARA PWABUILDER -->
+    <!-- METATAGS PWA E iOS -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ea580c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Total Saúde">
     <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=192&q=80">
 
     <!-- Favicon Personalizado -->
@@ -113,8 +116,8 @@
             </div>
 
             <ul class="text-sm text-gray-600 space-y-3 mb-8">
-                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Não ocupa espaço no celular</li>
-                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Acesso rápido e seguro</li>
+                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Instalação direta e segura</li>
+                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Acesso offline aos seus dados</li>
                 <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Experiência de App Nativo</li>
             </ul>
 
@@ -182,7 +185,6 @@
                 <i class="ph-fill ph-heartbeat text-8xl"></i>
             </div>
             <h1 class="text-2xl font-bold flex items-center justify-center gap-2 relative z-10">
-                <!-- CLIQUE SECRETO: 5 cliques no escudo para ir para admin.html -->
                 <i class="ph-fill ph-shield-check text-3xl cursor-pointer" onclick="secretAdminAccess()"></i>
                 Total Saúde
             </h1>
@@ -962,53 +964,16 @@
         }
 
         // ==========================================
-        // LÓGICA DE INSTALAÇÃO PWA E SIMULAÇÃO DE APP
+        // LÓGICA DE INSTALAÇÃO PWA E SIMULAÇÃO
         // ==========================================
 
-        // 1. Gerar o Manifest e Service Worker Dinamicamente (Resolve os erros do PWABuilder)
-        const iconSvgCode = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjZWE1ODBjIi8+PHBhdGggZD0iTTUwIDg1IEMgNTAgODUsIDEwIDU1LCAxMCAzMCBBIDIwIDIwIDAgMCAxIDUwIDIwIEEgMjAgMjAgMCAwIDEgOTAgMzAgQyA5MCA1NSwgNTAgODUsIDUwIDg1IFoiIGZpbGw9IndoaXRlIi8+PHBvbHlsaW5lIHBvaW50cz0iMTUsNTAgMzUsNTAgNDUsMzAgNTUsNzUgNjUsNTAgODUsNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VhNTgwYyIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=`;
-
-        const dynamicManifest = {
-            name: "Total Saúde - Plataforma Corporativa",
-            short_name: "Total Saúde",
-            start_url: window.location.href,
-            display: "standalone",
-            orientation: "portrait",
-            background_color: "#ea580c",
-            theme_color: "#ea580c",
-            icons: [
-                { src: iconSvgCode, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
-                { src: iconSvgCode, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
-            ]
-        };
-
-        const manifestBlob = new Blob([JSON.stringify(dynamicManifest)], {type: 'application/json'});
-        const manifestUrl = URL.createObjectURL(manifestBlob);
-        
-        // Remove o manifest antigo e insere o novo dinâmico
-        const oldManifest = document.querySelector('link[rel="manifest"]');
-        if(oldManifest) oldManifest.remove();
-        const linkManifest = document.createElement('link');
-        linkManifest.rel = 'manifest';
-        linkManifest.href = manifestUrl;
-        document.head.appendChild(linkManifest);
-
-        // Service worker dinâmico para garantir que seja instalável
-        const swCode = `
-            self.addEventListener('install', (e) => self.skipWaiting());
-            self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
-            self.addEventListener('fetch', (e) => {});
-        `;
-        const swBlob = new Blob([swCode], {type: 'application/javascript'});
-        const swUrl = URL.createObjectURL(swBlob);
-        
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(swUrl)
-                .then(() => console.log('PWA Service Worker Dinâmico Ativo'))
-                .catch((err) => console.warn('Aviso: Service Worker (Blob URL) bloqueado neste ambiente por segurança. A simulação de PWA continuará normalmente.', err.message));
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker Registrado!'))
+                .catch(err => console.log('Erro no Service Worker:', err));
         }
 
-        // 2. Variáveis de Interface da Simulação
+        // 2. Variáveis de Interface da Instalação
         let deferredPrompt;
         const installOverlay = document.getElementById('installOverlay');
         const installSheet = document.getElementById('installSheet');
@@ -1018,18 +983,17 @@
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-        // 3. Capturar o evento nativo de instalação
+        // 3. Captura do evento de Instalação (Apenas Android/Chrome)
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); 
             deferredPrompt = e;
             
-            // Só exibe o modal se não estiver instalado
             if (!isStandalone) {
-                setTimeout(showInstallModal, 2500); // Exibe 2.5 segundos após abrir o site
+                setTimeout(showInstallModal, 2500); 
             }
         });
 
-        // Caso o evento nativo falhe (alguns navegadores), força exibir para iOS após um tempo
+        // Forçar tela de instrução no iOS (Safari não tem evento beforeinstallprompt)
         if(isIOS && !isStandalone) {
             setTimeout(showInstallModal, 2500);
         }
@@ -1050,7 +1014,6 @@
 
         document.getElementById('btnDismiss').addEventListener('click', hideInstallModal);
 
-        // 4. Lógica de Simulação de Download
         document.getElementById('btnStartDownload').addEventListener('click', async () => {
             hideInstallModal();
             downloadScreen.classList.remove('hidden');
@@ -1060,36 +1023,32 @@
             const statusText = document.getElementById('downloadStatusText');
 
             const steps = [
-                { pct: 15, msg: "Baixando base de dados local..." },
-                { pct: 35, msg: "Extraindo módulos de segurança..." },
-                { pct: 60, msg: "Criptografando ambiente..." },
-                { pct: 85, msg: "Criando atalho no sistema..." },
+                { pct: 15, msg: "Configurando ambiente seguro..." },
+                { pct: 50, msg: "Baixando módulos..." },
                 { pct: 100, msg: "Pronto para instalar!" }
             ];
 
             for (const step of steps) {
-                const delay = Math.floor(Math.random() * 800) + 400; 
-                await new Promise(r => setTimeout(r, delay));
-                
+                await new Promise(r => setTimeout(r, 600));
                 bar.style.width = `${step.pct}%`;
                 pctText.innerText = `${step.pct}%`;
                 statusText.innerText = step.msg;
             }
 
-            await new Promise(r => setTimeout(r, 600));
+            await new Promise(r => setTimeout(r, 500));
             downloadScreen.classList.add('hidden');
 
-            // 5. Acionar a instalação real do sistema operacional
+            // Aciona o pop-up nativo de instalação do Sistema
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('App Instalado com Sucesso!');
-                }
                 deferredPrompt = null;
             } else if (isIOS) {
                 iosInstruction.classList.remove('hidden');
                 iosInstruction.classList.add('flex');
+            } else {
+                // Caso falhe o pop-up nativo em Androids restritos
+                showError("Para instalar, toque nos 3 pontos do navegador e escolha 'Instalar App'.");
             }
         });
 
@@ -1098,16 +1057,13 @@
             iosInstruction.classList.remove('flex');
         });
 
-        // Clique secreto para Admin (5 cliques no Escudo no cabeçalho)
         let clickCount = 0;
         let clickTimer;
         function secretAdminAccess() {
             clickCount++;
             clearTimeout(clickTimer);
             if (clickCount >= 5) {
-                // Previne o erro "Failed to set the 'href' property on 'Location'" no ambiente de visualização
-                showError("Acesso Admin (Navegação bloqueada no modo preview).");
-                // Em produção, você pode voltar a usar: window.location.href = 'admin.html';
+                showError("Acesso restrito bloqueado no preview.");
             }
             clickTimer = setTimeout(() => { clickCount = 0; }, 1500); 
         }
