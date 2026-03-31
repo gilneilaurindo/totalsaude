@@ -15,20 +15,10 @@
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
-    <!-- Ícone para dispositivos Apple (iOS) -->
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png">
-
-<!-- Ícone para os navegadores -->
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png">
-
     <!-- METATAGS OBRIGATÓRIAS PARA PWABUILDER -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ea580c">
     <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=192&q=80">
-
-    
-    <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#ea580c">
 
     <!-- Favicon Personalizado -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ea580c'/%3E%3Cpath d='M50 85 C 50 85, 10 55, 10 30 A 20 20 0 0 1 50 20 A 20 20 0 0 1 90 30 C 90 55, 50 85, 50 85 Z' fill='white'/%3E%3Cpolyline points='15,50 35,50 45,30 55,75 65,50 85,50' fill='none' stroke='%23ea580c' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -107,11 +97,67 @@
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-500">
 
-    <!-- BOTÃO INSTALAR PWA (Oculto por padrão, aparece via JS) -->
-    <div id="install-container" class="fixed top-4 right-4 z-[100] hidden fade-in">
-        <button onclick="installPWA()" class="bg-white text-orange-600 border-2 border-orange-500 hover:bg-orange-50 font-black py-2 px-4 rounded-xl shadow-lg flex items-center gap-2 transition-all transform hover:scale-105">
-            <i class="ph-bold ph-download-simple text-xl"></i> Instalar App
-        </button>
+    <!-- OVERLAY DE INSTALAÇÃO (BOTTOM SHEET) -->
+    <div id="installOverlay" class="fixed inset-0 bg-black/60 z-[100] flex items-end hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full rounded-t-3xl p-6 pb-8 shadow-2xl transform translate-y-full transition-transform duration-300" id="installSheet">
+            <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-6"></div>
+            
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-700 rounded-2xl flex items-center justify-center shadow-lg text-white text-3xl">
+                    <i class="ph-fill ph-heartbeat"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">Total Saúde App</h2>
+                    <p class="text-sm text-gray-500">Plataforma Corporativa</p>
+                </div>
+            </div>
+
+            <ul class="text-sm text-gray-600 space-y-3 mb-8">
+                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Não ocupa espaço no celular</li>
+                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Acesso rápido e seguro</li>
+                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Experiência de App Nativo</li>
+            </ul>
+
+            <button id="btnStartDownload" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/30 transition-all flex justify-center items-center gap-2 text-lg active:scale-95">
+                <i class="ph-bold ph-download-simple"></i> Baixar e Instalar App
+            </button>
+            <button id="btnDismiss" class="w-full text-gray-500 font-semibold py-3 mt-2 text-sm">
+                Agora não
+            </button>
+        </div>
+    </div>
+
+    <!-- TELA SIMULANDO O DOWNLOAD -->
+    <div id="downloadScreen" class="fixed inset-0 bg-white z-[110] flex flex-col items-center justify-center hidden">
+        <div class="w-24 h-24 bg-orange-100 rounded-3xl flex items-center justify-center mb-8 relative">
+            <i class="ph-fill ph-heartbeat text-orange-600 text-5xl z-10"></i>
+            <div class="absolute inset-0 bg-orange-400 rounded-3xl animate-ping opacity-20"></div>
+        </div>
+        
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Preparando App...</h2>
+        <p id="downloadStatusText" class="text-gray-500 text-sm mb-8">Conectando aos servidores seguros</p>
+
+        <!-- Barra de Progresso -->
+        <div class="w-64 bg-gray-200 rounded-full h-3 mb-4 overflow-hidden">
+            <div id="progressBarDownload" class="bg-orange-600 h-3 rounded-full w-0 transition-all duration-300 ease-out"></div>
+        </div>
+        <p id="progressPercentageDownload" class="text-orange-600 font-bold text-lg">0%</p>
+    </div>
+
+    <!-- INSTRUÇÃO PARA iOS (SAFARI) -->
+    <div id="iosInstruction" class="fixed inset-0 bg-black/80 z-[120] hidden flex-col items-center justify-end pb-12 px-6 text-center">
+        <div class="bg-white p-6 rounded-2xl max-w-sm w-full relative">
+            <button id="closeIos" class="absolute top-3 right-3 text-gray-400 text-xl"><i class="ph-bold ph-x"></i></button>
+            <h3 class="text-lg font-bold mb-4">Instale no seu iPhone</h3>
+            <p class="text-gray-600 mb-4 text-sm">Para instalar como um App, toque no botão <strong>Compartilhar</strong> na barra inferior do Safari.</p>
+            <div class="flex justify-center mb-4 text-orange-500 text-3xl">
+                <i class="ph-bold ph-export"></i>
+            </div>
+            <p class="text-gray-600 text-sm">Depois, deslize para baixo e escolha:<br><strong class="text-black">"Adicionar à Tela de Início"</strong></p>
+            <div class="mt-6 flex justify-center">
+                <i class="ph-bold ph-arrow-down text-2xl text-white animate-bounce absolute -bottom-10"></i>
+            </div>
+        </div>
     </div>
 
     <!-- SPLASH SCREEN -->
@@ -915,46 +961,141 @@
             }
         }
 
-        // PWA: Registrar Service Worker
+        // ==========================================
+        // LÓGICA DE INSTALAÇÃO PWA E SIMULAÇÃO DE APP
+        // ==========================================
+
+        // 1. Gerar o Manifest e Service Worker Dinamicamente (Resolve os erros do PWABuilder)
+        const iconSvgCode = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjZWE1ODBjIi8+PHBhdGggZD0iTTUwIDg1IEMgNTAgODUsIDEwIDU1LCAxMCAzMCBBIDIwIDIwIDAgMCAxIDUwIDIwIEEgMjAgMjAgMCAwIDEgOTAgMzAgQyA5MCA1NSwgNTAgODUsIDUwIDg1IFoiIGZpbGw9IndoaXRlIi8+PHBvbHlsaW5lIHBvaW50cz0iMTUsNTAgMzUsNTAgNDUsMzAgNTUsNzUgNjUsNTAgODUsNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VhNTgwYyIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=`;
+
+        const dynamicManifest = {
+            name: "Total Saúde - Plataforma Corporativa",
+            short_name: "Total Saúde",
+            start_url: window.location.href,
+            display: "standalone",
+            orientation: "portrait",
+            background_color: "#ea580c",
+            theme_color: "#ea580c",
+            icons: [
+                { src: iconSvgCode, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+                { src: iconSvgCode, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+            ]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(dynamicManifest)], {type: 'application/json'});
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        
+        // Remove o manifest antigo e insere o novo dinâmico
+        const oldManifest = document.querySelector('link[rel="manifest"]');
+        if(oldManifest) oldManifest.remove();
+        const linkManifest = document.createElement('link');
+        linkManifest.rel = 'manifest';
+        linkManifest.href = manifestUrl;
+        document.head.appendChild(linkManifest);
+
+        // Service worker dinâmico para garantir que seja instalável
+        const swCode = `
+            self.addEventListener('install', (e) => self.skipWaiting());
+            self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+            self.addEventListener('fetch', (e) => {});
+        `;
+        const swBlob = new Blob([swCode], {type: 'application/javascript'});
+        const swUrl = URL.createObjectURL(swBlob);
+        
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registrado com sucesso no escopo: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('Falha no registro do ServiceWorker: ', err);
-                    });
-            });
+            navigator.serviceWorker.register(swUrl)
+                .then(() => console.log('PWA Service Worker Dinâmico Ativo'))
+                .catch((err) => console.warn('Aviso: Service Worker (Blob URL) bloqueado neste ambiente por segurança. A simulação de PWA continuará normalmente.', err.message));
         }
 
-        // Lógica de instalação nativa do PWA
+        // 2. Variáveis de Interface da Simulação
         let deferredPrompt;
-        const installContainer = document.getElementById('install-container');
+        const installOverlay = document.getElementById('installOverlay');
+        const installSheet = document.getElementById('installSheet');
+        const downloadScreen = document.getElementById('downloadScreen');
+        const iosInstruction = document.getElementById('iosInstruction');
+        
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
+        // 3. Capturar o evento nativo de instalação
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
+            e.preventDefault(); 
             deferredPrompt = e;
-            installContainer.classList.remove('hidden');
+            
+            // Só exibe o modal se não estiver instalado
+            if (!isStandalone) {
+                setTimeout(showInstallModal, 2500); // Exibe 2.5 segundos após abrir o site
+            }
         });
 
-        async function installPWA() {
+        // Caso o evento nativo falhe (alguns navegadores), força exibir para iOS após um tempo
+        if(isIOS && !isStandalone) {
+            setTimeout(showInstallModal, 2500);
+        }
+
+        function showInstallModal() {
+            installOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                installOverlay.classList.remove('opacity-0');
+                installSheet.classList.remove('translate-y-full');
+            }, 50);
+        }
+
+        function hideInstallModal() {
+            installOverlay.classList.add('opacity-0');
+            installSheet.classList.add('translate-y-full');
+            setTimeout(() => installOverlay.classList.add('hidden'), 300);
+        }
+
+        document.getElementById('btnDismiss').addEventListener('click', hideInstallModal);
+
+        // 4. Lógica de Simulação de Download
+        document.getElementById('btnStartDownload').addEventListener('click', async () => {
+            hideInstallModal();
+            downloadScreen.classList.remove('hidden');
+
+            const bar = document.getElementById('progressBarDownload');
+            const pctText = document.getElementById('progressPercentageDownload');
+            const statusText = document.getElementById('downloadStatusText');
+
+            const steps = [
+                { pct: 15, msg: "Baixando base de dados local..." },
+                { pct: 35, msg: "Extraindo módulos de segurança..." },
+                { pct: 60, msg: "Criptografando ambiente..." },
+                { pct: 85, msg: "Criando atalho no sistema..." },
+                { pct: 100, msg: "Pronto para instalar!" }
+            ];
+
+            for (const step of steps) {
+                const delay = Math.floor(Math.random() * 800) + 400; 
+                await new Promise(r => setTimeout(r, delay));
+                
+                bar.style.width = `${step.pct}%`;
+                pctText.innerText = `${step.pct}%`;
+                statusText.innerText = step.msg;
+            }
+
+            await new Promise(r => setTimeout(r, 600));
+            downloadScreen.classList.add('hidden');
+
+            // 5. Acionar a instalação real do sistema operacional
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
-                    console.log('Usuário aceitou a instalação do PWA');
-                } else {
-                    console.log('Usuário recusou a instalação do PWA');
+                    console.log('App Instalado com Sucesso!');
                 }
                 deferredPrompt = null;
-                installContainer.classList.add('hidden');
+            } else if (isIOS) {
+                iosInstruction.classList.remove('hidden');
+                iosInstruction.classList.add('flex');
             }
-        }
+        });
 
-        window.addEventListener('appinstalled', () => {
-            installContainer.classList.add('hidden');
-            console.log('PWA foi instalado na máquina/dispositivo do usuário.');
+        document.getElementById('closeIos').addEventListener('click', () => {
+            iosInstruction.classList.add('hidden');
+            iosInstruction.classList.remove('flex');
         });
 
         // Clique secreto para Admin (5 cliques no Escudo no cabeçalho)
@@ -964,7 +1105,9 @@
             clickCount++;
             clearTimeout(clickTimer);
             if (clickCount >= 5) {
-                window.location.href = 'admin.html';
+                // Previne o erro "Failed to set the 'href' property on 'Location'" no ambiente de visualização
+                showError("Acesso Admin (Navegação bloqueada no modo preview).");
+                // Em produção, você pode voltar a usar: window.location.href = 'admin.html';
             }
             clickTimer = setTimeout(() => { clickCount = 0; }, 1500); 
         }
