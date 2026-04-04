@@ -1005,16 +1005,20 @@
         const downloadScreen = document.getElementById('downloadScreen');
         const iosInstruction = document.getElementById('iosInstruction');
 
-        // DETECÇÃO RÁPIDA DE DISPOSITIVO PARA EXIBIR A MENSAGEM QUASE NA HORA (500ms)
-        if (isMobile && !isStandalone) {
-            setTimeout(showInstallModal, 500); 
-        }
-
-        // O NAVEGADOR (NO ANDROID) SÓ DISPARA ISSO SE O HTTPS E O SW ESTIVEREM ATIVOS
+        // O NAVEGADOR (NO ANDROID) SÓ DISPARA ISSO QUANDO O PWA ESTIVER 100% PRONTO PARA INSTALAR
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); 
             deferredPrompt = e; 
+            // Agora sim, exibimos o modal, pois temos a certeza que a instalação nativa vai funcionar
+            if (!isStandalone) {
+                showInstallModal();
+            }
         });
+
+        // PARA IOS (IPHONE), COMO A APPLE NÃO TEM EVENTO AUTOMÁTICO, EXIBIMOS APÓS UM TEMPO
+        if (isIOS && !isStandalone) {
+            setTimeout(showInstallModal, 1500); 
+        }
 
         function showInstallModal() {
             installOverlay.classList.remove('hidden');
@@ -1050,7 +1054,7 @@
 
             // === INSTALAÇÃO NATIVA (ANDROID vs IOS) ===
             if (deferredPrompt) {
-                // CHAMA A JANELA DE INSTALAÇÃO NATIVA DO ANDROID
+                // CHAMA A JANELA DE INSTALAÇÃO NATIVA DO ANDROID DE FORMA ASSERTIVA
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
@@ -1061,9 +1065,6 @@
                 // SE FOR IPHONE, CHAMA A TELA EDUCATIVA ANIMADA PARA MOSTRAR COMO FAZ
                 iosInstruction.classList.remove('hidden');
                 iosInstruction.classList.add('flex');
-            } else {
-                // FALLBACK DE SEGURANÇA SE A TELA PWA DO ANDROID NÃO CARREGOU A TEMPO
-                alert("Para instalar, toque no menu do navegador (três pontinhos) e selecione 'Adicionar à tela inicial'.");
             }
         });
 
