@@ -22,7 +22,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Total Saúde">
     
-    <!-- === AQUI: Ícones da Aplicação e do Navegador === -->
+    <!-- Ícones da Aplicação e do Navegador -->
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png">
     
@@ -118,7 +118,7 @@
 
             <ul class="text-sm text-gray-600 space-y-3 mb-8">
                 <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Instalação direta e segura</li>
-                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Acesso offline aos seus dados</li>
+                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Acesso rápido à plataforma</li>
                 <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Experiência de App Nativo</li>
             </ul>
 
@@ -186,7 +186,7 @@
                 <i class="ph-fill ph-heartbeat text-8xl"></i>
             </div>
             <h1 class="text-2xl font-bold flex items-center justify-center gap-2 relative z-10">
-                <img src="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png" alt="Logo" class="w-8 h-8 rounded bg-white object-cover cursor-pointer" onclick="secretAdminAccess()">
+                <img src="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png" alt="Logo" class="w-8 h-8 rounded bg-white object-cover cursor-pointer hover:opacity-80 transition-opacity" onclick="secretAdminAccess()" title="Acesso Restrito">
                 Total Saúde
             </h1>
         </header>
@@ -605,7 +605,9 @@
             }
         };
 
-        // --- GERAÇÃO DO MANIFEST DINÂMICO PARA PWA (Sem precisar de ficheiro extra) ---
+        // --- MANIFEST E SERVICE WORKER DINÂMICO PARA PWA (Obrigatório para instalação) ---
+        
+        // 1. Manifest
         const manifest = {
             "name": "Total Saúde - Plataforma",
             "short_name": "Total Saúde",
@@ -613,17 +615,38 @@
             "display": "standalone",
             "background_color": "#ea580c",
             "theme_color": "#ea580c",
-            "icons": [
-                {
-                    "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
-                    "sizes": "512x512",
-                    "type": "image/png",
-                    "purpose": "any maskable"
-                }
-            ]
+            "icons": [{
+                "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "any maskable"
+            }]
         };
-        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-        document.getElementById('dynamic-manifest').setAttribute('href', URL.createObjectURL(blob));
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        document.getElementById('dynamic-manifest').setAttribute('href', URL.createObjectURL(manifestBlob));
+
+        // 2. Service Worker (Sem isso o Android não oferece a instalação nativa)
+        const swCode = `
+            self.addEventListener('install', () => self.skipWaiting());
+            self.addEventListener('activate', () => self.clients.claim());
+            self.addEventListener('fetch', (event) => {
+                // Fetch handler vazio é suficiente para enganar o requisito de instalação do Chrome
+            });
+        `;
+        const swBlob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(swBlob);
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register(swUrl).catch(err => console.log('Erro no Service Worker', err));
+            });
+        }
+
+        // --- DETECÇÃO DE DISPOSITIVO MÓVEL ---
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
 
         const appState = {
             currentStep: 1,
@@ -993,21 +1016,19 @@
         const installSheet = document.getElementById('installSheet');
         const downloadScreen = document.getElementById('downloadScreen');
         const iosInstruction = document.getElementById('iosInstruction');
-        
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-        // 1. O NAVEGADOR DISPARA ISSO SE ESTIVER HOSPEDADO EM HTTPS
+        // O NAVEGADOR SÓ DISPARA ISSO SE ESTIVER HOSPEDADO EM HTTPS COM SERVICE WORKER ATIVO
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); 
-            deferredPrompt = e; // Salva o evento nativo para usar no botão
+            deferredPrompt = e; 
             
-            if (!isStandalone) {
+            // Só mostra o modal se for celular E ainda não estiver instalado
+            if (isMobile && !isStandalone) {
                 setTimeout(showInstallModal, 2000); 
             }
         });
 
-        // 2. TELA PARA O IOS (Safari)
+        // TELA PARA O IOS (Safari) - iPhone não suporta o beforeinstallprompt nativo
         if(isIOS && !isStandalone) {
             setTimeout(showInstallModal, 2000);
         }
@@ -1028,7 +1049,7 @@
 
         document.getElementById('btnDismiss').addEventListener('click', hideInstallModal);
 
-        // 3. O QUE ACONTECE QUANDO CLICA NO BOTÃO "BAIXAR"
+        // O QUE ACONTECE QUANDO CLICA NO BOTÃO "BAIXAR"
         document.getElementById('btnStartDownload').addEventListener('click', async () => {
             hideInstallModal();
             downloadScreen.classList.remove('hidden');
@@ -1044,9 +1065,8 @@
             
             downloadScreen.classList.add('hidden');
 
-            // === A MÁGICA DA INSTALAÇÃO REAL ACONTECE AQUI ===
+            // === INSTALAÇÃO NATIVA ===
             if (deferredPrompt) {
-                // Se estiver no Netlify/HTTPS, ele chama a instalação do Android
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
@@ -1054,11 +1074,10 @@
                 }
                 deferredPrompt = null;
             } else if (isIOS) {
-                // Se for iPhone, mostra o balão ensinando
+                // Se for iPhone, mostra o balão ensinando onde apertar no Safari
                 iosInstruction.classList.remove('hidden');
                 iosInstruction.classList.add('flex');
             }
-            // A mensagem de aviso alertando sobre o bloqueio do telemóvel foi removida
         });
 
         document.getElementById('closeIos').addEventListener('click', () => {
@@ -1066,15 +1085,24 @@
             iosInstruction.classList.remove('flex');
         });
 
+        // Lógica de "Admin Oculto" ajustada para redirecionamento
         let clickCount = 0;
         let clickTimer;
         function secretAdminAccess() {
             clickCount++;
             clearTimeout(clickTimer);
+            
             if (clickCount >= 5) {
-                showError("Acesso restrito bloqueado no preview.");
+                // Em vez de erro, redirecionamos para o painel Admin
+                window.location.href = "/painel-admin"; 
+                // Se estivesse em produção seria algo como: window.location.href = "https://painel.seusite.com.br";
+                
+                // Zera o contador e mostra uma mensagem visual antes de redirecionar (opcional)
+                showError("Redirecionando para o Painel Admin...", 2000); 
+                clickCount = 0;
+            } else {
+                clickTimer = setTimeout(() => { clickCount = 0; }, 1500); 
             }
-            clickTimer = setTimeout(() => { clickCount = 0; }, 1500); 
         }
     </script>
 </body>
