@@ -17,6 +17,35 @@
 
     <!-- METATAGS PWA E iOS -->
     <link rel="manifest" id="dynamic-manifest">
+    
+    <!-- GERAÇÃO IMEDIATA DO MANIFEST PARA O CELULAR LER O ÍCONE CORRETO ANTES DA "FOCA" -->
+    <script>
+        const manifestData = {
+            "name": "Total Saúde - Plataforma",
+            "short_name": "Total Saúde",
+            "start_url": window.location.href,
+            "display": "standalone",
+            "background_color": "#ea580c",
+            "theme_color": "#ea580c",
+            "icons": [
+                {
+                    "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any"
+                },
+                {
+                    "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any maskable"
+                }
+            ]
+        };
+        const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+        document.getElementById('dynamic-manifest').setAttribute('href', URL.createObjectURL(blob));
+    </script>
+
     <meta name="theme-color" content="#ea580c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -111,22 +140,22 @@
                     <img src="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png" alt="Logo" class="w-full h-full object-cover">
                 </div>
                 <div>
-                    <h2 class="text-xl font-bold text-gray-900">Total Saúde App</h2>
-                    <p class="text-sm text-gray-500">Plataforma Corporativa</p>
+                    <h2 class="text-2xl font-bold text-gray-900">Deseja instalar esse App?</h2>
+                    <p class="text-sm text-gray-500">Total Saúde - Plataforma Corporativa</p>
                 </div>
             </div>
 
-            <ul class="text-sm text-gray-600 space-y-3 mb-8">
-                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Instalação direta e segura</li>
-                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Acesso rápido à plataforma</li>
-                <li class="flex items-center gap-3"><i class="ph-bold ph-check-circle text-green-500 text-lg"></i> Experiência de App Nativo</li>
+            <ul class="text-sm text-gray-600 space-y-3 mb-8 bg-orange-50 p-4 rounded-xl border border-orange-100">
+                <li class="flex items-center gap-3 font-medium"><i class="ph-bold ph-lightning text-orange-500 text-lg"></i> Instalação rápida e leve</li>
+                <li class="flex items-center gap-3 font-medium"><i class="ph-bold ph-device-mobile text-orange-500 text-lg"></i> Acesso direto da sua tela inicial</li>
+                <li class="flex items-center gap-3 font-medium"><i class="ph-bold ph-star text-orange-500 text-lg"></i> Melhor experiência de uso</li>
             </ul>
 
             <button id="btnStartDownload" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/30 transition-all flex justify-center items-center gap-2 text-lg active:scale-95">
-                <i class="ph-bold ph-download-simple"></i> Baixar e Instalar App
+                <i class="ph-bold ph-download-simple"></i> Instalar Agora
             </button>
-            <button id="btnDismiss" class="w-full text-gray-500 font-semibold py-3 mt-2 text-sm">
-                Agora não
+            <button id="btnDismiss" class="w-full text-gray-400 hover:text-gray-600 font-semibold py-3 mt-2 text-sm transition-colors">
+                Talvez mais tarde
             </button>
         </div>
     </div>
@@ -139,7 +168,7 @@
         </div>
         
         <h2 class="text-2xl font-bold text-gray-800 mb-2">Preparando Instalação...</h2>
-        <p id="downloadStatusText" class="text-gray-500 text-sm mb-8">Verificando segurança do sistema</p>
+        <p id="downloadStatusText" class="text-gray-500 text-sm mb-8">Otimizando para o seu celular</p>
 
         <!-- Barra de Progresso -->
         <div class="w-64 bg-gray-200 rounded-full h-3 mb-4 overflow-hidden">
@@ -150,16 +179,32 @@
 
     <!-- INSTRUÇÃO PARA iOS (SAFARI) -->
     <div id="iosInstruction" class="fixed inset-0 bg-black/80 z-[120] hidden flex-col items-center justify-end pb-12 px-6 text-center">
-        <div class="bg-white p-6 rounded-2xl max-w-sm w-full relative">
-            <button id="closeIos" class="absolute top-3 right-3 text-gray-400 text-xl"><i class="ph-bold ph-x"></i></button>
-            <h3 class="text-lg font-bold mb-4">Instale no seu iPhone</h3>
-            <p class="text-gray-600 mb-4 text-sm">Para instalar como um App, toque no botão <strong>Compartilhar</strong> na barra inferior do Safari.</p>
-            <div class="flex justify-center mb-4 text-orange-500 text-3xl">
-                <i class="ph-bold ph-export"></i>
+        <div class="bg-white p-6 rounded-3xl max-w-sm w-full relative animate-[slideUp_0.4s_ease-out_forwards]">
+            <button id="closeIos" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl transition-colors"><i class="ph-bold ph-x"></i></button>
+            
+            <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <img src="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png" alt="Logo" class="w-12 h-12 rounded-xl object-cover">
             </div>
-            <p class="text-gray-600 text-sm">Depois, deslize para baixo e escolha:<br><strong class="text-black">"Adicionar à Tela de Início"</strong></p>
-            <div class="mt-6 flex justify-center">
-                <i class="ph-bold ph-arrow-down text-2xl text-white animate-bounce absolute -bottom-10"></i>
+
+            <h3 class="text-xl font-bold mb-2 text-gray-900">Quase lá!</h3>
+            <p class="text-gray-600 mb-6 text-sm">Para concluir a instalação no seu iPhone, siga os passos abaixo:</p>
+            
+            <div class="bg-gray-50 rounded-xl p-4 mb-6 text-left space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-orange-600 font-bold shadow-sm">1</div>
+                    <p class="text-sm text-gray-700">Toque no ícone <strong>Compartilhar</strong> na barra inferior do Safari.</p>
+                </div>
+                <div class="flex justify-center my-2 text-blue-500 text-3xl">
+                    <i class="ph-bold ph-export"></i>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-orange-600 font-bold shadow-sm">2</div>
+                    <p class="text-sm text-gray-700">Deslize para baixo e toque em <br><strong class="text-black">"Adicionar à Tela de Início"</strong> <i class="ph-bold ph-plus-square align-middle ml-1"></i></p>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-center">
+                <i class="ph-bold ph-arrow-down text-3xl text-white animate-bounce absolute -bottom-12"></i>
             </div>
         </div>
     </div>
@@ -368,7 +413,7 @@
                                     <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Não possuo"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-green-50 shadow-sm"><div class="w-5 h-5 rounded border-2 border-green-300 mr-3 flex items-center justify-center bg-white"><i class="ph-bold ph-check checkbox-icon text-green-600"></i></div><span class="text-sm font-black text-green-800">Nenhum histórico</span></div></label>
                                     <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Diabetes"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Diabetes</span></div></label>
                                     <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Pressão alta"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Pressão alta</span></div></label>
-                                    <label class="block cursor-pointer"><input type="checkbox" name="historico" class="custom-radio hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
+                                    <label class="block cursor-pointer"><input type="radio" name="historico" class="custom-radio hidden" value="Problemas no coração"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700">Problemas no coração</span></div></label>
                                     <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="historico" class="custom-checkbox hidden" value="Outras" onclick="document.getElementById('historico-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outras:</span><input type="text" id="historico-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm font-bold text-orange-600" placeholder="Especificar"></div></label>
                                 </div>
                             </div>
@@ -1017,21 +1062,16 @@
         const downloadScreen = document.getElementById('downloadScreen');
         const iosInstruction = document.getElementById('iosInstruction');
 
-        // O NAVEGADOR SÓ DISPARA ISSO SE ESTIVER HOSPEDADO EM HTTPS COM SERVICE WORKER ATIVO
+        // DETECÇÃO RÁPIDA DE DISPOSITIVO PARA EXIBIR A MENSAGEM QUASE NA HORA (500ms)
+        if (isMobile && !isStandalone) {
+            setTimeout(showInstallModal, 500); 
+        }
+
+        // O NAVEGADOR (NO ANDROID) SÓ DISPARA ISSO SE O HTTPS E O SW ESTIVEREM ATIVOS
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); 
             deferredPrompt = e; 
-            
-            // Só mostra o modal se for celular E ainda não estiver instalado
-            if (isMobile && !isStandalone) {
-                setTimeout(showInstallModal, 2000); 
-            }
         });
-
-        // TELA PARA O IOS (Safari) - iPhone não suporta o beforeinstallprompt nativo
-        if(isIOS && !isStandalone) {
-            setTimeout(showInstallModal, 2000);
-        }
 
         function showInstallModal() {
             installOverlay.classList.remove('hidden');
@@ -1049,7 +1089,7 @@
 
         document.getElementById('btnDismiss').addEventListener('click', hideInstallModal);
 
-        // O QUE ACONTECE QUANDO CLICA NO BOTÃO "BAIXAR"
+        // O QUE ACONTECE QUANDO CLICA NO BOTÃO "INSTALAR AGORA"
         document.getElementById('btnStartDownload').addEventListener('click', async () => {
             hideInstallModal();
             downloadScreen.classList.remove('hidden');
@@ -1065,18 +1105,22 @@
             
             downloadScreen.classList.add('hidden');
 
-            // === INSTALAÇÃO NATIVA ===
+            // === INSTALAÇÃO NATIVA (ANDROID vs IOS) ===
             if (deferredPrompt) {
+                // CHAMA A JANELA DE INSTALAÇÃO NATIVA DO ANDROID
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
-                    console.log('Usuário aceitou a instalação!');
+                    console.log('Usuário aceitou a instalação no Android!');
                 }
                 deferredPrompt = null;
             } else if (isIOS) {
-                // Se for iPhone, mostra o balão ensinando onde apertar no Safari
+                // SE FOR IPHONE, CHAMA A TELA EDUCATIVA ANIMADA PARA MOSTRAR COMO FAZ
                 iosInstruction.classList.remove('hidden');
                 iosInstruction.classList.add('flex');
+            } else {
+                // FALLBACK DE SEGURANÇA SE A TELA PWA DO ANDROID NÃO CARREGOU A TEMPO
+                alert("Para instalar, toque no menu do navegador (três pontinhos) e selecione 'Adicionar à tela inicial'.");
             }
         });
 
@@ -1093,11 +1137,7 @@
             clearTimeout(clickTimer);
             
             if (clickCount >= 5) {
-                // Em vez de erro, redirecionamos para o painel Admin
                 window.location.href = "/painel-admin"; 
-                // Se estivesse em produção seria algo como: window.location.href = "https://painel.seusite.com.br";
-                
-                // Zera o contador e mostra uma mensagem visual antes de redirecionar (opcional)
                 showError("Redirecionando para o Painel Admin...", 2000); 
                 clickCount = 0;
             } else {
