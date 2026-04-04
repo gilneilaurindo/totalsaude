@@ -11,49 +11,20 @@
     <!-- Metatags para Redes Sociais (OG Image) -->
     <meta property="og:title" content="Total Saúde - Mapeamento Corporativo">
     <meta property="og:description" content="Sua voz importa! Participe da nossa pesquisa confidencial de saúde e ajude a liderança a tomar decisões.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png">
+    <meta property="og:image" content="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png?v=6">
     <meta property="og:url" content="https://seusite.com.br">
     <meta property="og:type" content="website">
 
-    <!-- METATAGS PWA E iOS -->
-    <link rel="manifest" id="dynamic-manifest">
-    
-    <!-- GERAÇÃO IMEDIATA DO MANIFEST PARA O CELULAR LER O ÍCONE CORRETO ANTES DA "FOCA" -->
-    <script>
-        const manifestData = {
-            "name": "Total Saúde - Plataforma",
-            "short_name": "Total Saúde",
-            "start_url": window.location.href,
-            "display": "standalone",
-            "background_color": "#ea580c",
-            "theme_color": "#ea580c",
-            "icons": [
-                {
-                    "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
-                    "sizes": "192x192",
-                    "type": "image/png",
-                    "purpose": "any"
-                },
-                {
-                    "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
-                    "sizes": "512x512",
-                    "type": "image/png",
-                    "purpose": "any maskable"
-                }
-            ]
-        };
-        const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
-        document.getElementById('dynamic-manifest').setAttribute('href', URL.createObjectURL(blob));
-    </script>
-
+    <!-- CHAMA O ARQUIVO FÍSICO MANIFEST.JSON -->
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ea580c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Total Saúde">
     
-    <!-- Ícones da Aplicação e do Navegador -->
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png">
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png">
+    <!-- Ícones da Aplicação e do Navegador (URLs limpas) -->
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png?v=6">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png?v=6">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -650,40 +621,12 @@
             }
         };
 
-        // --- MANIFEST E SERVICE WORKER DINÂMICO PARA PWA (Obrigatório para instalação) ---
-        
-        // 1. Manifest
-        const manifest = {
-            "name": "Total Saúde - Plataforma",
-            "short_name": "Total Saúde",
-            "start_url": window.location.href,
-            "display": "standalone",
-            "background_color": "#ea580c",
-            "theme_color": "#ea580c",
-            "icons": [{
-                "src": "https://raw.githubusercontent.com/gilneilaurindo/totalsaude/main/total%20saude.png",
-                "sizes": "512x512",
-                "type": "image/png",
-                "purpose": "any maskable"
-            }]
-        };
-        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-        document.getElementById('dynamic-manifest').setAttribute('href', URL.createObjectURL(manifestBlob));
-
-        // 2. Service Worker (Sem isso o Android não oferece a instalação nativa)
-        const swCode = `
-            self.addEventListener('install', () => self.skipWaiting());
-            self.addEventListener('activate', () => self.clients.claim());
-            self.addEventListener('fetch', (event) => {
-                // Fetch handler vazio é suficiente para enganar o requisito de instalação do Chrome
-            });
-        `;
-        const swBlob = new Blob([swCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(swBlob);
-
+        // --- REGISTRO DO SERVICE WORKER FÍSICO ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register(swUrl).catch(err => console.log('Erro no Service Worker', err));
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registrado com sucesso!'))
+                    .catch(err => console.log('Erro no SW', err));
             });
         }
 
