@@ -279,7 +279,7 @@
                     </div>
 
                     <form id="health-form" onsubmit="return false;">
-                        <!-- ETAPAS DO FORMULÁRIO AQUI -->
+                        
                         <div class="step fade-in" id="step-1">
                             <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
                                 <i class="ph-duotone ph-identification-card text-orange-500 text-3xl"></i> 1. Informações Gerais
@@ -366,6 +366,33 @@
                                         <div class="relative">
                                             <i class="ph-bold ph-ruler text-gray-400 text-lg absolute left-3 top-1/2 transform -translate-y-1/2"></i>
                                             <input type="number" step="0.01" id="altura" placeholder="Ex: 1.71" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition bg-gray-50 focus:bg-white font-medium">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- NOVO: Display do IMC Automático -->
+                                    <div class="col-span-2 bg-orange-50 p-4 rounded-xl border border-orange-200 flex justify-between items-center shadow-sm">
+                                        <span class="text-sm font-bold text-orange-800 flex items-center gap-2"><i class="ph-bold ph-calculator text-lg"></i> Seu IMC Automático:</span>
+                                        <div class="text-right">
+                                            <span id="imc-display" class="text-lg font-black text-orange-600">--</span>
+                                        </div>
+                                        <input type="hidden" id="imc-value" value="">
+                                    </div>
+                                </div>
+
+                                <!-- NOVO: Gestação e Pré Natal (Só aparece se Sexo == Feminino) -->
+                                <div id="gestante-block" class="hidden space-y-4 p-5 bg-pink-50 rounded-xl border border-pink-200 shadow-sm transition-all duration-300">
+                                    <div>
+                                        <label class="block text-sm font-bold text-pink-800 mb-3"><i class="ph-fill ph-baby text-pink-600 text-lg mr-1"></i> Você está gestante? *</label>
+                                        <div class="flex gap-4">
+                                            <label class="block cursor-pointer flex-1"><input type="radio" name="gestante" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-pink-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Não</span></div></label>
+                                            <label class="block cursor-pointer flex-1"><input type="radio" name="gestante" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-pink-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Sim</span></div></label>
+                                        </div>
+                                    </div>
+                                    <div id="prenatal-block" class="hidden pt-2 border-t border-pink-200">
+                                        <label class="block text-sm font-bold text-pink-800 mb-3">Está fazendo pré-natal? *</label>
+                                        <div class="flex gap-4">
+                                            <label class="block cursor-pointer flex-1"><input type="radio" name="prenatal" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-pink-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Não</span></div></label>
+                                            <label class="block cursor-pointer flex-1"><input type="radio" name="prenatal" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-pink-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Sim</span></div></label>
                                         </div>
                                     </div>
                                 </div>
@@ -555,10 +582,10 @@
                             </div>
                         </div>
 
-                        <!-- ETAPA 6: Ambiente de Trabalho -->
+                        <!-- ETAPA 6: Ambiente de Trabalho e QVT -->
                         <div class="step hidden fade-in" id="step-6">
                             <h3 class="text-xl font-bold mb-6 text-gray-800 border-b border-gray-100 pb-3 flex items-center gap-2">
-                                <i class="ph-duotone ph-office-chair text-orange-500 text-3xl"></i> 6. Ambiente de Trabalho
+                                <i class="ph-duotone ph-office-chair text-orange-500 text-3xl"></i> 6. Ambiente de Trabalho e QVT
                             </h3>
                             <div class="space-y-6">
                                 <div>
@@ -575,13 +602,28 @@
                                     </div>
                                 </div>
 
+                                <!-- NOVO: Pergunta sobre Postura -->
                                 <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mt-6">
-                                    <label class="block text-sm font-bold text-slate-800 mb-4 flex items-center gap-2"><i class="ph-fill ph-desktop text-orange-500 text-xl"></i> Seu posto de trabalho atual é ergonomicamente adequado (Cadeira, mesa, tela)? *</label>
+                                    <label class="block text-sm font-bold text-slate-800 mb-4 flex items-center gap-2"><i class="ph-fill ph-desktop text-orange-500 text-xl"></i> Em relação a sua postura, seu posto de trabalho é ergonomicamente adequado (cadeira, mesa, tela)? *</label>
                                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                                         <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Sim"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Sim</span></div></label>
                                         <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Parcialmente"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Parcialmente</span></div></label>
                                         <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Não</span></div></label>
                                         <label class="block cursor-pointer"><input type="radio" name="ergonomia" class="custom-radio hidden" value="Não sei avaliar"><div class="option-card flex items-center justify-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><span class="text-sm font-bold text-gray-700">Não sei</span></div></label>
+                                    </div>
+                                </div>
+
+                                <!-- NOVO: Programa de Qualidade de Vida -->
+                                <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mt-6">
+                                    <label class="block text-sm font-bold text-indigo-900 mb-3 flex items-center gap-2"><i class="ph-fill ph-star text-indigo-500 text-xl"></i> Em sua opinião, o programa de qualidade de vida da sua empresa deveria ter/implantar? *</label>
+                                    <p class="text-xs text-indigo-600 mb-4 font-medium">Selecione todas as opções que desejar:</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <label class="block cursor-pointer"><input type="checkbox" name="qvt" class="custom-checkbox hidden" value="Sala de descompressão/relaxamento"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Sala de relaxamento</span></div></label>
+                                        <label class="block cursor-pointer"><input type="checkbox" name="qvt" class="custom-checkbox hidden" value="Programa para gerenciar o estresse"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Gerenciamento de estresse</span></div></label>
+                                        <label class="block cursor-pointer"><input type="checkbox" name="qvt" class="custom-checkbox hidden" value="Grupo de corrida / caminhada"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Grupo corrida/caminhada</span></div></label>
+                                        <label class="block cursor-pointer"><input type="checkbox" name="qvt" class="custom-checkbox hidden" value="Quick massagem"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium">Quick massagem</span></div></label>
+                                        
+                                        <label class="block cursor-pointer sm:col-span-2"><input type="checkbox" name="qvt" class="custom-checkbox hidden" value="Outros" onclick="document.getElementById('qvt-outro').focus()"><div class="option-card flex items-center p-3 border border-gray-200 rounded-xl bg-white shadow-sm"><div class="w-5 h-5 rounded border-2 border-gray-300 mr-3 flex items-center justify-center"><i class="ph-bold ph-check checkbox-icon"></i></div><span class="text-sm font-medium text-gray-700 mr-2">Outros:</span><input type="text" id="qvt-outro" class="w-full border-b border-gray-300 outline-none px-2 text-sm font-bold text-indigo-600 bg-transparent" placeholder="Especifique"></div></label>
                                     </div>
                                 </div>
                             </div>
@@ -1005,7 +1047,6 @@
             document.getElementById('view-admin').classList.add('flex');
             document.getElementById('main-body').style.backgroundColor = '#f1f5f9';
             
-            // Caso estivesse na tela de splash
             const splash = document.getElementById('splash-screen');
             if (splash) splash.style.display = 'none';
         }
@@ -1044,11 +1085,64 @@
 
         const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxqFkpPxIjuRAy0yV7JpQ2FuH7qIzLSTt50AB-khz1Yv9aXDUMdJkk-yUIEU9v4-et4/exec';
         
+        // NOVO: Cálculo de IMC
+        function calculateIMC() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseFloat(document.getElementById('altura').value);
+            const imcDisplay = document.getElementById('imc-display');
+            
+            if (peso > 0 && altura > 0) {
+                const imc = (peso / (altura * altura)).toFixed(2);
+                let classif = "";
+                if(imc < 18.5) classif = "Abaixo do peso";
+                else if(imc < 25) classif = "Peso normal";
+                else if(imc < 30) classif = "Sobrepeso";
+                else classif = "Obesidade";
+                
+                imcDisplay.innerHTML = `<span class="text-orange-600 font-bold">${imc}</span> <span class="text-sm font-medium text-gray-500">(${classif})</span>`;
+                document.getElementById('imc-value').value = imc;
+            } else {
+                imcDisplay.innerText = "--";
+                document.getElementById('imc-value').value = "";
+            }
+        }
+
         window.addEventListener('load', () => {
             const savedData = localStorage.getItem('totalSaudeData');
             if (savedData) {
                 try { surveyState.database = JSON.parse(savedData); } catch(e) {}
             }
+
+            // NOVO: Listeners para IMC e Gestação
+            document.getElementById('peso').addEventListener('input', calculateIMC);
+            document.getElementById('altura').addEventListener('input', calculateIMC);
+
+            document.querySelectorAll('input[name="sexo"]').forEach(el => {
+                el.addEventListener('change', (e) => {
+                    const gestanteBlock = document.getElementById('gestante-block');
+                    if(e.target.value === 'Feminino') {
+                        gestanteBlock.classList.remove('hidden');
+                    } else {
+                        gestanteBlock.classList.add('hidden');
+                        document.querySelectorAll('input[name="gestante"]').forEach(i => i.checked = false);
+                        document.getElementById('prenatal-block').classList.add('hidden');
+                        document.querySelectorAll('input[name="prenatal"]').forEach(i => i.checked = false);
+                    }
+                });
+            });
+
+            document.querySelectorAll('input[name="gestante"]').forEach(el => {
+                el.addEventListener('change', (e) => {
+                    const prenatalBlock = document.getElementById('prenatal-block');
+                    if(e.target.value === 'Sim') {
+                        prenatalBlock.classList.remove('hidden');
+                    } else {
+                        prenatalBlock.classList.add('hidden');
+                        document.querySelectorAll('input[name="prenatal"]').forEach(i => i.checked = false);
+                    }
+                });
+            });
+
 
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
@@ -1172,6 +1266,17 @@
                 if (document.querySelector('input[name="setor"]:checked').value === "Outro" && !document.getElementById('setor-outro').value.trim()) return failValidation("Especifique seu setor.");
             } else if (step === 2) {
                 if (!document.getElementById('peso').value || !document.getElementById('altura').value) return failValidation("Informe seu peso e altura corretamente.");
+                
+                // NOVO: Validação Gestante e Pre Natal
+                const sexo = document.querySelector('input[name="sexo"]:checked')?.value;
+                if (sexo === 'Feminino') {
+                    const gestante = document.querySelector('input[name="gestante"]:checked');
+                    if (!gestante) return failValidation("Por favor, informe se está gestante.");
+                    if (gestante.value === 'Sim' && !document.querySelector('input[name="prenatal"]:checked')) {
+                        return failValidation("Por favor, informe se está fazendo pré-natal.");
+                    }
+                }
+
                 if (!document.querySelector('input[name="saude"]:checked')) return failValidation("Como você avalia sua saúde hoje?");
                 if (document.querySelectorAll('input[name="doencas"]:checked').length === 0) return failValidation("Selecione alguma condição crônica ou marque 'Não possuo'.");
             } else if (step === 3) {
@@ -1186,7 +1291,10 @@
                 if (!document.querySelector('input[name="estresse"]:checked') || !document.querySelector('input[name="equilibrio"]:checked') || !document.querySelector('input[name="impacto"]:checked')) return failValidation("Responda todas as perguntas da seção de Saúde Mental.");
             } else if (step === 6) {
                 if (document.querySelectorAll('input[name="dores"]:checked').length === 0) return failValidation("Selecione onde sente dores ou marque 'Não sinto dores'.");
-                if (!document.querySelector('input[name="ergonomia"]:checked')) return failValidation("Avalie a ergonomia do seu posto de trabalho.");
+                if (!document.querySelector('input[name="ergonomia"]:checked')) return failValidation("Avalie a postura e ergonomia do seu posto de trabalho.");
+                // NOVO: Validação QVT
+                if (document.querySelectorAll('input[name="qvt"]:checked').length === 0) return failValidation("Selecione ao menos uma opção sobre o Programa de Qualidade de Vida.");
+                if (document.querySelector('input[name="qvt"][value="Outros"]').checked && !document.getElementById('qvt-outro').value.trim()) return failValidation("Por favor, especifique qual outro programa de qualidade de vida gostaria.");
             }
             return true;
         }
@@ -1202,6 +1310,8 @@
             document.getElementById('success-screen').classList.add('hidden');
             document.getElementById('intro-screen').classList.remove('hidden');
             document.getElementById('health-form').reset();
+            document.getElementById('imc-display').innerText = '--';
+            document.getElementById('imc-value').value = '';
             
             surveyState.currentStep = 1;
             
@@ -1215,6 +1325,8 @@
             
             document.getElementById('cirurgia-qual').classList.add('hidden');
             document.getElementById('internacao-qual').classList.add('hidden');
+            document.getElementById('gestante-block').classList.add('hidden');
+            document.getElementById('prenatal-block').classList.add('hidden');
             document.querySelectorAll('.pop-selection').forEach(el => el.classList.remove('pop-selection'));
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1289,6 +1401,10 @@
 
             let internacao = getRadioVal("internacao_radio");
             if (internacao === "Sim") internacao = "Sim - " + document.getElementById("internacao-qual").value.trim();
+            
+            // NOVO: Coleta QVT
+            let qvtArr = getCheckboxesArray("qvt");
+            if (qvtArr.includes("Outros")) qvtArr[qvtArr.indexOf("Outros")] = `Outros (${document.getElementById('qvt-outro').value.trim()})`;
 
             return {
                 name: document.getElementById('user-name').value.trim(),
@@ -1300,6 +1416,9 @@
                 tempo_empresa: getRadioVal("tempo_empresa"),
                 peso: document.getElementById("peso").value.trim(),
                 altura: document.getElementById("altura").value.trim(),
+                imc_calculado: document.getElementById('imc-value').value, // NOVO
+                gestante: getRadioVal("gestante") || "Não se aplica", // NOVO
+                prenatal: getRadioVal("prenatal") || "Não se aplica", // NOVO
                 saude: getRadioVal("saude"),
                 doencas: doencasArr,
                 historico_familiar: histArr,
@@ -1317,7 +1436,8 @@
                 equilibrio: getRadioVal("equilibrio"),
                 impacto: getRadioVal("impacto"),
                 dores: getCheckboxesArray("dores"),
-                ergonomia: getRadioVal("ergonomia")
+                ergonomia: getRadioVal("ergonomia"),
+                qualidade_vida_qvt: qvtArr // NOVO
             };
         }
 
